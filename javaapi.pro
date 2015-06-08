@@ -14,7 +14,6 @@ DESTDIR = $$PWD/../libraries/$$PLATFORM$$CONF/extensions/$$TARGET
 
 JAVADIR = "E:\Program Files (x86)\Java\jdk1.8.0_31"
 
-#QMAKE_CXXFLAGS_DEBUG += -Wl,--add-stdcall-alias
 QMAKE_LFLAGS += -Wl,--add-stdcall-alias
 
 HEADERS += \
