@@ -111,6 +111,10 @@ public class IlwisObject extends Object {
     return ilwisobjectsJNI.IlwisObject_ilwisType(swigCPtr, this);
   }
 
+  public static int test() {
+    return ilwisobjectsJNI.IlwisObject_test();
+  }
+
   public final static class ConnectorMode {
     public final static IlwisObject.ConnectorMode cmINPUT = new IlwisObject.ConnectorMode("cmINPUT", ilwisobjectsJNI.IlwisObject_cmINPUT_get());
     public final static IlwisObject.ConnectorMode cmOUTPUT = new IlwisObject.ConnectorMode("cmOUTPUT", ilwisobjectsJNI.IlwisObject_cmOUTPUT_get());

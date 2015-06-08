@@ -9,6 +9,7 @@ public class Main {
 	
 	static {
 	    try {    	
+	    	//System.loadLibrary("_ilwisobjects");
 	    	System.load(ilwisLocation + "extensions/_ilwisobjects/_ilwisobjects.dll");
 	    } catch (UnsatisfiedLinkError e) {
 	      System.err.println("Native code library failed to load.\n");
@@ -21,9 +22,10 @@ public class Main {
 		}
 	  }
 
-
 	public static void main(String[] args) {
-		
+		//ilwisobjects._initIlwisObjects("F:/documents/ilwis/python_helloworld/");
+		Pixel p = new Pixel(2, 3);
+		System.out.println( p.__str__() );
 	}
 
 }

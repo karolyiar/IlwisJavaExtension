@@ -60,6 +60,7 @@ public class ilwisobjectsJNI {
   public final static native String IlwisObject_type2Name(long jarg1, IlwisObject jarg1_, java.math.BigInteger jarg2);
   public final static native java.math.BigInteger IlwisObject_ilwisID(long jarg1, IlwisObject jarg1_);
   public final static native java.math.BigInteger IlwisObject_ilwisType(long jarg1, IlwisObject jarg1_);
+  public final static native int IlwisObject_test();
   public final static native long new_Coordinate__SWIG_0(double jarg1, double jarg2);
   public final static native long new_Coordinate__SWIG_1(double jarg1, double jarg2, double jarg3);
   public final static native long new_Coordinate__SWIG_2(long jarg1, Coordinate jarg1_);

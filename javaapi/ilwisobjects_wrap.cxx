@@ -1468,6 +1468,26 @@ SWIGEXPORT jobject JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_IlwisObject_1i
 }
 
 
+SWIGEXPORT jint JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_IlwisObject_1test(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  {
+    try {
+      result = (int)javaapi::IlwisObject::test();
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_new_1Coordinate_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jdouble jarg1, jdouble jarg2) {
   jlong jresult = 0 ;
   double arg1 ;
