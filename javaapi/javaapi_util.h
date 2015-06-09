@@ -293,7 +293,7 @@ namespace javaapi {
     };
 
 //------------------------------------------------------------------------------------------------------------------
-/*#ifdef SWIG
+#ifdef SWIG
     %rename(ColorModel) ColorModelNS;
 #endif
 
@@ -306,8 +306,8 @@ namespace javaapi {
     class Color{
     public:
         Color();
-        Color(ColorModel type, PyObject* obj, const std::string& name = "");
-        Color(const std::string& typeStr, PyObject* obj, const std::string& name = "");
+        Color(ColorModel type, QVariant* obj, const std::string& name = "");
+        Color(const std::string& typeStr, QVariant* obj, const std::string& name = "");
         double getItem(std::string key) const;
 
         void setName(const std::string& name);
@@ -315,14 +315,13 @@ namespace javaapi {
 
         ColorModel getColorModel() const;
         std::string toString() const;
-        std::string __str__();
     private:
-        void readColor(ColorModel type, PyObject* obj);
+        void readColor(ColorModel type, QVariant* obj);
         ColorModel stringToModel(const std::string& type);
         ColorModel _type = ColorModel::cmRGBA;
-        PyObject* _colorVal;
+        QHash<QString, double>* _colorVal;
         std::string _name = "";
-    }; */
+    };
 } // namespace javaapi
 
 #endif // JAVAAPI_UTIL_H

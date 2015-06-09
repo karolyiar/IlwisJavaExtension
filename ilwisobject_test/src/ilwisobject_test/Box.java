@@ -87,8 +87,8 @@ public class Box {
     return ilwisobjectsJNI.Box_toString(swigCPtr, this);
   }
 
-  public boolean __bool__() {
-    return ilwisobjectsJNI.Box___bool__(swigCPtr, this);
+  public boolean isValid() {
+    return ilwisobjectsJNI.Box_isValid(swigCPtr, this);
   }
 
 }

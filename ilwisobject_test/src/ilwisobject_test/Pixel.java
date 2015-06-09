@@ -101,8 +101,8 @@ public class Pixel {
     return ilwisobjectsJNI.Pixel_toString(swigCPtr, this);
   }
 
-  public boolean __bool__() {
-    return ilwisobjectsJNI.Pixel___bool__(swigCPtr, this);
+  public boolean isValid() {
+    return ilwisobjectsJNI.Pixel_isValid(swigCPtr, this);
   }
 
 }

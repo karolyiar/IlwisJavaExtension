@@ -1833,7 +1833,7 @@ SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1to
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1_1_1bool_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1isValid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   javaapi::Coordinate *arg1 = (javaapi::Coordinate *) 0 ;
   bool result;
@@ -2056,6 +2056,344 @@ SWIGEXPORT void JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_delete_1IOOptions
   (void)jenv;
   (void)jcls;
   arg1 = *(javaapi::IOOptions **)&jarg1; 
+  {
+    try {
+      delete arg1;
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_new_1ColorModel(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  javaapi::ColorModelNS *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  {
+    try {
+      result = (javaapi::ColorModelNS *)new javaapi::ColorModelNS();
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::ColorModelNS **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_delete_1ColorModel(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  javaapi::ColorModelNS *arg1 = (javaapi::ColorModelNS *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(javaapi::ColorModelNS **)&jarg1; 
+  {
+    try {
+      delete arg1;
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_new_1Color_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  javaapi::Color *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  {
+    try {
+      result = (javaapi::Color *)new javaapi::Color();
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::Color **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_new_1Color_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jint jarg1, jlong jarg2, jstring jarg3) {
+  jlong jresult = 0 ;
+  javaapi::ColorModel arg1 ;
+  QVariant *arg2 = (QVariant *) 0 ;
+  std::string *arg3 = 0 ;
+  javaapi::Color *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (javaapi::ColorModel)jarg1; 
+  arg2 = *(QVariant **)&jarg2; 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return 0;
+  std::string arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  {
+    try {
+      result = (javaapi::Color *)new javaapi::Color(arg1,arg2,(std::string const &)*arg3);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::Color **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_new_1Color_1_1SWIG_12(JNIEnv *jenv, jclass jcls, jint jarg1, jlong jarg2) {
+  jlong jresult = 0 ;
+  javaapi::ColorModel arg1 ;
+  QVariant *arg2 = (QVariant *) 0 ;
+  javaapi::Color *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (javaapi::ColorModel)jarg1; 
+  arg2 = *(QVariant **)&jarg2; 
+  {
+    try {
+      result = (javaapi::Color *)new javaapi::Color(arg1,arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::Color **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_new_1Color_1_1SWIG_13(JNIEnv *jenv, jclass jcls, jstring jarg1, jlong jarg2, jstring jarg3) {
+  jlong jresult = 0 ;
+  std::string *arg1 = 0 ;
+  QVariant *arg2 = (QVariant *) 0 ;
+  std::string *arg3 = 0 ;
+  javaapi::Color *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  if(!jarg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg1_pstr = (const char *)jenv->GetStringUTFChars(jarg1, 0); 
+  if (!arg1_pstr) return 0;
+  std::string arg1_str(arg1_pstr);
+  arg1 = &arg1_str;
+  jenv->ReleaseStringUTFChars(jarg1, arg1_pstr); 
+  arg2 = *(QVariant **)&jarg2; 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return 0;
+  std::string arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  {
+    try {
+      result = (javaapi::Color *)new javaapi::Color((std::string const &)*arg1,arg2,(std::string const &)*arg3);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::Color **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_new_1Color_1_1SWIG_14(JNIEnv *jenv, jclass jcls, jstring jarg1, jlong jarg2) {
+  jlong jresult = 0 ;
+  std::string *arg1 = 0 ;
+  QVariant *arg2 = (QVariant *) 0 ;
+  javaapi::Color *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  if(!jarg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg1_pstr = (const char *)jenv->GetStringUTFChars(jarg1, 0); 
+  if (!arg1_pstr) return 0;
+  std::string arg1_str(arg1_pstr);
+  arg1 = &arg1_str;
+  jenv->ReleaseStringUTFChars(jarg1, arg1_pstr); 
+  arg2 = *(QVariant **)&jarg2; 
+  {
+    try {
+      result = (javaapi::Color *)new javaapi::Color((std::string const &)*arg1,arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::Color **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jdouble JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Color_1getItem(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jdouble jresult = 0 ;
+  javaapi::Color *arg1 = (javaapi::Color *) 0 ;
+  std::string arg2 ;
+  double result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::Color **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  } 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  (&arg2)->assign(arg2_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  {
+    try {
+      result = (double)((javaapi::Color const *)arg1)->getItem(arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jdouble)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Color_1setName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  javaapi::Color *arg1 = (javaapi::Color *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::Color **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  {
+    try {
+      (arg1)->setName((std::string const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+}
+
+
+SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Color_1getName(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  javaapi::Color *arg1 = (javaapi::Color *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::Color **)&jarg1; 
+  {
+    try {
+      result = (arg1)->getName();
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Color_1getColorModel(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  javaapi::Color *arg1 = (javaapi::Color *) 0 ;
+  javaapi::ColorModel result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::Color **)&jarg1; 
+  {
+    try {
+      result = (javaapi::ColorModel)((javaapi::Color const *)arg1)->getColorModel();
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Color_1toString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  javaapi::Color *arg1 = (javaapi::Color *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::Color **)&jarg1; 
+  {
+    try {
+      result = ((javaapi::Color const *)arg1)->toString();
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_delete_1Color(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  javaapi::Color *arg1 = (javaapi::Color *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(javaapi::Color **)&jarg1; 
   {
     try {
       delete arg1;
@@ -2460,7 +2798,7 @@ SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1toStrin
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1_1_1bool_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1isValid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   javaapi::PixelTemplate< qint32 > *arg1 = (javaapi::PixelTemplate< qint32 > *) 0 ;
   bool result;
@@ -2893,7 +3231,7 @@ SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1toStri
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1_1_1bool_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1isValid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   javaapi::PixelTemplate< double > *arg1 = (javaapi::PixelTemplate< double > *) 0 ;
   bool result;
@@ -3239,7 +3577,7 @@ SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1add(JNIEnv
 }
 
 
-SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1negate(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1subtract(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   jlong jresult = 0 ;
   javaapi::SizeTemplate< quint32 > *arg1 = (javaapi::SizeTemplate< quint32 > *) 0 ;
   javaapi::SizeTemplate< unsigned int > *arg2 = 0 ;
@@ -3467,7 +3805,7 @@ SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1toString
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1_1_1bool_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1isValid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   javaapi::SizeTemplate< quint32 > *arg1 = (javaapi::SizeTemplate< quint32 > *) 0 ;
   bool result;
@@ -3813,7 +4151,7 @@ SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1add(JNIEn
 }
 
 
-SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1negate(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1subtract(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   jlong jresult = 0 ;
   javaapi::SizeTemplate< double > *arg1 = (javaapi::SizeTemplate< double > *) 0 ;
   javaapi::SizeTemplate< double > *arg2 = 0 ;
@@ -4041,7 +4379,7 @@ SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1toStrin
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1_1_1bool_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1isValid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   javaapi::SizeTemplate< double > *arg1 = (javaapi::SizeTemplate< double > *) 0 ;
   bool result;
@@ -4428,7 +4766,7 @@ SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Box_1toString(
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Box_1_1_1bool_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Box_1isValid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > *arg1 = (javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > *) 0 ;
   bool result;
@@ -4815,7 +5153,7 @@ SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Envelope_1toSt
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Envelope_1_1_1bool_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Envelope_1isValid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *arg1 = (javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *) 0 ;
   bool result;

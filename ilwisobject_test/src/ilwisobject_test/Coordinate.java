@@ -97,8 +97,8 @@ public class Coordinate {
     return ilwisobjectsJNI.Coordinate_toString(swigCPtr, this);
   }
 
-  public boolean __bool__() {
-    return ilwisobjectsJNI.Coordinate___bool__(swigCPtr, this);
+  public boolean isValid() {
+    return ilwisobjectsJNI.Coordinate_isValid(swigCPtr, this);
   }
 
 }

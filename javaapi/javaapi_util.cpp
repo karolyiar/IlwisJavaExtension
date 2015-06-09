@@ -421,55 +421,71 @@ namespace javaapi {
     }
 
     //==========================Color=================================
-/*
+
     Color::Color(){
-        _colorVal = PyDictNew();
+        _colorVal = new QHash<QString, double>();
     }
 
-    Color::Color(ColorModel type, PyObject* obj, const std::string& name){
-        _colorVal = PyDictNew();
+    Color::Color(ColorModel type, QVariant* obj, const std::string& name){
+        _colorVal = new QHash<QString, double>();
         readColor(type, obj);
         _name = name;
     }
 
-    Color::Color(const std::string& typeStr, PyObject* obj, const std::string& name){
-        _colorVal = PyDictNew();
+    Color::Color(const std::string& typeStr, QVariant* obj, const std::string& name){
+        _colorVal = new QHash<QString, double>();
         ColorModel type = stringToModel(typeStr);
         readColor(type, obj);
         _name = name;
     }
 
-    void Color::readColor(ColorModel type, PyObject* obj)
+    void Color::readColor(ColorModel type, QVariant* obj)
     {
-        PyObject* dict = PyDictNew();
+        QHash<QString, double>* dict = new QHash<QString, double>();
         _type = type;
-        if(PyDictCheckExact(obj))
+
+        if (obj->convert(QVariant::Hash))
         {
-            _colorVal = obj;
+            _colorVal = new QHash<QString, double>();
+            for(QHash<QString, QVariant>::iterator i = obj->toHash().begin(); i != obj->toHash().end(); ++i ) {
+                _colorVal->insert( i.key(), i.value().toDouble() );
+            }
             return;
-        }else if(PyTupleCheckExact(obj)){
-            if(CppTupleElementCount(obj) >= 4){
+        } else if (obj->convert(QVariant::List)) {
+            if (obj->Size >= 4) {
                 switch(type){
                 case ColorModel::cmCYMKA:
+                    dict->insert("cyan", obj[0].toDouble());
+                    dict->insert("magenta", obj[1].toDouble());
+                    dict->insert("yellow", obj[2].toDouble());
+                    dict->insert("black", obj[3].toDouble());
+                    if (obj->Size == 5)
+                        dict->insert("alpha", obj[4].toDouble());
+                    /*
                     PyDictSetItemString(dict, "cyan", PyTupleGetItem(obj, 0));
                     PyDictSetItemString(dict, "magenta", PyTupleGetItem(obj, 1));
                     PyDictSetItemString(dict, "yellow", PyTupleGetItem(obj, 2));
                     PyDictSetItemString(dict, "black", PyTupleGetItem(obj, 3));
                     if(CppTupleElementCount(obj) == 5)
                         PyDictSetItemString(dict, "alpha", PyTupleGetItem(obj, 4));
+                    */
                     break;
                 case ColorModel::cmHSLA:
+                    /*
                     PyDictSetItemString(dict, "hue", PyTupleGetItem(obj, 0));
                     PyDictSetItemString(dict, "lightness", PyTupleGetItem(obj, 1));
                     PyDictSetItemString(dict, "saturation", PyTupleGetItem(obj, 2));
                     PyDictSetItemString(dict, "alpha", PyTupleGetItem(obj, 3));
+                    */
                     break;
                 case ColorModel::cmGREYSCALE:
                 case ColorModel::cmRGBA:
+                    /*
                     PyDictSetItemString(dict, "red", PyTupleGetItem(obj, 0));
                     PyDictSetItemString(dict, "green", PyTupleGetItem(obj, 1));
                     PyDictSetItemString(dict, "blue", PyTupleGetItem(obj, 2));
                     PyDictSetItemString(dict, "alpha", PyTupleGetItem(obj, 3));
+                    */
                     break;
                 case ColorModel::cmNONE:
                     break;
@@ -481,8 +497,7 @@ namespace javaapi {
     }
 
     double Color::getItem(std::string str) const{
-        const char* key = str.c_str();
-        return CppFloat2Double(PyDictGetItemString(_colorVal,key));
+        return _colorVal->value(QString::fromStdString(str));
     }
 
     void Color::setName(const std::string& name){
@@ -518,10 +533,6 @@ namespace javaapi {
         return colors.toStdString();
     }
 
-    std::string Color::__str__(){
-        return toString();
-    }
-
     ColorModel Color::stringToModel(const std::string& type){
 
         if(type == "RGBA"){
@@ -533,7 +544,7 @@ namespace javaapi {
         else
             throw InvalidObject("Not a known Color Model");
     }
-*/
+
 
 
 } // namespace javaapi

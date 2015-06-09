@@ -2,6 +2,9 @@ package ilwisobject_test;
 
 public class Main {
 	/*
+	 * !! Ilwis location have to be in the PATH variable !!
+	 *  F:\documents\ilwis\ilwisObjects\output\win32debug\bin;
+	 *  
 	 *  Folder, contains Ilwis
 	 *  TODO: load from ilwislocation.config file
 	 */
@@ -9,7 +12,6 @@ public class Main {
 	
 	static {
 	    try {    	
-	    	//System.loadLibrary("_ilwisobjects");
 	    	System.load(ilwisLocation + "extensions/_ilwisobjects/_ilwisobjects.dll");
 	    } catch (UnsatisfiedLinkError e) {
 	      System.err.println("Native code library failed to load.\n");
@@ -27,6 +29,11 @@ public class Main {
 		Pixel p = new Pixel(2, 3);
 		p.multiply(2);
 		System.out.println( p );
+		
+		Color c = new Color();
+		c.setName("blueish");
+		
+		System.out.println( c + " " + c.getName() + " "+ c.getItem("blue") );
 	}
 
 }

@@ -87,8 +87,8 @@ public class Envelope {
     return ilwisobjectsJNI.Envelope_toString(swigCPtr, this);
   }
 
-  public boolean __bool__() {
-    return ilwisobjectsJNI.Envelope___bool__(swigCPtr, this);
+  public boolean isValid() {
+    return ilwisobjectsJNI.Envelope_isValid(swigCPtr, this);
   }
 
 }

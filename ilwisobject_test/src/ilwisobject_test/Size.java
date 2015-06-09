@@ -84,8 +84,8 @@ public class Size {
     return (cPtr == 0) ? null : new Size(cPtr, false);
   }
 
-  public Size negate(Size sz) {
-    long cPtr = ilwisobjectsJNI.Size_negate(swigCPtr, this, Size.getCPtr(sz), sz);
+  public Size subtract(Size sz) {
+    long cPtr = ilwisobjectsJNI.Size_subtract(swigCPtr, this, Size.getCPtr(sz), sz);
     return (cPtr == 0) ? null : new Size(cPtr, false);
   }
 
@@ -118,8 +118,8 @@ public class Size {
     return ilwisobjectsJNI.Size_toString(swigCPtr, this);
   }
 
-  public boolean __bool__() {
-    return ilwisobjectsJNI.Size___bool__(swigCPtr, this);
+  public boolean isValid() {
+    return ilwisobjectsJNI.Size_isValid(swigCPtr, this);
   }
 
 }
