@@ -72,7 +72,7 @@
 %rename(notequal) operator!=;
 %rename(toString) __str__;
 %rename(add) operator+=;
-%rename(negate) operator-=;
+%rename(subtract) operator-=;
 %rename(contains) __constains__;
 %rename(isValid) __bool__; // always?
 
