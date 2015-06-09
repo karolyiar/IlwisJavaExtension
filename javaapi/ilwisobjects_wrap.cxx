@@ -1468,26 +1468,6 @@ SWIGEXPORT jobject JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_IlwisObject_1i
 }
 
 
-SWIGEXPORT jint JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_IlwisObject_1test(JNIEnv *jenv, jclass jcls) {
-  jint jresult = 0 ;
-  int result;
-  
-  (void)jenv;
-  (void)jcls;
-  {
-    try {
-      result = (int)javaapi::IlwisObject::test();
-    }catch (std::exception& e) {
-      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
-      //SWIG_fail;
-      // TODO: Exception handling
-    }
-  }
-  jresult = (jint)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_new_1Coordinate_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jdouble jarg1, jdouble jarg2) {
   jlong jresult = 0 ;
   double arg1 ;
@@ -1720,6 +1700,31 @@ SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1i
 }
 
 
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1multiply(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
+  jlong jresult = 0 ;
+  javaapi::Coordinate *arg1 = (javaapi::Coordinate *) 0 ;
+  double arg2 ;
+  javaapi::Coordinate *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::Coordinate **)&jarg1; 
+  arg2 = (double)jarg2; 
+  {
+    try {
+      result = (javaapi::Coordinate *)(arg1)->operator *=(arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::Coordinate **)&jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1_1_1itruediv_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
   jlong jresult = 0 ;
   javaapi::Coordinate *arg1 = (javaapi::Coordinate *) 0 ;
@@ -1745,7 +1750,67 @@ SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1_1_1
 }
 
 
-SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1_1_1str_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1equal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::Coordinate *arg1 = (javaapi::Coordinate *) 0 ;
+  javaapi::Coordinate *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::Coordinate **)&jarg1; 
+  arg2 = *(javaapi::Coordinate **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::Coordinate const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator ==((javaapi::Coordinate const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1notequal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::Coordinate *arg1 = (javaapi::Coordinate *) 0 ;
+  javaapi::Coordinate *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::Coordinate **)&jarg1; 
+  arg2 = *(javaapi::Coordinate **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::Coordinate const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator !=((javaapi::Coordinate const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Coordinate_1toString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jstring jresult = 0 ;
   javaapi::Coordinate *arg1 = (javaapi::Coordinate *) 0 ;
   std::string result;
@@ -2262,6 +2327,31 @@ SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1is3D(J
 }
 
 
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1multiply(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jlong jresult = 0 ;
+  javaapi::PixelTemplate< qint32 > *arg1 = (javaapi::PixelTemplate< qint32 > *) 0 ;
+  int arg2 ;
+  javaapi::PixelTemplate< int > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::PixelTemplate< qint32 > **)&jarg1; 
+  arg2 = (int)jarg2; 
+  {
+    try {
+      result = (javaapi::PixelTemplate< int > *)(arg1)->operator *=(arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::PixelTemplate< int > **)&jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1_1_1itruediv_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   jlong jresult = 0 ;
   javaapi::PixelTemplate< qint32 > *arg1 = (javaapi::PixelTemplate< qint32 > *) 0 ;
@@ -2287,7 +2377,67 @@ SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1_1_1itrue
 }
 
 
-SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1_1_1str_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1equal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::PixelTemplate< qint32 > *arg1 = (javaapi::PixelTemplate< qint32 > *) 0 ;
+  javaapi::PixelTemplate< int > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::PixelTemplate< qint32 > **)&jarg1; 
+  arg2 = *(javaapi::PixelTemplate< int > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::PixelTemplate< int > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator ==((javaapi::PixelTemplate< int > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1notequal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::PixelTemplate< qint32 > *arg1 = (javaapi::PixelTemplate< qint32 > *) 0 ;
+  javaapi::PixelTemplate< int > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::PixelTemplate< qint32 > **)&jarg1; 
+  arg2 = *(javaapi::PixelTemplate< int > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::PixelTemplate< int > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator !=((javaapi::PixelTemplate< int > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Pixel_1toString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jstring jresult = 0 ;
   javaapi::PixelTemplate< qint32 > *arg1 = (javaapi::PixelTemplate< qint32 > *) 0 ;
   std::string result;
@@ -2610,6 +2760,31 @@ SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1is3D(
 }
 
 
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1multiply(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
+  jlong jresult = 0 ;
+  javaapi::PixelTemplate< double > *arg1 = (javaapi::PixelTemplate< double > *) 0 ;
+  double arg2 ;
+  javaapi::PixelTemplate< double > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::PixelTemplate< double > **)&jarg1; 
+  arg2 = (double)jarg2; 
+  {
+    try {
+      result = (javaapi::PixelTemplate< double > *)(arg1)->operator *=(arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::PixelTemplate< double > **)&jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1_1_1itruediv_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
   jlong jresult = 0 ;
   javaapi::PixelTemplate< double > *arg1 = (javaapi::PixelTemplate< double > *) 0 ;
@@ -2635,7 +2810,67 @@ SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1_1_1itru
 }
 
 
-SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1_1_1str_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1equal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::PixelTemplate< double > *arg1 = (javaapi::PixelTemplate< double > *) 0 ;
+  javaapi::PixelTemplate< double > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::PixelTemplate< double > **)&jarg1; 
+  arg2 = *(javaapi::PixelTemplate< double > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::PixelTemplate< double > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator ==((javaapi::PixelTemplate< double > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1notequal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::PixelTemplate< double > *arg1 = (javaapi::PixelTemplate< double > *) 0 ;
+  javaapi::PixelTemplate< double > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::PixelTemplate< double > **)&jarg1; 
+  arg2 = *(javaapi::PixelTemplate< double > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::PixelTemplate< double > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator !=((javaapi::PixelTemplate< double > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_PixelD_1toString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jstring jresult = 0 ;
   javaapi::PixelTemplate< double > *arg1 = (javaapi::PixelTemplate< double > *) 0 ;
   std::string result;
@@ -2974,6 +3209,151 @@ SWIGEXPORT jobject JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1linearSi
 }
 
 
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1add(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jlong jresult = 0 ;
+  javaapi::SizeTemplate< quint32 > *arg1 = (javaapi::SizeTemplate< quint32 > *) 0 ;
+  javaapi::SizeTemplate< unsigned int > *arg2 = 0 ;
+  javaapi::SizeTemplate< unsigned int > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::SizeTemplate< quint32 > **)&jarg1; 
+  arg2 = *(javaapi::SizeTemplate< unsigned int > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::SizeTemplate< unsigned int > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (javaapi::SizeTemplate< unsigned int > *)(arg1)->operator +=((javaapi::SizeTemplate< unsigned int > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::SizeTemplate< unsigned int > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1negate(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jlong jresult = 0 ;
+  javaapi::SizeTemplate< quint32 > *arg1 = (javaapi::SizeTemplate< quint32 > *) 0 ;
+  javaapi::SizeTemplate< unsigned int > *arg2 = 0 ;
+  javaapi::SizeTemplate< unsigned int > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::SizeTemplate< quint32 > **)&jarg1; 
+  arg2 = *(javaapi::SizeTemplate< unsigned int > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::SizeTemplate< unsigned int > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (javaapi::SizeTemplate< unsigned int > *)(arg1)->operator -=((javaapi::SizeTemplate< unsigned int > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::SizeTemplate< unsigned int > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1multiply(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
+  jlong jresult = 0 ;
+  javaapi::SizeTemplate< quint32 > *arg1 = (javaapi::SizeTemplate< quint32 > *) 0 ;
+  double arg2 ;
+  javaapi::SizeTemplate< unsigned int > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::SizeTemplate< quint32 > **)&jarg1; 
+  arg2 = (double)jarg2; 
+  {
+    try {
+      result = (javaapi::SizeTemplate< unsigned int > *)(arg1)->operator *=(arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::SizeTemplate< unsigned int > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1equal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::SizeTemplate< quint32 > *arg1 = (javaapi::SizeTemplate< quint32 > *) 0 ;
+  javaapi::SizeTemplate< unsigned int > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::SizeTemplate< quint32 > **)&jarg1; 
+  arg2 = *(javaapi::SizeTemplate< unsigned int > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::SizeTemplate< unsigned int > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator ==((javaapi::SizeTemplate< unsigned int > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1notequal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::SizeTemplate< quint32 > *arg1 = (javaapi::SizeTemplate< quint32 > *) 0 ;
+  javaapi::SizeTemplate< unsigned int > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::SizeTemplate< quint32 > **)&jarg1; 
+  arg2 = *(javaapi::SizeTemplate< unsigned int > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::SizeTemplate< unsigned int > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator !=((javaapi::SizeTemplate< unsigned int > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1_1_1contains_1_1_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   jboolean jresult = 0 ;
   javaapi::SizeTemplate< quint32 > *arg1 = (javaapi::SizeTemplate< quint32 > *) 0 ;
@@ -3064,7 +3444,7 @@ SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1_1_1con
 }
 
 
-SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1_1_1str_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Size_1toString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jstring jresult = 0 ;
   javaapi::SizeTemplate< quint32 > *arg1 = (javaapi::SizeTemplate< quint32 > *) 0 ;
   std::string result;
@@ -3403,6 +3783,151 @@ SWIGEXPORT jobject JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1linearS
 }
 
 
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1add(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jlong jresult = 0 ;
+  javaapi::SizeTemplate< double > *arg1 = (javaapi::SizeTemplate< double > *) 0 ;
+  javaapi::SizeTemplate< double > *arg2 = 0 ;
+  javaapi::SizeTemplate< double > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::SizeTemplate< double > **)&jarg1; 
+  arg2 = *(javaapi::SizeTemplate< double > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::SizeTemplate< double > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (javaapi::SizeTemplate< double > *)(arg1)->operator +=((javaapi::SizeTemplate< double > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::SizeTemplate< double > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1negate(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jlong jresult = 0 ;
+  javaapi::SizeTemplate< double > *arg1 = (javaapi::SizeTemplate< double > *) 0 ;
+  javaapi::SizeTemplate< double > *arg2 = 0 ;
+  javaapi::SizeTemplate< double > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::SizeTemplate< double > **)&jarg1; 
+  arg2 = *(javaapi::SizeTemplate< double > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::SizeTemplate< double > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (javaapi::SizeTemplate< double > *)(arg1)->operator -=((javaapi::SizeTemplate< double > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::SizeTemplate< double > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1multiply(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jdouble jarg2) {
+  jlong jresult = 0 ;
+  javaapi::SizeTemplate< double > *arg1 = (javaapi::SizeTemplate< double > *) 0 ;
+  double arg2 ;
+  javaapi::SizeTemplate< double > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(javaapi::SizeTemplate< double > **)&jarg1; 
+  arg2 = (double)jarg2; 
+  {
+    try {
+      result = (javaapi::SizeTemplate< double > *)(arg1)->operator *=(arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  *(javaapi::SizeTemplate< double > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1equal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::SizeTemplate< double > *arg1 = (javaapi::SizeTemplate< double > *) 0 ;
+  javaapi::SizeTemplate< double > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::SizeTemplate< double > **)&jarg1; 
+  arg2 = *(javaapi::SizeTemplate< double > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::SizeTemplate< double > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator ==((javaapi::SizeTemplate< double > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1notequal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::SizeTemplate< double > *arg1 = (javaapi::SizeTemplate< double > *) 0 ;
+  javaapi::SizeTemplate< double > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::SizeTemplate< double > **)&jarg1; 
+  arg2 = *(javaapi::SizeTemplate< double > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::SizeTemplate< double > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator !=((javaapi::SizeTemplate< double > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1_1_1contains_1_1_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   jboolean jresult = 0 ;
   javaapi::SizeTemplate< double > *arg1 = (javaapi::SizeTemplate< double > *) 0 ;
@@ -3493,7 +4018,7 @@ SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1_1_1co
 }
 
 
-SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1_1_1str_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_SizeD_1toString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jstring jresult = 0 ;
   javaapi::SizeTemplate< double > *arg1 = (javaapi::SizeTemplate< double > *) 0 ;
   std::string result;
@@ -3820,7 +4345,67 @@ SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Box_1_1_1cont
 }
 
 
-SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Box_1_1_1str_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Box_1equal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > *arg1 = (javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > *) 0 ;
+  javaapi::BoxTemplate< Ilwis::Location< int,false >,javaapi::PixelTemplate< qint32 >,unsigned int > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > **)&jarg1; 
+  arg2 = *(javaapi::BoxTemplate< Ilwis::Location< int,false >,javaapi::PixelTemplate< qint32 >,unsigned int > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::BoxTemplate< Ilwis::Location< int,false >,javaapi::PixelTemplate< qint32 >,unsigned int > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator ==((javaapi::BoxTemplate< Ilwis::Location< int,false >,javaapi::PixelTemplate< qint32 >,unsigned int > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Box_1notequal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > *arg1 = (javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > *) 0 ;
+  javaapi::BoxTemplate< Ilwis::Location< int,false >,javaapi::PixelTemplate< qint32 >,unsigned int > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > **)&jarg1; 
+  arg2 = *(javaapi::BoxTemplate< Ilwis::Location< int,false >,javaapi::PixelTemplate< qint32 >,unsigned int > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::BoxTemplate< Ilwis::Location< int,false >,javaapi::PixelTemplate< qint32 >,unsigned int > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator !=((javaapi::BoxTemplate< Ilwis::Location< int,false >,javaapi::PixelTemplate< qint32 >,unsigned int > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Box_1toString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jstring jresult = 0 ;
   javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > *arg1 = (javaapi::BoxTemplate< Ilwis::Location< qint32,false >,javaapi::PixelTemplate< qint32 >,quint32 > *) 0 ;
   std::string result;
@@ -4147,7 +4732,67 @@ SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Envelope_1_1_
 }
 
 
-SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Envelope_1_1_1str_1_1(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Envelope_1equal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *arg1 = (javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *) 0 ;
+  javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > **)&jarg1; 
+  arg2 = *(javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator ==((javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Envelope_1notequal(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *arg1 = (javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *) 0 ;
+  javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > **)&jarg1; 
+  arg2 = *(javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > const & reference is null");
+    return 0;
+  } 
+  {
+    try {
+      result = (bool)(arg1)->operator !=((javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > const &)*arg2);
+    }catch (std::exception& e) {
+      //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+      //SWIG_fail;
+      // TODO: Exception handling
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_ilwisobject_1test_ilwisobjectsJNI_Envelope_1toString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jstring jresult = 0 ;
   javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *arg1 = (javaapi::BoxTemplate< Ilwis::Coordinate,javaapi::Coordinate,double > *) 0 ;
   std::string result;

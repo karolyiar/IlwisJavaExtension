@@ -75,8 +75,16 @@ public class Envelope {
     return ilwisobjectsJNI.Envelope___contains____SWIG_1(swigCPtr, this, Envelope.getCPtr(box), box);
   }
 
-  public String __str__() {
-    return ilwisobjectsJNI.Envelope___str__(swigCPtr, this);
+  public boolean equal(Envelope other) {
+    return ilwisobjectsJNI.Envelope_equal(swigCPtr, this, Envelope.getCPtr(other), other);
+  }
+
+  public boolean notequal(Envelope other) {
+    return ilwisobjectsJNI.Envelope_notequal(swigCPtr, this, Envelope.getCPtr(other), other);
+  }
+
+  public String toString() {
+    return ilwisobjectsJNI.Envelope_toString(swigCPtr, this);
   }
 
   public boolean __bool__() {

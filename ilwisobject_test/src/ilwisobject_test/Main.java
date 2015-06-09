@@ -25,7 +25,8 @@ public class Main {
 	public static void main(String[] args) {
 		//ilwisobjects._initIlwisObjects("F:/documents/ilwis/python_helloworld/");
 		Pixel p = new Pixel(2, 3);
-		System.out.println( p.__str__() );
+		p.multiply(2);
+		System.out.println( p );
 	}
 
 }

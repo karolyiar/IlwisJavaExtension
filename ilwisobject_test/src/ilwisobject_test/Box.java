@@ -75,8 +75,16 @@ public class Box {
     return ilwisobjectsJNI.Box___contains____SWIG_1(swigCPtr, this, Box.getCPtr(box), box);
   }
 
-  public String __str__() {
-    return ilwisobjectsJNI.Box___str__(swigCPtr, this);
+  public boolean equal(Box other) {
+    return ilwisobjectsJNI.Box_equal(swigCPtr, this, Box.getCPtr(other), other);
+  }
+
+  public boolean notequal(Box other) {
+    return ilwisobjectsJNI.Box_notequal(swigCPtr, this, Box.getCPtr(other), other);
+  }
+
+  public String toString() {
+    return ilwisobjectsJNI.Box_toString(swigCPtr, this);
   }
 
   public boolean __bool__() {

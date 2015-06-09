@@ -75,13 +75,26 @@ public class Coordinate {
     return ilwisobjectsJNI.Coordinate_is3D(swigCPtr, this);
   }
 
+  public Coordinate multiply(double n) {
+    long cPtr = ilwisobjectsJNI.Coordinate_multiply(swigCPtr, this, n);
+    return (cPtr == 0) ? null : new Coordinate(cPtr, false);
+  }
+
   public Coordinate __itruediv__(double n) {
     long cPtr = ilwisobjectsJNI.Coordinate___itruediv__(swigCPtr, this, n);
     return (cPtr == 0) ? null : new Coordinate(cPtr, false);
   }
 
-  public String __str__() {
-    return ilwisobjectsJNI.Coordinate___str__(swigCPtr, this);
+  public boolean equal(Coordinate other) {
+    return ilwisobjectsJNI.Coordinate_equal(swigCPtr, this, Coordinate.getCPtr(other), other);
+  }
+
+  public boolean notequal(Coordinate other) {
+    return ilwisobjectsJNI.Coordinate_notequal(swigCPtr, this, Coordinate.getCPtr(other), other);
+  }
+
+  public String toString() {
+    return ilwisobjectsJNI.Coordinate_toString(swigCPtr, this);
   }
 
   public boolean __bool__() {

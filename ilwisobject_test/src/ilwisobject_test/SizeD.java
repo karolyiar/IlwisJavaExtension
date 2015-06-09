@@ -79,6 +79,29 @@ public class SizeD {
     return ilwisobjectsJNI.SizeD_linearSize(swigCPtr, this);
   }
 
+  public SizeD add(SizeD sz) {
+    long cPtr = ilwisobjectsJNI.SizeD_add(swigCPtr, this, SizeD.getCPtr(sz), sz);
+    return (cPtr == 0) ? null : new SizeD(cPtr, false);
+  }
+
+  public SizeD negate(SizeD sz) {
+    long cPtr = ilwisobjectsJNI.SizeD_negate(swigCPtr, this, SizeD.getCPtr(sz), sz);
+    return (cPtr == 0) ? null : new SizeD(cPtr, false);
+  }
+
+  public SizeD multiply(double f) {
+    long cPtr = ilwisobjectsJNI.SizeD_multiply(swigCPtr, this, f);
+    return (cPtr == 0) ? null : new SizeD(cPtr, false);
+  }
+
+  public boolean equal(SizeD sz) {
+    return ilwisobjectsJNI.SizeD_equal(swigCPtr, this, SizeD.getCPtr(sz), sz);
+  }
+
+  public boolean notequal(SizeD sz) {
+    return ilwisobjectsJNI.SizeD_notequal(swigCPtr, this, SizeD.getCPtr(sz), sz);
+  }
+
   public boolean __contains__(Coordinate pix) {
     return ilwisobjectsJNI.SizeD___contains____SWIG_0(swigCPtr, this, Coordinate.getCPtr(pix), pix);
   }
@@ -91,8 +114,8 @@ public class SizeD {
     return ilwisobjectsJNI.SizeD___contains____SWIG_2(swigCPtr, this, PixelD.getCPtr(pix), pix);
   }
 
-  public String __str__() {
-    return ilwisobjectsJNI.SizeD___str__(swigCPtr, this);
+  public String toString() {
+    return ilwisobjectsJNI.SizeD_toString(swigCPtr, this);
   }
 
   public boolean __bool__() {

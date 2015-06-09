@@ -79,13 +79,26 @@ public class PixelD {
     return ilwisobjectsJNI.PixelD_is3D(swigCPtr, this);
   }
 
+  public PixelD multiply(double n) {
+    long cPtr = ilwisobjectsJNI.PixelD_multiply(swigCPtr, this, n);
+    return (cPtr == 0) ? null : new PixelD(cPtr, false);
+  }
+
   public PixelD __itruediv__(double n) {
     long cPtr = ilwisobjectsJNI.PixelD___itruediv__(swigCPtr, this, n);
     return (cPtr == 0) ? null : new PixelD(cPtr, false);
   }
 
-  public String __str__() {
-    return ilwisobjectsJNI.PixelD___str__(swigCPtr, this);
+  public boolean equal(PixelD other) {
+    return ilwisobjectsJNI.PixelD_equal(swigCPtr, this, PixelD.getCPtr(other), other);
+  }
+
+  public boolean notequal(PixelD other) {
+    return ilwisobjectsJNI.PixelD_notequal(swigCPtr, this, PixelD.getCPtr(other), other);
+  }
+
+  public String toString() {
+    return ilwisobjectsJNI.PixelD_toString(swigCPtr, this);
   }
 
   public boolean __bool__() {

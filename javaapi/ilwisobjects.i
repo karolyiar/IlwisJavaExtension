@@ -67,8 +67,16 @@
 
 //%include "javaapi_coordinatesystem.h"
 
-%include "javaapi_util.h"
+%rename(multiply) operator*=;
+%rename(equal) operator==;
+%rename(notequal) operator!=;
+%rename(toString) __str__;
+%rename(add) operator+=;
+%rename(negate) operator-=;
+%rename(contains) __constains__;
+%rename(isValid) __bool__; // always?
 
+%include "javaapi_util.h"
 
 %template(Pixel) javaapi::PixelTemplate<qint32>;
 %template(PixelD) javaapi::PixelTemplate<double>;
