@@ -8,7 +8,7 @@
 
 package ilwisobject_test;
 
-public class IlwisObject extends Object {
+public class IlwisObject extends IObject {
   private long swigCPtr;
 
   protected IlwisObject(long cPtr, boolean cMemoryOwn) {

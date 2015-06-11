@@ -14,7 +14,7 @@ namespace Ilwis {
 
 namespace javaapi {
 
-    class IlwisObject: public Object{
+    class IlwisObject: public IObject{
         friend class Engine;
         friend class Catalog;
     public:

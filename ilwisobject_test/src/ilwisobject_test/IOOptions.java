@@ -51,8 +51,8 @@ public class IOOptions {
     return ilwisobjectsJNI.IOOptions_size(swigCPtr, this);
   }
 
-  public SWIGTYPE_p_QVariant __getitem__(String option) {
-    return new SWIGTYPE_p_QVariant(ilwisobjectsJNI.IOOptions___getitem__(swigCPtr, this, option), true);
+  public SWIGTYPE_p_QVariant get(String option) {
+    return new SWIGTYPE_p_QVariant(ilwisobjectsJNI.IOOptions_get(swigCPtr, this, option), true);
   }
 
   public IOOptions addOption(String key, SWIGTYPE_p_QVariant value) {

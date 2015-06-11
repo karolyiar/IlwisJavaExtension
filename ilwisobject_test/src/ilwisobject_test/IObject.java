@@ -8,16 +8,16 @@
 
 package ilwisobject_test;
 
-public class Object {
+public class IObject {
   private long swigCPtr;
   protected boolean swigCMemOwn;
 
-  protected Object(long cPtr, boolean cMemoryOwn) {
+  protected IObject(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
   }
 
-  protected static long getCPtr(Object obj) {
+  protected static long getCPtr(IObject obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
@@ -29,22 +29,22 @@ public class Object {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        ilwisobjectsJNI.delete_Object(swigCPtr);
+        ilwisobjectsJNI.delete_IObject(swigCPtr);
       }
       swigCPtr = 0;
     }
   }
 
   public boolean __bool__() {
-    return ilwisobjectsJNI.Object___bool__(swigCPtr, this);
+    return ilwisobjectsJNI.IObject___bool__(swigCPtr, this);
   }
 
   public String __str__() {
-    return ilwisobjectsJNI.Object___str__(swigCPtr, this);
+    return ilwisobjectsJNI.IObject___str__(swigCPtr, this);
   }
 
   public java.math.BigInteger ilwisType() {
-    return ilwisobjectsJNI.Object_ilwisType(swigCPtr, this);
+    return ilwisobjectsJNI.IObject_ilwisType(swigCPtr, this);
   }
 
 }

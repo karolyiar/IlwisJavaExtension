@@ -7,10 +7,10 @@ typedef quint64 IlwisTypes;
 
 namespace javaapi{
 
-    class Object{
+    class IObject{
     public:
-        Object(){}
-        virtual ~Object(){}
+        IObject(){}
+        virtual ~IObject(){}
         virtual bool __bool__() const = 0;
         virtual std::string __str__() = 0;
         virtual IlwisTypes ilwisType() = 0;

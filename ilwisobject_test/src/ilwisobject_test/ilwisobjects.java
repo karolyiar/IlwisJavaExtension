@@ -25,4 +25,14 @@ public class ilwisobjects {
     ilwisobjectsJNI.connectIssueLogger();
   }
 
+  public static Object getQVariant() {
+	// in ilwisobjects.java
+    return ilwisobjectsJNI.getQVariant();
+  }
+
+  public static Object getQList1() {
+	// in ilwisobjects.java
+    return ilwisobjectsJNI.getQList1();
+  }
+
 }
