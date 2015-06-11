@@ -34,6 +34,16 @@ public class Main {
 		c.setName("blueish");
 		
 		System.out.println( c + " " + c.getName() + " "+ c.getItem("blue") );
+		
+		System.out.println( (int)ilwisobjects.getQVariant() );
+		
+		Object[] list = (Object[])ilwisobjects.getQList1();
+	    
+		//System.out.println( list.length );
+	}
+	
+	public static int test(Object a) {
+		return 0;
 	}
 
 }

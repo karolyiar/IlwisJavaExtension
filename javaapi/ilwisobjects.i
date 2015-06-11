@@ -75,6 +75,7 @@
 %rename(subtract) operator-=;
 %rename(contains) __constains__;
 %rename(isValid) __bool__; // always?
+%rename(get) __getitem__;
 
 %include "javaapi_util.h"
 
@@ -90,7 +91,9 @@
 
 //%include "javaapi_coverage.h"
 
+
 %include "javaapi_object.h"
+%rename(IObject) Object;
 /*
 %include "javaapi_geometry.h"
 
@@ -127,93 +130,8 @@
 */
 
 
-
-
-
-
-
-
-
-
-/* This tells SWIG to treat char ** as a special case when used as a parameter
-   in a function call */
-/*
-%typemap(in) char ** (jint size) {
-	// in ilwisobjects_wrap.cxx
-    int i = 0;
-    size = jenv->GetArrayLength($input);
-    $1 = (char **) malloc((size+1)*sizeof(char *));
-    for (i = 0; i<size; i++) {
-        jstring j_string = (jstring)jenv->GetObjectArrayElement($input, i);
-        const char * c_string = jenv->GetStringUTFChars(j_string, 0);
-        $1[i] = (char*)malloc((strlen(c_string)+1)*sizeof(char));
-        strcpy($1[i], c_string);
-        jenv->ReleaseStringUTFChars(j_string, c_string);
-        jenv->DeleteLocalRef(j_string);
-    }
-    $1[i] = 0;
-}*/
-
-/* This cleans up the memory we malloc'd before the function call */
-/*%typemap(freearg) char ** {
-	// in ilwisobjects_wrap.cxx
-    int i;
-    for (i=0; i<size$argnum-1; i++)
-      free($1[i]);
-    free($1);
-}*/
-
-/* This allows a C function to return a char ** as a Java String array */
-/*%typemap(out) char ** {
-	// in ilwisobjects_wrap.cxx
-    int i;
-    int len=0;
-    jstring temp_string;
-    const jclass clazz = jenv->FindClass("java/lang/String");
-
-    while ($1[len]) len++;    
-    jresult = jenv->NewObjectArray(len, clazz, NULL);
-    for (i=0; i<len; i++) {
-      temp_string = jenv->NewStringUTF(*result++);
-      jenv->SetObjectArrayElement(jresult, i, temp_string);
-      jenv->DeleteLocalRef(temp_string);
-    }
-}*/
-
-/* These 3 typemaps tell SWIG what JNI and Java types to use */
-/*%typemap(jni) char ** "jobjectArray"
-%typemap(jtype) char ** "String[]"
-%typemap(jstype) char ** "String[]"*/
-
-/* These 2 typemaps handle the conversion of the jtype to jstype typemap type
-   and vice versa */
-/*%typemap(javain) char ** "$javainput"
-%typemap(javaout) char ** {
-	// in ilwisobjects.java
-	//asdf64
-    return $jnicall;
-  }*/
-
-/* Now a few test functions */
-/*%inline %{
-
-int print_args(char **argv) {
-	// in ilwisobjects_wrap.cxx
-    int i = 0;
-    while (argv[i]) {
-         printf("argv[%d] = %s\n", i, argv[i]);
-         i++;
-    }
-    return i;
-}
-
-char **get_args() {
-  static char *values[] = { "Dave", "Mike", "Susan", "John", "Michelle", 0};
-  return &values[0];
-}
-%}*/
 	
-	/*
+%{
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QVariant"
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QPoint"
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QPointF"
@@ -232,10 +150,11 @@ char **get_args() {
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QChar"
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QBitArray"
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QByteArray"
-	*/
+#include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QList"
+%}
 	
 /* QVariant -> jobject */
-/*
+
 %typemap(in) QVariant * (jint size){
 	// in ilwisobjects_wrap.cxx asdf1
 	//int type = qMetaTypeId<JObjectWrapper>();
@@ -245,41 +164,77 @@ char **get_args() {
 	//}
 	
     $1 = 0;	
-}*/
+}
 	
 /* This cleans up the memory we malloc'd before the function call */
-/*%typemap(freearg) QVariant * {
-	// asdf54
+%typemap(freearg) QVariant * {
 	// in ilwisobjects_wrap.cxx
-}*/
+}
 	
 /* This allows a C function to return a QVariant as a Java Object */
-/*
+
 %typemap(out) QVariant * {
-	//asdf43
 	// in ilwisobjects_wrap.cxx
-	$1 = 0;
-}*/
+
+    struct {
+        static jobject conv(JNIEnv *jenv, jclass jcls, const QVariant* result) {
+            jclass clazz = 0;
+            jmethodID constructor = 0;
+            int i;
+            switch ($1->userType()) {
+                case QVariant::Invalid: return 0; break;
+                case QVariant::Int:
+                case QVariant::UInt:
+                    clazz = jenv->FindClass("java/lang/Integer");
+                    constructor = jenv->GetMethodID(clazz, "<init>", "(I)V");
+                    return jenv->NewObject(clazz, constructor, $1->toInt());
+                    break;
+                case QVariant::List:
+                    clazz = jenv->FindClass("java/lang/Object");
+					QListIterator<QVariant> iter($1->toList());
+                    jobjectArray jresultArray = jenv->NewObjectArray( $1->toList().size() , clazz, NULL);
+                    constructor = jenv->GetMethodID(clazz, "<init>", "(O)V");
+                    
+                    i = 0;
+                    while(iter.hasNext()) {
+                        jenv->SetObjectArrayElement(jresultArray, i, jenv->NewObject(clazz, constructor, conv(jenv, jcls, &iter.next())) );
+                        ++i;
+                    }
+                    return jresultArray;
+                    break;
+			}
+			return 0;
+        }
+    } convert;
+	
+	jresult = convert.conv(jenv, jcls, $1);
+}
 	
 /* These 3 typemaps tell SWIG what JNI and Java types to use */
-/*%typemap(jni) QVariant * "jobject"
+%typemap(jni) QVariant * "jobject"
 %typemap(jtype) QVariant * "Object"
 %typemap(jstype) QVariant * "Object"
-*/
+
 	
 /* These 2 typemaps handle the conversion of the jtype to jstype typemap type
    and vice versa */
-/*%typemap(javain) QVariant * "$javainput"
+%typemap(javain) QVariant * "$javainput"
 %typemap(javaout) QVariant * {
 	// in ilwisobjects.java
-	//asdf23
     return $jnicall;
-  }*/
+  }
 	
 	
-/*%inline %{
+%inline %{
 	QVariant* getQVariant() {
-	// asdf6
-	return new QVariant(12);
+		return new QVariant(12);
 	}
-%}*/
+	
+    QVariant* getQList1() {
+        QList<QVariant> a;
+        a.append(QVariant(11));
+		QVariant* b = new QVariant();
+        b->setValue<QList<QVariant> >(a);
+        return b;
+	}
+%}
