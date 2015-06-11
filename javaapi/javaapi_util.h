@@ -177,7 +177,7 @@ namespace javaapi {
 
 //-----------------------------------------------------------------------------------------------------------------
 
-    /* #ifdef SWIG
+    #ifdef SWIG
     %rename(PropertySets) Properties;
     #endif
 
@@ -219,12 +219,12 @@ namespace javaapi {
             return this->data().stretchLinear(input, stretchRange);
         }
 
-        PyObject* stretchLimits(double percent) const{
-            PyObject* pyTup = newPyTuple(2);
+        QVariant* stretchLimits(double percent) const{
+            QList<double>* list = new QList<double>();
             std::pair<double, double> cpair = this->data().stretchLimits(percent);
-            setTupleItem(pyTup, 0, PyFloatFromDouble(std::get<0>(cpair)));
-            setTupleItem(pyTup, 1, PyFloatFromDouble(std::get<1>(cpair)));
-            return pyTup;
+            list->append(std::get<0>(cpair));
+            list->append(std::get<1>(cpair));
+            return new QVariant(list);
         }
 
         double __getitem__(PropertySets pyMethod){
@@ -237,19 +237,17 @@ namespace javaapi {
             return this->__getitem__(pyMethod);
         }
 
-        PyObject* histogram(){
+        QVariant* histogram(){
             std::vector<HistogramBin> hisVec = this->data().histogram();
-            PyObject* pyList = newPyList(hisVec.size());
+            QList<QList<double>*>* list = new QList<QList<double>*>();
             for(int i = 0; i < hisVec.size(); i++){
-                PyObject* histoTup = newPyTuple(2);
+                QList<double>* histoList = new QList<double>();
                 HistogramBin histo = hisVec[i];
-
-                setTupleItem(histoTup, 0, PyFloatFromDouble((double)histo._limit));
-                setTupleItem(histoTup, 1, PyFloatFromDouble((double)histo._count));
-
-                setListItem(pyList, i, histoTup);
+                histoList->append( (double)histo._limit );
+                histoList->append( (double)histo._count );
+                list->append(histoList);
             }
-            return pyList;
+            return new QVariant(list);
         }
 
        //not yet implemented in ilwisobjects.i
@@ -271,7 +269,7 @@ namespace javaapi {
         typedef typename Ilwis::ContainerStatistics<DataType>::HistogramBin HistogramBin;
     };
 
-    typedef ContainerStatistics< double > NumericStatistics; */
+    typedef ContainerStatistics< double > NumericStatistics;
 
 //-----------------------------------------------------------------------------------------------------------------
     class IOOptions{

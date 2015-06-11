@@ -446,6 +446,8 @@ namespace javaapi {
 
         if (obj->convert(QVariant::Hash))
         {
+            if (_colorVal != NULL)
+                delete _colorVal;
             _colorVal = new QHash<QString, double>();
             for(QHash<QString, QVariant>::iterator i = obj->toHash().begin(); i != obj->toHash().end(); ++i ) {
                 _colorVal->insert( i.key(), i.value().toDouble() );
@@ -461,38 +463,25 @@ namespace javaapi {
                     dict->insert("black", obj[3].toDouble());
                     if (obj->Size == 5)
                         dict->insert("alpha", obj[4].toDouble());
-                    /*
-                    PyDictSetItemString(dict, "cyan", PyTupleGetItem(obj, 0));
-                    PyDictSetItemString(dict, "magenta", PyTupleGetItem(obj, 1));
-                    PyDictSetItemString(dict, "yellow", PyTupleGetItem(obj, 2));
-                    PyDictSetItemString(dict, "black", PyTupleGetItem(obj, 3));
-                    if(CppTupleElementCount(obj) == 5)
-                        PyDictSetItemString(dict, "alpha", PyTupleGetItem(obj, 4));
-                    */
                     break;
                 case ColorModel::cmHSLA:
-                    /*
-                    PyDictSetItemString(dict, "hue", PyTupleGetItem(obj, 0));
-                    PyDictSetItemString(dict, "lightness", PyTupleGetItem(obj, 1));
-                    PyDictSetItemString(dict, "saturation", PyTupleGetItem(obj, 2));
-                    PyDictSetItemString(dict, "alpha", PyTupleGetItem(obj, 3));
-                    */
+                    dict->insert("hue", obj[0].toDouble());
+                    dict->insert("lightness", obj[1].toDouble());
+                    dict->insert("saturation", obj[2].toDouble());
+                    dict->insert("alpha", obj[3].toDouble());
                     break;
                 case ColorModel::cmGREYSCALE:
                 case ColorModel::cmRGBA:
-                    /*
-                    PyDictSetItemString(dict, "red", PyTupleGetItem(obj, 0));
-                    PyDictSetItemString(dict, "green", PyTupleGetItem(obj, 1));
-                    PyDictSetItemString(dict, "blue", PyTupleGetItem(obj, 2));
-                    PyDictSetItemString(dict, "alpha", PyTupleGetItem(obj, 3));
-                    */
+                    dict->insert("red", obj[0].toDouble());
+                    dict->insert("green", obj[1].toDouble());
+                    dict->insert("blue", obj[2].toDouble());
+                    dict->insert("alpha", obj[3].toDouble());
                     break;
                 case ColorModel::cmNONE:
                     break;
                 }
             }
         }
-
         _colorVal = dict;
     }
 
