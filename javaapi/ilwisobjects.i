@@ -25,7 +25,7 @@
 #include "javaapi_object.h"
 //#include "javaapi_engine.h"
 #include "javaapi_ilwisobject.h"
-//#include "javaapi_coordinatesystem.h"
+#include "javaapi_coordinatesystem.h"
 //#include "javaapi_table.h"
 //#include "javaapi_coverage.h"
 #include "javaapi_util.h"
@@ -34,7 +34,7 @@
 //#include "javaapi_featureiterator.h"
 //#include "javaapi_featurecoverage.h"
 //#include "javaapi_pixeliterator.h"
-//#include "javaapi_georeference.h"
+#include "javaapi_georeference.h"
 //#include "javaapi_rastercoverage.h"
 //#include "javaapi_range.h"
 //#include "javaapi_catalog.h"
@@ -68,17 +68,19 @@
 
 %include "javaapi_ilwisobject.h"
 
-//%include "javaapi_coordinatesystem.h"
-
 %rename(multiply) operator*=;
 %rename(equal) operator==;
 %rename(notequal) operator!=;
 %rename(toString) __str__;
 %rename(add) operator+=;
 %rename(subtract) operator-=;
+%rename(divide) operator/=;
+%rename(divide) __itruediv__;
 %rename(contains) __constains__;
 %rename(isValid) __bool__; // always?
 %rename(get) __getitem__;
+
+%include "javaapi_coordinatesystem.h"
 
 %include "javaapi_util.h"
 
@@ -107,9 +109,9 @@
 %include "javaapi_featurecoverage.h"
 
 %include "javaapi_pixeliterator.h"
-
+*/
 %include "javaapi_georeference.h"
-
+/*
 %include "javaapi_rastercoverage.h"
 
 %include "javaapi_catalog.h"

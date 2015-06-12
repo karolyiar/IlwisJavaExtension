@@ -48,5 +48,25 @@ public class test_utils {
 		assertEquals(2, p.z());
 		assertEquals("pixel(4,6,2)", p.toString());
 	}
+	
+	@Test
+	public void coordinate_test() {
+		Coordinate c = new Coordinate(-1871900.47, 1874237.55);
+		assertEquals(true, c.isValid());
+		assertEquals(false, c.is3D());
+		assertEquals("coordinate(-1871900.470000,1874237.550000)", c.toString());
+		c.multiply(6);
+		assertEquals(true, c.equal(new Coordinate(-11231402.820000, 11245425.300000)));
+		assertEquals("coordinate(-11231402.820000,11245425.300000)", c.toString());
+		c.divide(6);
+		assertEquals("coordinate(-1871900.470000,1874237.550000)", c.toString());
+		assertEquals(false, c.is3D());
+		c = new Coordinate(-1871900.47, 1874237.55, 2);
+		assertEquals(true, c.is3D());
+		assertEquals("coordinate(-1871900.470000,1874237.550000,2.000000)", c.toString());
+		assertEquals(-1871900.47, c.x(), 0.0001);
+		c.setX(4.323);
+		assertEquals(4.323, c.x(), 0.0001);
+	}
 
 }

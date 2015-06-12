@@ -80,8 +80,8 @@ public class Coordinate {
     return (cPtr == 0) ? null : new Coordinate(cPtr, false);
   }
 
-  public Coordinate __itruediv__(double n) {
-    long cPtr = ilwisobjectsJNI.Coordinate___itruediv__(swigCPtr, this, n);
+  public Coordinate divide(double n) {
+    long cPtr = ilwisobjectsJNI.Coordinate_divide(swigCPtr, this, n);
     return (cPtr == 0) ? null : new Coordinate(cPtr, false);
   }
 
