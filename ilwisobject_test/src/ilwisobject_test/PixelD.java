@@ -84,8 +84,8 @@ public class PixelD {
     return (cPtr == 0) ? null : new PixelD(cPtr, false);
   }
 
-  public PixelD __itruediv__(double n) {
-    long cPtr = ilwisobjectsJNI.PixelD___itruediv__(swigCPtr, this, n);
+  public PixelD divide(double n) {
+    long cPtr = ilwisobjectsJNI.PixelD_divide(swigCPtr, this, n);
     return (cPtr == 0) ? null : new PixelD(cPtr, false);
   }
 

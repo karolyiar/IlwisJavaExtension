@@ -60,6 +60,18 @@ public class ilwisobjectsJNI {
   public final static native String IlwisObject_type2Name(long jarg1, IlwisObject jarg1_, java.math.BigInteger jarg2);
   public final static native java.math.BigInteger IlwisObject_ilwisID(long jarg1, IlwisObject jarg1_);
   public final static native java.math.BigInteger IlwisObject_ilwisType(long jarg1, IlwisObject jarg1_);
+  public final static native long new_CoordinateSystem(String jarg1);
+  public final static native long CoordinateSystem_envelope(long jarg1, CoordinateSystem jarg1_);
+  public final static native void CoordinateSystem_setEnvelope(long jarg1, CoordinateSystem jarg1_, long jarg2, Envelope jarg2_);
+  public final static native boolean CoordinateSystem_equal(long jarg1, CoordinateSystem jarg1_, long jarg2, CoordinateSystem jarg2_);
+  public final static native boolean CoordinateSystem_notequal(long jarg1, CoordinateSystem jarg1_, long jarg2, CoordinateSystem jarg2_);
+  public final static native String CoordinateSystem_toWKT__SWIG_0(long jarg1, CoordinateSystem jarg1_, long jarg2);
+  public final static native String CoordinateSystem_toWKT__SWIG_1(long jarg1, CoordinateSystem jarg1_);
+  public final static native String CoordinateSystem_toProj4(long jarg1, CoordinateSystem jarg1_);
+  public final static native long CoordinateSystem_convertEnvelope(long jarg1, CoordinateSystem jarg1_, long jarg2, CoordinateSystem jarg2_, long jarg3, Envelope jarg3_);
+  public final static native long CoordinateSystem_coord2coord(long jarg1, CoordinateSystem jarg1_, long jarg2, CoordinateSystem jarg2_, long jarg3, Coordinate jarg3_);
+  public final static native long CoordinateSystem_toCoordinateSystem(long jarg1, IObject jarg1_);
+  public final static native void delete_CoordinateSystem(long jarg1);
   public final static native long new_Coordinate__SWIG_0(double jarg1, double jarg2);
   public final static native long new_Coordinate__SWIG_1(double jarg1, double jarg2, double jarg3);
   public final static native long new_Coordinate__SWIG_2(long jarg1, Coordinate jarg1_);
@@ -71,7 +83,7 @@ public class ilwisobjectsJNI {
   public final static native void Coordinate_setZ(long jarg1, Coordinate jarg1_, double jarg2);
   public final static native boolean Coordinate_is3D(long jarg1, Coordinate jarg1_);
   public final static native long Coordinate_multiply(long jarg1, Coordinate jarg1_, double jarg2);
-  public final static native long Coordinate___itruediv__(long jarg1, Coordinate jarg1_, double jarg2);
+  public final static native long Coordinate_divide(long jarg1, Coordinate jarg1_, double jarg2);
   public final static native boolean Coordinate_equal(long jarg1, Coordinate jarg1_, long jarg2, Coordinate jarg2_);
   public final static native boolean Coordinate_notequal(long jarg1, Coordinate jarg1_, long jarg2, Coordinate jarg2_);
   public final static native String Coordinate_toString(long jarg1, Coordinate jarg1_);
@@ -131,7 +143,7 @@ public class ilwisobjectsJNI {
   public final static native void Pixel_setZ(long jarg1, Pixel jarg1_, int jarg2);
   public final static native boolean Pixel_is3D(long jarg1, Pixel jarg1_);
   public final static native long Pixel_multiply(long jarg1, Pixel jarg1_, int jarg2);
-  public final static native long Pixel___itruediv__(long jarg1, Pixel jarg1_, int jarg2);
+  public final static native long Pixel_divide(long jarg1, Pixel jarg1_, int jarg2);
   public final static native boolean Pixel_equal(long jarg1, Pixel jarg1_, long jarg2, Pixel jarg2_);
   public final static native boolean Pixel_notequal(long jarg1, Pixel jarg1_, long jarg2, Pixel jarg2_);
   public final static native String Pixel_toString(long jarg1, Pixel jarg1_);
@@ -149,7 +161,7 @@ public class ilwisobjectsJNI {
   public final static native void PixelD_setZ(long jarg1, PixelD jarg1_, double jarg2);
   public final static native boolean PixelD_is3D(long jarg1, PixelD jarg1_);
   public final static native long PixelD_multiply(long jarg1, PixelD jarg1_, double jarg2);
-  public final static native long PixelD___itruediv__(long jarg1, PixelD jarg1_, double jarg2);
+  public final static native long PixelD_divide(long jarg1, PixelD jarg1_, double jarg2);
   public final static native boolean PixelD_equal(long jarg1, PixelD jarg1_, long jarg2, PixelD jarg2_);
   public final static native boolean PixelD_notequal(long jarg1, PixelD jarg1_, long jarg2, PixelD jarg2_);
   public final static native String PixelD_toString(long jarg1, PixelD jarg1_);
@@ -229,6 +241,24 @@ public class ilwisobjectsJNI {
   public final static native String Envelope_toString(long jarg1, Envelope jarg1_);
   public final static native boolean Envelope_isValid(long jarg1, Envelope jarg1_);
   public final static native void delete_Envelope(long jarg1);
+  public final static native long new_GeoReference(String jarg1);
+  public final static native long GeoReference_toGeoReference(long jarg1, IObject jarg1_);
+  public final static native long GeoReference_coordinateSystem(long jarg1, GeoReference jarg1_);
+  public final static native void GeoReference_setCoordinateSystem(long jarg1, GeoReference jarg1_, long jarg2, CoordinateSystem jarg2_);
+  public final static native long GeoReference_pixel2Coord__SWIG_0(long jarg1, GeoReference jarg1_, long jarg2, PixelD jarg2_);
+  public final static native long GeoReference_pixel2Coord__SWIG_1(long jarg1, GeoReference jarg1_, long jarg2, Pixel jarg2_);
+  public final static native long GeoReference_coord2Pixel(long jarg1, GeoReference jarg1_, long jarg2, Coordinate jarg2_);
+  public final static native long GeoReference_box2Envelope(long jarg1, GeoReference jarg1_, long jarg2, Box jarg2_);
+  public final static native long GeoReference_envelope2Box(long jarg1, GeoReference jarg1_, long jarg2, Envelope jarg2_);
+  public final static native double GeoReference_pixelSize(long jarg1, GeoReference jarg1_);
+  public final static native long GeoReference_size(long jarg1, GeoReference jarg1_);
+  public final static native void GeoReference_setSize(long jarg1, GeoReference jarg1_, long jarg2, Size jarg2_);
+  public final static native boolean GeoReference_centerOfPixel(long jarg1, GeoReference jarg1_);
+  public final static native void GeoReference_setCenterOfPixel(long jarg1, GeoReference jarg1_, boolean jarg2);
+  public final static native boolean GeoReference_isCompatible(long jarg1, GeoReference jarg1_, long jarg2, GeoReference jarg2_);
+  public final static native boolean GeoReference_compute(long jarg1, GeoReference jarg1_);
+  public final static native java.math.BigInteger GeoReference_ilwisType(long jarg1, GeoReference jarg1_);
+  public final static native void delete_GeoReference(long jarg1);
   public final static native long new_vectori__SWIG_0();
   public final static native long new_vectori__SWIG_1(long jarg1);
   public final static native long vectori_size(long jarg1, vectori jarg1_);
@@ -262,4 +292,6 @@ public class ilwisobjectsJNI {
   public final static native boolean mapsd_has_key(long jarg1, mapsd jarg1_, String jarg2);
   public final static native void delete_mapsd(long jarg1);
   public final static native long IlwisObject_SWIGUpcast(long jarg1);
+  public final static native long CoordinateSystem_SWIGUpcast(long jarg1);
+  public final static native long GeoReference_SWIGUpcast(long jarg1);
 }

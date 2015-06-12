@@ -23,7 +23,9 @@ HEADERS += \
     javaapi/javaapi_ilwisobject.h \
     javaapi/javaapi_extension.h \
     javaapi/javaapi_error.h \
-    javaapi/javaapi_qissuelogger.h
+    javaapi/javaapi_qissuelogger.h \
+    javaapi/javaapi_coordinatesystem.h \
+    javaapi/javaapi_georeference.h
 
 
 SOURCES += \
@@ -32,7 +34,9 @@ SOURCES += \
     javaapi/javaapi_ilwisobject.cpp \
     javaapi/javaapi_extension.cpp \
     javaapi/javaapi_error.cpp \
-    javaapi/javaapi_qissuelogger.cpp
+    javaapi/javaapi_qissuelogger.cpp \
+    javaapi/javaapi_coordinatesystem.cpp \
+    javaapi/javaapi_georeference.cpp
 
 
 OTHER_FILES += \
