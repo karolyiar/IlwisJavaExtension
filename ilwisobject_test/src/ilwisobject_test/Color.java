@@ -39,20 +39,36 @@ public class Color {
     this(ilwisobjectsJNI.new_Color__SWIG_0(), true);
   }
 
-  public Color(ColorModel.Value type, SWIGTYPE_p_QVariant obj, String name) {
-    this(ilwisobjectsJNI.new_Color__SWIG_1(type.swigValue(), SWIGTYPE_p_QVariant.getCPtr(obj), name), true);
+  public Color(ColorModel.Value type, mapsd obj, String name) {
+    this(ilwisobjectsJNI.new_Color__SWIG_1(type.swigValue(), mapsd.getCPtr(obj), obj, name), true);
   }
 
-  public Color(ColorModel.Value type, SWIGTYPE_p_QVariant obj) {
-    this(ilwisobjectsJNI.new_Color__SWIG_2(type.swigValue(), SWIGTYPE_p_QVariant.getCPtr(obj)), true);
+  public Color(ColorModel.Value type, mapsd obj) {
+    this(ilwisobjectsJNI.new_Color__SWIG_2(type.swigValue(), mapsd.getCPtr(obj), obj), true);
   }
 
-  public Color(String typeStr, SWIGTYPE_p_QVariant obj, String name) {
-    this(ilwisobjectsJNI.new_Color__SWIG_3(typeStr, SWIGTYPE_p_QVariant.getCPtr(obj), name), true);
+  public Color(ColorModel.Value type, vectord obj, String name) {
+    this(ilwisobjectsJNI.new_Color__SWIG_3(type.swigValue(), vectord.getCPtr(obj), obj, name), true);
   }
 
-  public Color(String typeStr, SWIGTYPE_p_QVariant obj) {
-    this(ilwisobjectsJNI.new_Color__SWIG_4(typeStr, SWIGTYPE_p_QVariant.getCPtr(obj)), true);
+  public Color(ColorModel.Value type, vectord obj) {
+    this(ilwisobjectsJNI.new_Color__SWIG_4(type.swigValue(), vectord.getCPtr(obj), obj), true);
+  }
+
+  public Color(String typeStr, mapsd obj, String name) {
+    this(ilwisobjectsJNI.new_Color__SWIG_5(typeStr, mapsd.getCPtr(obj), obj, name), true);
+  }
+
+  public Color(String typeStr, mapsd obj) {
+    this(ilwisobjectsJNI.new_Color__SWIG_6(typeStr, mapsd.getCPtr(obj), obj), true);
+  }
+
+  public Color(String typeStr, vectord obj, String name) {
+    this(ilwisobjectsJNI.new_Color__SWIG_7(typeStr, vectord.getCPtr(obj), obj, name), true);
+  }
+
+  public Color(String typeStr, vectord obj) {
+    this(ilwisobjectsJNI.new_Color__SWIG_8(typeStr, vectord.getCPtr(obj), obj), true);
   }
 
   public double getItem(String key) {

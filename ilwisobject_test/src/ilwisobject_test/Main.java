@@ -26,20 +26,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		//ilwisobjects._initIlwisObjects("F:/documents/ilwis/python_helloworld/");
-		Pixel p = new Pixel(2, 3);
-		p.multiply(2);
-		System.out.println( p );
 		
-		Color c = new Color();
-		c.setName("blueish");
 		
-		System.out.println( c + " " + c.getName() + " "+ c.getItem("blue") );
-		
-		System.out.println( (int)ilwisobjects.getQVariant() );
-		
-		Object[] list = (Object[])ilwisobjects.getQList1();
-	    
-		//System.out.println( list.length );
+
 	}
 	
 	public static int test(Object a) {
