@@ -6,6 +6,8 @@
 
 %include "exception.i"
 %include "std_string.i"
+%include "std_vector.i"
+%include "std_map.i"
 
 %begin %{
    //#include <cmath>
@@ -52,6 +54,7 @@
         $action
     }catch (std::exception& e) {
         //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+        jenv->ThrowNew(jenv->FindClass("java/lang/Exception"),javaapi::get_err_message(e));
         //SWIG_fail;
 		// TODO: Exception handling
     }
@@ -224,17 +227,10 @@
     return $jnicall;
   }
 	
+
+namespace std {
+   %template(vectori) vector<int>;
+   %template(vectord) vector<double>;
+   %template (mapsd) map<std::string, double>;
+};
 	
-%inline %{
-	QVariant* getQVariant() {
-		return new QVariant(12);
-	}
-	
-    QVariant* getQList1() {
-        QList<QVariant> a;
-        a.append(QVariant(11));
-		QVariant* b = new QVariant();
-        b->setValue<QList<QVariant> >(a);
-        return b;
-	}
-%}

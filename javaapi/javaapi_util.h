@@ -277,12 +277,12 @@ namespace javaapi {
         friend class Table;
     public:
         IOOptions();
-        IOOptions(const std::string& key, QVariant*/*PyObject**/ value);
+        IOOptions(const std::string& key, QVariant* value);
 
         bool contains(const std::string& option);
         quint32 size();
-        QVariant/*PyObject*/ __getitem__(const std::string& option);
-        IOOptions& addOption(const std::string& key, QVariant*/*PyObject**/ value);
+        QVariant __getitem__(const std::string& option);
+        IOOptions& addOption(const std::string& key, QVariant* value);
 
     protected:
         std::shared_ptr<Ilwis::IOOptions> _data;
@@ -304,8 +304,11 @@ namespace javaapi {
     class Color{
     public:
         Color();
-        Color(ColorModel type, QVariant* obj, const std::string& name = "");
-        Color(const std::string& typeStr, QVariant* obj, const std::string& name = "");
+        Color(ColorModel type, const std::map<std::string, double> &obj, const std::string& name = "");
+        Color(ColorModel type, const std::vector<double> &obj, const std::string& name = "");
+        Color(const std::string& typeStr, const std::map<std::string, double> &obj, const std::string& name = "");
+        Color(const std::string& typeStr, const std::vector<double> &obj, const std::string& name = "");
+        ~Color();
         double getItem(std::string key) const;
 
         void setName(const std::string& name);
@@ -314,10 +317,11 @@ namespace javaapi {
         ColorModel getColorModel() const;
         std::string toString() const;
     private:
-        void readColor(ColorModel type, QVariant* obj);
+        void readColor(ColorModel type, const std::map<std::string, double> &obj);
+        void readColor(ColorModel type, const std::vector<double> &obj);
         ColorModel stringToModel(const std::string& type);
         ColorModel _type = ColorModel::cmRGBA;
-        QHash<QString, double>* _colorVal;
+        std::map<std::string, double>* _colorVal = NULL;
         std::string _name = "";
     };
 } // namespace javaapi

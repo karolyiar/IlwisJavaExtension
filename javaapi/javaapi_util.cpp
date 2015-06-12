@@ -16,7 +16,6 @@
 #include "../../IlwisCore/core/util/containerstatistics.h"
 #include "../../IlwisCore/core/iooptions.h"
 
-
 #include "javaapi_util.h"
 //#include "javaapi_qvariant.h"
 #include "javaapi_error.h"
@@ -384,9 +383,9 @@ namespace javaapi {
     {
     }
 
-    IOOptions::IOOptions(const std::string &key, QVariant*/*PyObject**/ value)
+    IOOptions::IOOptions(const std::string &key, QVariant* value)
     {
-        QVariant* qvar = /*PyObject2QVariant*/(value);
+        QVariant* qvar = (value);
         _data.reset(new Ilwis::IOOptions(QString::fromStdString(key), *qvar));
     }
 
@@ -403,13 +402,13 @@ namespace javaapi {
         return this->ptr().size();
     }
 
-    QVariant/*PyObject*/ IOOptions::__getitem__(const std::string &option){
+    QVariant IOOptions::__getitem__(const std::string &option){
         QVariant qvar = this->ptr().operator [](QString::fromStdString(option));
-        return /*QVariant2PyObject*/(qvar);
+        return (qvar);
     }
 
-    IOOptions& IOOptions::addOption(const std::string &key, QVariant*/*PyObject**/ value){
-        QVariant* qvar = /*PyObject2QVariant*/(value);
+    IOOptions& IOOptions::addOption(const std::string &key, QVariant* value){
+        QVariant* qvar = (value);
         Ilwis::IOOptions::Option op(QString::fromStdString(key), *qvar);
         Ilwis::IOOptions ilwIO = this->ptr().operator <<(op);
         IOOptions* pyIO = new IOOptions(&ilwIO);
@@ -423,70 +422,74 @@ namespace javaapi {
     //==========================Color=================================
 
     Color::Color(){
-        _colorVal = new QHash<QString, double>();
+        _colorVal = new std::map<std::string, double>();
     }
 
-    Color::Color(ColorModel type, QVariant* obj, const std::string& name){
-        _colorVal = new QHash<QString, double>();
+    Color::Color(ColorModel type, const std::map<std::string, double> &obj, const std::string &name) {
         readColor(type, obj);
         _name = name;
     }
 
-    Color::Color(const std::string& typeStr, QVariant* obj, const std::string& name){
-        _colorVal = new QHash<QString, double>();
+    Color::Color(ColorModel type, const std::vector<double> &obj, const std::string& name) {
+        readColor(type, obj);
+        _name = name;
+    }
+
+    Color::Color(const std::string &typeStr, const std::map<std::string, double> &obj, const std::string &name) {
         ColorModel type = stringToModel(typeStr);
         readColor(type, obj);
         _name = name;
     }
 
-    void Color::readColor(ColorModel type, QVariant* obj)
-    {
-        QHash<QString, double>* dict = new QHash<QString, double>();
-        _type = type;
-
-        if (obj->convert(QVariant::Hash))
-        {
-            if (_colorVal != NULL)
-                delete _colorVal;
-            _colorVal = new QHash<QString, double>();
-            for(QHash<QString, QVariant>::iterator i = obj->toHash().begin(); i != obj->toHash().end(); ++i ) {
-                _colorVal->insert( i.key(), i.value().toDouble() );
-            }
-            return;
-        } else if (obj->convert(QVariant::List)) {
-            if (obj->Size >= 4) {
-                switch(type){
-                case ColorModel::cmCYMKA:
-                    dict->insert("cyan", obj[0].toDouble());
-                    dict->insert("magenta", obj[1].toDouble());
-                    dict->insert("yellow", obj[2].toDouble());
-                    dict->insert("black", obj[3].toDouble());
-                    if (obj->Size == 5)
-                        dict->insert("alpha", obj[4].toDouble());
-                    break;
-                case ColorModel::cmHSLA:
-                    dict->insert("hue", obj[0].toDouble());
-                    dict->insert("lightness", obj[1].toDouble());
-                    dict->insert("saturation", obj[2].toDouble());
-                    dict->insert("alpha", obj[3].toDouble());
-                    break;
-                case ColorModel::cmGREYSCALE:
-                case ColorModel::cmRGBA:
-                    dict->insert("red", obj[0].toDouble());
-                    dict->insert("green", obj[1].toDouble());
-                    dict->insert("blue", obj[2].toDouble());
-                    dict->insert("alpha", obj[3].toDouble());
-                    break;
-                case ColorModel::cmNONE:
-                    break;
-                }
-            }
-        }
-        _colorVal = dict;
+    Color::Color(const std::string &typeStr, const std::vector<double> &obj, const std::string &name) {
+        ColorModel type = stringToModel(typeStr);
+        readColor(type, obj);
+        _name = name;
     }
 
-    double Color::getItem(std::string str) const{
-        return _colorVal->value(QString::fromStdString(str));
+    Color::~Color() {
+        delete _colorVal;
+    }
+
+    void Color::readColor(ColorModel type, const std::map<std::string, double> &obj) {
+        _type = type;
+        if (_colorVal != NULL)
+            delete _colorVal;
+        _colorVal = new std::map<std::string, double>(obj);
+    }
+
+    void Color::readColor(ColorModel type, const std::vector<double> &obj) {
+        _type = type;
+        if (_colorVal != NULL)
+            delete _colorVal;
+        _colorVal = new std::map<std::string, double>();
+        if (obj.size() >= 4) {
+            switch(type){
+            case ColorModel::cmCYMKA:
+                _colorVal->insert( std::pair<std::string, double>("cyan", obj.at(0)) );
+                _colorVal->insert( std::pair<std::string, double>("magenta", obj.at(1)) );
+                _colorVal->insert( std::pair<std::string, double>("yellow", obj.at(2)) );
+                _colorVal->insert( std::pair<std::string, double>("black", obj.at(3)) );
+                if (obj.size() == 5)
+                    _colorVal->insert( std::pair<std::string, double>("alpha", obj.at(4)) );
+                break;
+            case ColorModel::cmHSLA:
+                _colorVal->insert( std::pair<std::string, double>("hue", obj.at(0)) );
+                _colorVal->insert( std::pair<std::string, double>("lightness", obj.at(1)) );
+                _colorVal->insert( std::pair<std::string, double>("saturation", obj.at(2)) );
+                _colorVal->insert( std::pair<std::string, double>("alpha", obj.at(3)) );
+                break;
+            case ColorModel::cmGREYSCALE:
+            case ColorModel::cmRGBA:
+                _colorVal->insert( std::pair<std::string, double>("red", obj.at(0)) );
+                _colorVal->insert( std::pair<std::string, double>("green", obj.at(1)) );
+                _colorVal->insert( std::pair<std::string, double>("blue", obj.at(2)) );
+                _colorVal->insert( std::pair<std::string, double>("alpha", obj.at(3)) );
+                break;
+            case ColorModel::cmNONE:
+                break;
+            }
+        }
     }
 
     void Color::setName(const std::string& name){
@@ -495,6 +498,10 @@ namespace javaapi {
 
     std::string Color::getName(){
         return _name;
+    }
+
+    double Color::getItem(std::string key) const {
+        return _colorVal->at( key );
     }
 
 
@@ -512,7 +519,7 @@ namespace javaapi {
             colors += QString("HSLA(%1,%2,%3,%4)").arg(this->getItem("hue")).arg(this->getItem("saturation")).arg(this->getItem("lightness")).arg(this->getItem("alpha"));
             break;
         case ColorModel::cmRGBA:
-            colors += QString("RGBA(%1,%2,%3,%4)").arg(this->getItem("red")).arg(this->getItem("blue")).arg(this->getItem("green")).arg(this->getItem("alpha"));
+            colors += QString("RGBA(%1,%2,%3,%4)").arg(this->getItem("red")).arg(this->getItem("green")).arg(this->getItem("blue")).arg(this->getItem("alpha"));
             break;
         case ColorModel::cmGREYSCALE:
             break;
