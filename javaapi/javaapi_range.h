@@ -133,7 +133,6 @@ public:
     void defaultColorModel(ColorModel m);
 
     static Color toColor(quint64 clrint, ColorModel clrModel, const std::string& name = "") ;
-    //static Color toColor(QVariant* v, ColorModel colortype, const std::string& name = "");
     static Color toColor(const std::vector<double> &v, ColorModel colortype, const std::string& name = "");
     static Color toColor(const std::string &v, ColorModel colortype, const std::string& name = "");
 
@@ -148,7 +147,7 @@ private:
     ColorModel _defaultModel = ColorModel::cmRGBA;
 };
 
-/*class ContinuousColorRange : public ColorRange{
+class ContinuousColorRange : public ColorRange{
 public:
     ContinuousColorRange();
     ContinuousColorRange(const Color& clr1, const Color& clr2);
@@ -157,8 +156,8 @@ public:
     bool containsVar(const QVariant* v, bool inclusive = true) const;
     bool containsColor(const Color &clr, bool inclusive = true) const;
     bool containsRange(ColorRange *v, bool inclusive = true) const;
-    Color impliedValue(const QVariant* v) const;
-};*/
+    //Color impliedValue(const QVariant* v) const;
+};
 
 class ColorPalette : public ItemRange, public ColorRange{
 public:

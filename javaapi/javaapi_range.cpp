@@ -57,7 +57,8 @@ IlwisTypes Range::valueType() const
 QVariant* Range::ensure(const QVariant* value, bool inclusive) const
 {
    std::unique_ptr<const QVariant> v(value);
-   return new QVariant( _range->ensure(*v, inclusive) ); // TODO delete or smartpointer
+   return new QVariant( _range->ensure(*v, inclusive) ); // TODO delete
+   //return &_range->ensure(*v, inclusive);
 }
 
 bool Range::isContinuous() const
@@ -67,7 +68,8 @@ bool Range::isContinuous() const
 
 QVariant* Range::impliedValue(const QVariant* value) const {
     std::unique_ptr<const QVariant> v(value);
-    return new QVariant( _range->impliedValue(*v) ); // TODO delete or smartpointer
+    return new QVariant( _range->impliedValue(*v) ); // TODO delete
+    //return & _range->impliedValue(*v);
 }
 
 bool Range::contains(const QVariant* value, bool inclusive) const
@@ -426,9 +428,9 @@ ColorRange::ColorRange(){
 
 ColorRange::ColorRange(IlwisTypes tp, ColorModel clrmodel)
 {
-    int enumVal = clrmodel;
+    /*int enumVal = clrmodel;
     Ilwis::ColorRangeBase::ColorModel ilwCol = static_cast<Ilwis::ColorRangeBase::ColorModel>(enumVal);
-    //_range.reset(Ilwis::ColorRangeBase(tp, ilwCol));
+    _range.reset(Ilwis::ColorRangeBase(tp, ilwCol));*/
 }
 
 ColorModel ColorRange::defaultColorModel() const
@@ -533,7 +535,7 @@ QColor ColorRange::colorToQColor(const Color& pyCol) const{
 }
 
 //--------------------------------------------------------------------------------
-/*
+
 ContinuousColorRange::ContinuousColorRange()
 {
     _range.reset(new Ilwis::ContinuousColorRange());
@@ -561,8 +563,7 @@ QVariant* ContinuousColorRange::ensure(const QVariant* v, bool inclusive) const
 {
     std::unique_ptr<const QVariant> qvar((v));
     QVariant result = static_cast<Ilwis::ContinuousColorRange*>(_range.get())->ensure(*qvar, inclusive);
-    //return (result);
-    return 0; //TODO
+    return new QVariant(result); //TODO delete
 }
 
 bool ContinuousColorRange::containsVar(const QVariant* v, bool inclusive) const
@@ -570,7 +571,6 @@ bool ContinuousColorRange::containsVar(const QVariant* v, bool inclusive) const
     std::unique_ptr<const QVariant> qvar((v));
 
     return _range.get()->contains(*qvar, inclusive);
-
 }
 
 bool ContinuousColorRange::containsColor(const Color &clr, bool inclusive) const
@@ -582,7 +582,6 @@ bool ContinuousColorRange::containsColor(const Color &clr, bool inclusive) const
     QColor col = Ilwis::ContinuousColorRange::toColor(QVariant(color), ilwColor);
 
     return _range.get()->contains(col, inclusive);
-
 }
 
 bool ContinuousColorRange::containsRange(ColorRange *v, bool inclusive) const
@@ -590,16 +589,15 @@ bool ContinuousColorRange::containsRange(ColorRange *v, bool inclusive) const
     return static_cast<const Ilwis::ContinuousColorRange*>(_range.get())->contains(static_cast<ContinuousColorRange*>(v)->_range.get(), inclusive);
 }
 
-Color ContinuousColorRange::impliedValue(const QVariant* v) const
+/*Color ContinuousColorRange::impliedValue(const QVariant* v) const
 {
     std::unique_ptr<const QVariant> qvar((v));
     QVariant colVar = static_cast<const Ilwis::ContinuousColorRange*>(_range.get())->impliedValue(*qvar);
     QColor ilwCol = colVar.value<QColor>();
 
     return qColorToColor(ilwCol);
+}*/
 
-}
-*/
 
 //---------------------------------------------------------------------------------------
 
