@@ -7,6 +7,7 @@
 %include "exception.i"
 %include "std_string.i"
 %include "std_vector.i"
+%include "std_pair.i"
 
 %include "std_map.i"
 
@@ -65,13 +66,16 @@
 %rename(equal) operator==;
 %rename(notequal) operator!=;
 %rename(toString) __str__;
-%rename(add) operator+=;
-%rename(subtract) operator-=;
+%rename(increase) operator+=;
+%rename(decrease) operator-=;
+%rename(add) operator+;
+%rename(subtract) operator-;
 %rename(divide) operator/=;
 %rename(divide) __itruediv__;
 %rename(contains) __constains__;
 %rename(isValid) __bool__; // always?
 %rename(get) __getitem__;
+%rename(next) __next__;
 
 %include "javaapi_extension.h"
 
@@ -122,14 +126,14 @@
 %include "javaapi_range.h"
 
 %include "javaapi_rangeiterator.h"
-/*
+
 %template(NumericRangeIterator) javaapi::RangeIterator<double, javaapi::NumericRange, double, Ilwis::NumericRange>;
-%template(ItemRangeIterator) javaapi::RangeIterator<javaapi::DomainItem, javaapi::ItemRange, Ilwis::SPDomainItem, Ilwis::ItemRange>;
+//%template(ItemRangeIterator) javaapi::RangeIterator<javaapi::DomainItem, javaapi::ItemRange, Ilwis::SPDomainItem, Ilwis::ItemRange>;
 
-%include "javaapi_datadefinition.h"
+//%include "javaapi_datadefinition.h"
 
-%include "javaapi_columndefinition.h"
-*/
+//%include "javaapi_columndefinition.h"
+
 %include "javaapi_domainitem.h"
 
 //%include "javaapi_vertexiterator.h"
@@ -235,12 +239,22 @@ namespace std {
    %template(vectori) vector<int>;
    %template(vectord) vector<double>;
    %template (mapsd) map<std::string, double>;
+   %template (vectorvs) vector<std::vector<std::string> >;
+   %template (vectors) vector<std::string>;
 };
 
 %pragma(java) modulecode=%{
   public final static vectord array(double[] array) {
     vectord result = new vectord();
     for ( double i : array ) {
+      result.add( i );
+    }
+    return result;
+  }
+  
+  public final static vectori array(int[] array) {
+    vectori result = new vectori();
+    for ( int i : array ) {
       result.add( i );
     }
     return result;
