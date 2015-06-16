@@ -7,6 +7,7 @@
 %include "exception.i"
 %include "std_string.i"
 %include "std_vector.i"
+
 %include "std_map.i"
 
 %begin %{
@@ -36,13 +37,13 @@
 //#include "javaapi_pixeliterator.h"
 #include "javaapi_georeference.h"
 //#include "javaapi_rastercoverage.h"
-//#include "javaapi_range.h"
+#include "javaapi_range.h"
 //#include "javaapi_catalog.h"
 //#include "javaapi_domain.h"
 //#include "javaapi_datadefinition.h"
 //#include "javaapi_columndefinition.h"
-//#include "javaapi_domainitem.h"
-//#include "javaapi_rangeiterator.h"
+#include "javaapi_domainitem.h"
+#include "javaapi_rangeiterator.h"
 //#include "javaapi_vertexiterator.h"
 %}
 
@@ -60,14 +61,6 @@
     }
 }
 
-%include "javaapi_extension.h"
-
-%include "javaapi_object.h"
-
-//%include "javaapi_engine.h"
-
-%include "javaapi_ilwisobject.h"
-
 %rename(multiply) operator*=;
 %rename(equal) operator==;
 %rename(notequal) operator!=;
@@ -79,6 +72,14 @@
 %rename(contains) __constains__;
 %rename(isValid) __bool__; // always?
 %rename(get) __getitem__;
+
+%include "javaapi_extension.h"
+
+%include "javaapi_object.h"
+
+//%include "javaapi_engine.h"
+
+%include "javaapi_ilwisobject.h"
 
 %include "javaapi_coordinatesystem.h"
 
@@ -98,7 +99,7 @@
 
 
 %include "javaapi_object.h"
-%rename(IObject) Object;
+
 /*
 %include "javaapi_geometry.h"
 
@@ -111,28 +112,28 @@
 %include "javaapi_pixeliterator.h"
 */
 %include "javaapi_georeference.h"
-/*
-%include "javaapi_rastercoverage.h"
 
-%include "javaapi_catalog.h"
+//%include "javaapi_rastercoverage.h"
 
-%include "javaapi_domain.h"
+//%include "javaapi_catalog.h"
+
+//%include "javaapi_domain.h"
 
 %include "javaapi_range.h"
 
 %include "javaapi_rangeiterator.h"
-
+/*
 %template(NumericRangeIterator) javaapi::RangeIterator<double, javaapi::NumericRange, double, Ilwis::NumericRange>;
 %template(ItemRangeIterator) javaapi::RangeIterator<javaapi::DomainItem, javaapi::ItemRange, Ilwis::SPDomainItem, Ilwis::ItemRange>;
 
 %include "javaapi_datadefinition.h"
 
 %include "javaapi_columndefinition.h"
-
+*/
 %include "javaapi_domainitem.h"
 
-%include "javaapi_vertexiterator.h"
-*/
+//%include "javaapi_vertexiterator.h"
+
 
 
 	
@@ -235,4 +236,14 @@ namespace std {
    %template(vectord) vector<double>;
    %template (mapsd) map<std::string, double>;
 };
+
+%pragma(java) modulecode=%{
+  public final static vectord array(double[] array) {
+    vectord result = new vectord();
+    for ( double i : array ) {
+      result.add( i );
+    }
+    return result;
+  }
+%}
 	
