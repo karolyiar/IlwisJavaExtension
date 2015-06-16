@@ -30,9 +30,7 @@ public class test_utils {
 
 	@Test
 	public void color_test() {
-		vectord a = new vectord();
-		a.add(10); a.add(20); a.add(30); a.add(40);
-		Color c = new Color("RGBA", a, "blueish");
+		Color c = new Color("RGBA", ilwisobjects.array(new double[]{10, 20, 30, 40}), "blueish");
 		assertEquals("RGBA(10,20,30,40)", c.toString());
 		assertEquals("blueish", c.getName());
 		assertEquals(20, c.getItem("green"), 0.001);
@@ -40,13 +38,27 @@ public class test_utils {
 	
 	@Test
 	public void pixel_test() {
-		Pixel p = new Pixel(2, 3, 1);
-		p.multiply(2);
-
-		assertEquals(4, p.x());
-		assertEquals(6, p.y());
-		assertEquals(2, p.z());
-		assertEquals("pixel(4,6,2)", p.toString());
+		Pixel p = new Pixel(4, 5);
+		assertTrue(p.isValid());
+		assertEquals("pixel(4,5)", p.toString());
+		p.multiply(3);
+		assertTrue(p.equal(new Pixel(12, 15)));
+		p.divide(4);
+		assertEquals("pixel(3,3)", p.toString());
+		assertFalse(p.equal(new Pixel(3, 4)));
+		assertFalse(p.is3D());
+		
+		Pixel v = new Pixel(4, 5, 6);
+		assertEquals("pixel(4,5,6)", v.toString());
+		assertTrue(v.is3D());
+		assertEquals(4, v.x());
+		v.setX(32);
+		assertEquals(32, v.x());
+		v.setY(32);
+		assertEquals(32, v.y());
+		v.setZ(32);
+		assertEquals(32, v.z());
+		assertEquals("pixel(32,32,32)", v.toString());
 	}
 	
 	@Test
@@ -74,26 +86,44 @@ public class test_utils {
 		Color col1 = new Color(ColorModel.Value.cmRGBA, ilwisobjects.array(new double[]{220.0, 20.0, 30.0, 200.0}));
 		Color col2 = new Color(ColorModel.Value.cmRGBA, ilwisobjects.array(new double[]{255.0, 80.0, 60.0, 240.0}));
 		Color col3 = new Color(ColorModel.Value.cmRGBA, ilwisobjects.array(new double[]{255.0, 80.0, 69.0, 240.0}));
-		
-		//for(int i=0;i<10000;++i) {
-			ColorPalette colPal = new ColorPalette();
-			colPal.add(col1);
-			assertEquals(1, colPal.count());
-			colPal.add(col2);
-			assertEquals(2, colPal.count());
-			assertEquals("RGBA(0.86,0.08,0.12,0.78)", colPal.item(0).toString());//!
-			String name1 = colPal.itemByOrder(1).getName();//!
-			assertFalse( colPal.containsColor(col3) );
-			colPal.add(col3);
-			assertTrue( colPal.containsColor(col3) );
-			assertEquals(3, colPal.count());
-			colPal.remove(name1);
-			assertEquals(2, colPal.count());
-			assertEquals("RGBA(1,0.31,0.27,0.94)", colPal.color(1).toString());//!
+		ColorPalette colPal = new ColorPalette();
 			
-			colPal.clear();
-			assertEquals(colPal.valueAt(1, colPal).toString(), colPal.color(1).toString());
-		//}
+		colPal.add(col1);
+		assertEquals(1, colPal.count());
+		colPal.add(col2);
+		assertEquals(2, colPal.count());
+		assertEquals("RGBA(0.86,0.08,0.12,0.78)", colPal.item(0).toString());//!
+		String name1 = colPal.itemByOrder(1).getName();//!
+		assertFalse( colPal.containsColor(col3) );
+		colPal.add(col3);
+		assertTrue( colPal.containsColor(col3) );
+		assertEquals(3, colPal.count());
+		colPal.remove(name1);
+		assertEquals(2, colPal.count());
+		assertEquals("RGBA(1,0.31,0.27,0.94)", colPal.color(1).toString());//!
+		
+		colPal.clear();
+		assertEquals(colPal.valueAt(1, colPal).toString(), colPal.color(1).toString());
+	}
+	
+	@Test
+	public void colorRange_test() {
+		Color color1 = new Color(ColorModel.Value.cmRGBA, ilwisobjects.array(new double[]{220.0, 20.0, 30.0, 200.0}));
+		Color color2 = new Color(ColorModel.Value.cmRGBA, ilwisobjects.array(new double[]{255.0, 80.0, 60.0, 240.0}));
+		Color color3 = new Color(ColorModel.Value.cmRGBA, ilwisobjects.array(new double[]{230.0, 60.0, 50.0, 240.0}));
+		
+		ContinuousColorRange col = new ContinuousColorRange(color1, color2);
+		assertTrue(col.isValid());
+		
+		ContinuousColorRange col2 = col.clone();
+		assertTrue(col2.isValid());
+		
+		col.defaultColorModel( ColorModel.Value.cmRGBA );
+		assertEquals(col.defaultColorModel(), ColorModel.Value.cmRGBA);
+		
+		//ColorDomain colDom = new ColorDomain("testdomain");
+		//colDom.setRange(col);
+		//assertEquals(colDom.containsColor(color3), "cSELF");
 	}
 	
 
