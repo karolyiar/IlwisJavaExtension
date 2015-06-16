@@ -46,6 +46,7 @@ public class test_utils {
 		p.divide(4);
 		assertEquals("pixel(3,3)", p.toString());
 		assertFalse(p.equal(new Pixel(3, 4)));
+		assertTrue(p.notequal(new Pixel(3, 4)));
 		assertFalse(p.is3D());
 		
 		Pixel v = new Pixel(4, 5, 6);
@@ -126,5 +127,43 @@ public class test_utils {
 		//assertEquals(colDom.containsColor(color3), "cSELF");
 	}
 	
+	@Test
+	public void numericRange_test() {
+		NumericRange nr = new NumericRange(1, 10, 0.2);
+		assertFalse(nr.contains(1.1));
+		assertFalse(nr.contains(0.8));
+		assertFalse(nr.contains(10.2));
+		assertTrue(nr.contains(1.2));
+		
+		double d = 1;
+		for(NumericRangeIterator i = nr.begin(); i.compareTo(nr.end()) != 0; ) {
+			assertEquals( i.next(), d, 0.0001 );
+			d += 0.2;
+		}
+	}
+	
+	@Test
+	public void numericItemRange_test() {
+		NumericItemRange interrange = new NumericItemRange();
+		interrange.add("sealevel", 40, 100);
+		interrange.add("dijks", 101, 151);
+		
+		assertEquals("sealevel", interrange.listAll().get(0).get(0) );
+		assertEquals("numericrange:40.0|100.0", interrange.listAll().get(0).get(1));
+		assertEquals("dijks", interrange.listAll().get(1).get(0) );
+		assertEquals("numericrange:101.0|151.0", interrange.listAll().get(1).get(1));
+	}
+	
+	@Test
+	public void thematicRange_test() {
+		ThematicRange themRan = new ThematicRange();
+		themRan.add("Sea", "SE", "Area covered by the sea");
+		themRan.add("Sand", "SA", "Area covered by sand");
+		
+		assertTrue(themRan.isValid());
+		assertEquals("Area covered by sand", themRan.listAll().get(1).get(2) );
+	}
+	
+
 
 }
