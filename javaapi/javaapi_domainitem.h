@@ -21,7 +21,7 @@ namespace javaapi{
 
     class DomainItem : public IObject{
 
-/*        template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange>
+        template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange>
         friend class RangeIterator;
 
     public:
@@ -41,20 +41,20 @@ namespace javaapi{
         std::shared_ptr<Ilwis::DomainItem> _ilwisItem;
 
         //just a dummy constructor for template methods in rangeiterator
-        DomainItem(double d); */
+        DomainItem(double d);
     };
 
 //==============================================IndexedIdentifier============================================================
 
         class IndexedIdentifier : public DomainItem{
-      /*  public:
+        public:
                 IndexedIdentifier();
                 IndexedIdentifier(const std::string& label, quint32 ind=0, qint32 cnt =iUNDEF);
                 IndexedIdentifier(Ilwis::DomainItem* ilwItem);
 
                 std::string prefix();
                 void setPrefix(const std::string& name);
-                bool operator==(IndexedIdentifier& item) const;*/
+                bool operator==(IndexedIdentifier& item) const;
         };
 
 
@@ -62,38 +62,38 @@ namespace javaapi{
 //==============================================NamedIdentifier============================================================
 
     class NamedIdentifier : public DomainItem{
-   /* public:
+    public:
             NamedIdentifier();
             NamedIdentifier(const std::string& name, quint32 rawvalue=iUNDEF);
             NamedIdentifier(Ilwis::DomainItem* ilwItem);
 
             void setName(const std::string& name);
-            bool operator==(NamedIdentifier& item) const;*/
+            bool operator==(NamedIdentifier& item) const;
     };
 
 //==============================================Thematic Item============================================================
 
-    /*class ThematicItem : public NamedIdentifier{
+    class ThematicItem : public NamedIdentifier{
     public:
         ThematicItem();
         ThematicItem(Ilwis::DomainItem* ilwItem);
-        ThematicItem(PyObject* tup, quint32 rawValue=iUNDEF);
+        //ThematicItem(PyObject* tup, quint32 rawValue=iUNDEF);
 
         std::string description();
-        void description(std::string& descr);
+        void description(const std::string& descr);
         std::string code();
-        void code(std::string& code);
-    };*/
+        void code(const std::string& code);
+    };
 
 //==============================================Interval==============================================================
 
    class Interval : public DomainItem{
    public:
        Interval();
-      /* Interval(const std::string& label, NumericRange& nr);
+       Interval(const std::string& label, NumericRange& nr);
        bool isOrdered() const;
        NumericRange range();
-       void range(const NumericRange& nr);*/
+       void range(const NumericRange& nr);
    };
 
 

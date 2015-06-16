@@ -17,7 +17,7 @@
 using namespace javaapi;
 
 //==============================================Domain Item==============================================================
-/*
+
 DomainItem::DomainItem(){
 
 }
@@ -61,14 +61,14 @@ quint32 DomainItem::raw(){
 }
 
 std::shared_ptr<Ilwis::DomainItem> DomainItem::ptr() const{
-    if (!this->__bool__())
-        throw InvalidObject("invalid Item");
+    //if (!this->__bool__()) //TODO error handling
+       // throw InvalidObject("invalid Item");
     return this->_ilwisItem;
 }
-*/
+
 
 //==============================================IndexedIdentifier==============================================================
-/*
+
 IndexedIdentifier::IndexedIdentifier(){
 
 }
@@ -95,9 +95,9 @@ bool IndexedIdentifier::operator==(IndexedIdentifier& item) const{
     Ilwis::IndexedIdentifier* item2 = static_cast<Ilwis::IndexedIdentifier*>(item.ptr().get());
     return item1 == item2;
 }
-*/
+
 //==============================================NamedIdentifier==============================================================
-/*
+
 NamedIdentifier::NamedIdentifier(){
 
 }
@@ -119,17 +119,17 @@ bool NamedIdentifier::operator==(NamedIdentifier& item) const{
     Ilwis::NamedIdentifier* item2 = static_cast<Ilwis::NamedIdentifier*>(item.ptr().get());
     return item1 == item2;
 }
-*/
+
 //==============================================Thematic Item==============================================================
 
-/*ThematicItem::ThematicItem(){
+ThematicItem::ThematicItem(){
 
 }
 
 ThematicItem::ThematicItem(Ilwis::DomainItem *ilwItem){
     this->_ilwisItem.reset(ilwItem);
 }
-
+/*
 ThematicItem::ThematicItem(PyObject* tup, quint32 rawValue){
     int sz = CppTupleElementCount(tup);
     QStringList qList;
@@ -138,14 +138,14 @@ ThematicItem::ThematicItem(PyObject* tup, quint32 rawValue){
         qList.append(qStr.fromStdString(CppTupleElement2String(tup, i)));
     }
     this->_ilwisItem.reset(new Ilwis::ThematicItem(qList, rawValue));
-}
+}*/
 
 std::string ThematicItem::description(){
     QString qStr = static_cast<Ilwis::ThematicItem*>(this->ptr().get())->description();
     return qStr.toStdString();
 }
 
-void ThematicItem::description(std::string& descr){
+void ThematicItem::description(const std::string& descr){
     static_cast<Ilwis::ThematicItem*>(this->ptr().get())->description(QString::fromStdString(descr));
 }
 
@@ -154,9 +154,9 @@ std::string ThematicItem::code(){
     return qStr.toStdString();
 }
 
-void ThematicItem::code(std::string& code){
+void ThematicItem::code(const std::string& code){
     static_cast<Ilwis::ThematicItem*>(this->ptr().get())->code(QString::fromStdString(code));
-}*/
+}
 
 
 //==============================================Interval==============================================================
@@ -164,7 +164,7 @@ void ThematicItem::code(std::string& code){
 Interval::Interval(){
 
 }
-/*
+
 Interval::Interval(const std::string &label, NumericRange &nr){
     Ilwis::NumericRange* ilwNumRan = static_cast<Ilwis::NumericRange*>(nr._range.get());
     _ilwisItem.reset(new Ilwis::Interval(QString::fromStdString(label), *ilwNumRan));
@@ -183,4 +183,4 @@ void Interval::range(const NumericRange &nr){
     Ilwis::NumericRange* ilwNumRan = static_cast<Ilwis::NumericRange*>(nr._range.get());
    static_cast<Ilwis::Interval*>(this->ptr().get())->range(*ilwNumRan);
 }
-*/
+
