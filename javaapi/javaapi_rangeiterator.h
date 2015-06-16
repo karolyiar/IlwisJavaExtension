@@ -50,12 +50,7 @@ public:
     RangeIterator<OutputType, RangeType, IlwOutput, IlwRange> operator-(int n);
     RangeIterator<OutputType, RangeType, IlwOutput, IlwRange> operator-=(int n);
 
-    bool operator==(const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other);
-    bool operator!=(const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other);
-    bool operator>(const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other);
-    bool operator>=(const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other);
-    bool operator<(const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other);
-    bool operator<=(const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other);
+    int compareTo(const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other);
 
     void setRange(Range* rng);
 

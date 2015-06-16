@@ -120,6 +120,7 @@ RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::operator-= (int n){
     return iter;
 }
 
+/*
 template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange> bool
 RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::operator== (const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other){
     return this->ptr() == other.ptr();
@@ -148,6 +149,16 @@ RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::operator< (const Rang
 template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange> bool
 RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::operator<= (const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other){
     return this->ptr() <= other.ptr();
+}*/
+
+template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange> int
+RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::compareTo (const RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>& other){
+    if ( this->ptr() < other.ptr() )
+        return -1;
+    else if ( this->ptr() == other.ptr() )
+        return 0;
+    else
+        return 1;
 }
 
 template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange> void
@@ -158,8 +169,8 @@ RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::setRange (Range* rng)
 
 template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange> Ilwis::RangeIterator<IlwOutput, IlwRange>&
 RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::ptr() const{
-    if (!this->__bool__())
-        throw InvalidObject("use of invalid RangeIterator (ptr)");
+    //if (!this->__bool__()) //TODO error handling
+    //    throw InvalidObject("use of invalid RangeIterator (ptr)");
     return (*this->_ilwisRangeIterator);
 }
 
