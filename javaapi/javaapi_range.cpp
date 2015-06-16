@@ -79,7 +79,7 @@ bool Range::contains(const QVariant* value, bool inclusive) const
 }
 
 //----------------------------------------------------------------------------
-/*NumericRange::NumericRange(double mi, double ma, double resolution)
+NumericRange::NumericRange(double mi, double ma, double resolution)
 {
     _range.reset(new Ilwis::NumericRange(mi, ma, resolution))    ;
 }
@@ -171,7 +171,7 @@ void NumericRange::clear()
 {
     static_cast<Ilwis::NumericRange*>(_range.get())->clear();
 }
-*/
+
 //-------------------------------------------------------------
 void ItemRange::remove(const std::string &name)
 {
@@ -189,14 +189,14 @@ void ItemRange::clear()
 }
 
 //------------------------------------------------------------
-/*
+
 NumericItemRange::NumericItemRange()
 {
     _range.reset(new Ilwis::IntervalRange());
 }
 
 
-void NumericItemRange::add(std::string name, double min, double max, double resolution){
+void NumericItemRange::add(const std::string &name, double min, double max, double resolution){
 
     QString label = QString::fromStdString(name);
     Ilwis::Interval *numitem;
@@ -211,49 +211,18 @@ void NumericItemRange::add(std::string name, double min, double max, double reso
     static_cast<Ilwis::ItemRange*>(_range.get())->add(numitem);
 }
 
-void NumericItemRange::add(QVariant *item)
-{
-    if (CppTupleElementCount(item) == 3 || CppTupleElementCount(item) == 4){
-        QString label = QString::fromStdString(CppTupleElement2String(item,0));
-        if ( label == sUNDEF)
-            return;
-
-        double rmin = CppTupleElement2Double(item, 1);
-        if(rmin == rUNDEF)
-            rmin = (double)CppTupleElement2Long(item, 1);
-        double rmax = CppTupleElement2Double(item,2);
-        if(rmax == rUNDEF)
-            rmax = (double)CppTupleElement2Long(item, 2);
-        if ( rmin == rUNDEF || rmax == rUNDEF)
-            return;
-        Ilwis::Interval *numitem;
-        if ( CppTupleElementCount(item) == 4){
-            double resolution = CppTupleElement2Double(item,3);
-            if(resolution == rUNDEF)
-                resolution = (double)CppTupleElement2Long(item, 3);
-            if ( resolution == rUNDEF)
-                return;
-            numitem = new Ilwis::Interval(label, { rmin, rmax,resolution});
-        }else
-            numitem = new Ilwis::Interval(label, { rmin, rmax});
-
-        static_cast<Ilwis::ItemRange*>(_range.get())->add(numitem);
-    }
-}
-
-QVariant* NumericItemRange::listAll(){
+std::vector<std::vector<std::string> > NumericItemRange::listAll(){
     int entries = this->count();
-    PyObject* list = newPyList(entries);
+    std::vector<std::vector<std::string> > vector;
     for(int i=0; i < entries; i++){
         Ilwis::DomainItem* item = static_cast<Ilwis::IntervalRange*>(_range.get())->item(i).data();
 
-        PyObject* tuple = newPyTuple(2);
-        setTupleItem(tuple, 0, PyBuildString(static_cast<Ilwis::Interval*>(item)->name().toStdString()));
-        setTupleItem(tuple, 1, PyBuildString(static_cast<Ilwis::Interval*>(item)->range().toString().toStdString()));
-
-        setListItem(list, i, tuple);
+        std::vector<std::string> vec;
+        vec.push_back( static_cast<Ilwis::Interval*>(item)->name().toStdString() );
+        vec.push_back( static_cast<Ilwis::Interval*>(item)->range().toString().toStdString() );
+        vector.push_back(vec);
     }
-    return list;
+    return vector;
 }
 
 double NumericItemRange::index(double v)
@@ -271,7 +240,7 @@ NumericItemRange *NumericItemRange::clone()
     NumericItemRange* newRange = new NumericItemRange();
     newRange->_range.reset(static_cast<Ilwis::IntervalRange*>(this->_range.get()));
     return newRange;
-}*/
+}
 
 //------------------------------------------------------------
 /*
@@ -280,29 +249,22 @@ IndexedItemRange::IndexedItemRange()
     _range.reset(new Ilwis::IndexedIdentifierRange());
 }
 
-void IndexedItemRange::add(PyObject *item){
-    Ilwis::IndexedIdentifier* ident;
-    if(PyTupleCheckExact(item)){
-        if(CppTupleElementCount(item) >=1){
-            QString label = QString::fromStdString(CppTupleElement2String(item, 0));
-            if(CppTupleElementCount(item) >=2){
-                quint32 index = CppTupleElement2ulonglong(item, 1);
-                if(CppTupleElementCount(item) >=3){
-                    quint32 count = CppTupleElement2ulonglong(item, 1);
-                    ident = new Ilwis::IndexedIdentifier(label, index, count);
-                } else {
-                    ident = new Ilwis::IndexedIdentifier(label, index);
-                }
-            } else {
-                ident = new Ilwis::IndexedIdentifier(label);
-            }
-        }
-    } else if (PyUnicodeCheckExact(item)){
-        QString label = QString::fromStdString(CppString2stdString(item));
-        ident = new Ilwis::IndexedIdentifier(label);
-    }
+void IndexedItemRange::add(const std::string &label){
+    QString qlabel = QString::fromStdString(label);
+    Ilwis::IndexedIdentifier* ident = new Ilwis::IndexedIdentifier(qlabel);
     static_cast<Ilwis::IndexedIdentifierRange*>(_range.get())->add(ident);
+}
 
+void IndexedItemRange::add(const std::string &label, int index){
+    QString qlabel = QString::fromStdString(label);
+    Ilwis::IndexedIdentifier* ident = new Ilwis::IndexedIdentifier(qlabel, index);
+    static_cast<Ilwis::IndexedIdentifierRange*>(_range.get())->add(ident);
+}
+
+void IndexedItemRange::add(const std::string &label, int index, int count){
+    QString qlabel = QString::fromStdString(label);
+    Ilwis::IndexedIdentifier* ident = new Ilwis::IndexedIdentifier(qlabel, index, count);
+    static_cast<Ilwis::IndexedIdentifierRange*>(_range.get())->add(ident);
 }
 
 qint32 IndexedItemRange::gotoIndex(qint32 index, qint32 step) const
@@ -355,13 +317,13 @@ NamedItemRange *NamedItemRange::clone()
 }
 */
 //-----------------------------------------------------------
-/*
+
 ThematicRange::ThematicRange()
 {
     _range.reset(new Ilwis::ThematicRange());
 }
 
-void ThematicRange::add(std::string name, std::string id, std::string descr){
+void ThematicRange::add(const std::string &name, const std::string &id, const std::string &descr){
     QString description = sUNDEF, code = sUNDEF;
     QString label = QString::fromStdString(name);
 
@@ -376,49 +338,28 @@ void ThematicRange::add(std::string name, std::string id, std::string descr){
     static_cast<Ilwis::ItemRange*>(_range.get())->add(titem);
 }
 
-void ThematicRange::add(PyObject *item)
-{
-    int elements = CppTupleElementCount(item);
-
-    if ( elements > 0 && elements <=3 ) {
-        QString description = sUNDEF, code = sUNDEF;
-        QString label = QString::fromStdString(CppTupleElement2String(item,0));
-        if ( label == sUNDEF)
-            return;
-        if ( elements >= 2){
-            code = QString::fromStdString(CppTupleElement2String(item,1));
-        }
-        if ( elements == 3){
-            description = QString::fromStdString(CppTupleElement2String(item,2));
-        }
-        Ilwis::ThematicItem *titem = new Ilwis::ThematicItem({label, code, description});
-        static_cast<Ilwis::ItemRange*>(_range.get())->add(titem);
-    }
-}
-
-PyObject* ThematicRange::listAll(){
+std::vector<std::vector<std::string> > ThematicRange::listAll() {
     int entries = this->count();
-    PyObject* list = newPyList(entries);
-    for(int i=0; i < entries; i++){
+    std::vector<std::vector<std::string> > vector;
+    for(int i=0; i < entries; ++i){
         Ilwis::DomainItem* item = static_cast<Ilwis::ThematicRange*>(_range.get())->item(i).data();
 
-        PyObject* tuple = newPyTuple(3);
-        setTupleItem(tuple, 0, PyBuildString(static_cast<Ilwis::ThematicItem*>(item)->name().toStdString()));
-        setTupleItem(tuple, 1, PyBuildString(static_cast<Ilwis::ThematicItem*>(item)->code().toStdString()));
-        setTupleItem(tuple, 2, PyBuildString(static_cast<Ilwis::ThematicItem*>(item)->description().toStdString()));
+        std::vector<std::string> vec;
+        vec.push_back( static_cast<Ilwis::ThematicItem*>(item)->name().toStdString() );
+        vec.push_back( static_cast<Ilwis::ThematicItem*>(item)->code().toStdString() );
+        vec.push_back( static_cast<Ilwis::ThematicItem*>(item)->description().toStdString() );
 
-        setListItem(list, i, tuple);
+        vector.push_back(vec);
     }
-    return list;
+    return vector;
 }
 
-ThematicRange *ThematicRange::clone()
-{
+ThematicRange *ThematicRange::clone() {
     ThematicRange* newRange = new ThematicRange();
     newRange->_range.reset(static_cast<Ilwis::ThematicRange*>(this->_range.get()));
     return newRange;
 }
-*/
+
 
 //-----------------------------------------------------------------
 

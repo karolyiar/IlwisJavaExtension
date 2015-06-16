@@ -48,7 +48,7 @@ protected:
 private:
 };
 
-/*class NumericRange : public Range {
+class NumericRange : public Range {
 
 public:
     NumericRange(double mi, double ma, double resolution = 0);
@@ -74,31 +74,33 @@ public:
     javaapi::NumericRangeIterator end();
 
     void clear();
-};*/
+};
 
 class ItemRange : public virtual Range {
 public:
-    virtual void add(QVariant *dItem) = 0;
+    //virtual void add(QVariant *dItem) = 0;
     quint32 count();
     void remove(const std::string& name);
     void clear();
 };
 
-/*class NumericItemRange : public ItemRange{
+class NumericItemRange : public ItemRange{
 public:
     NumericItemRange();
-    void add(std::string name, double min, double max, double resolution=0);
-    //void add(QVariant *item);
-    //QVariant* listAll();
+    void add(const std::string &name, double min, double max, double resolution=0);
+    std::vector<std::vector<std::string> > listAll();
     double index(double);
     qint32 gotoIndex(qint32 index, qint32 step) const;
     NumericItemRange* clone();
-};*/
+};
 
 /*class IndexedItemRange : public ItemRange{
 public:
     IndexedItemRange();
-    void add(QVariant* item);
+    //void add(QVariant* item);
+    void add(const std::string &label);
+    void add(const std::string &label, int index);
+    void add(const std::string &label, int index, int count);
     qint32 gotoIndex(qint32 index, qint32 step) const;
     IndexedItemRange* clone();
 };*/
@@ -112,14 +114,13 @@ public:
     NamedItemRange* clone();
 };*/
 
-/*class ThematicRange : public ItemRange {
+class ThematicRange : public ItemRange {
 public:
     ThematicRange();
-    void add(std::string name, std::string id="", std::string descr="");
-    void add(QVariant *item);
-    QVariant* listAll();
+    void add(const std::string &name, const std::string &id="", const std::string &descr="");
+    std::vector<std::vector<std::string> > listAll();
     ThematicRange* clone();
-};*/
+};
 
 
 class ColorRange : public virtual Range{
