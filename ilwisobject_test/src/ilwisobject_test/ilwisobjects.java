@@ -25,4 +25,25 @@ public class ilwisobjects {
     ilwisobjectsJNI.connectIssueLogger();
   }
 
+  public static double getRUNDEF() {
+    return ilwisobjectsJNI.rUNDEF_get();
+  }
+
+  public static int getIUNDEF() {
+    return ilwisobjectsJNI.iUNDEF_get();
+  }
+
+  public static long getI64UNDEF() {
+    return ilwisobjectsJNI.i64UNDEF_get();
+  }
+
+
+  public final static vectord array(double[] array) {
+    vectord result = new vectord();
+    for ( double i : array ) {
+      result.add( i );
+    }
+    return result;
+  }
+
 }

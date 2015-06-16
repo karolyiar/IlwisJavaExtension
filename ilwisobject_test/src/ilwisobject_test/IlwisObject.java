@@ -67,12 +67,12 @@ public class IlwisObject extends IObject {
     ilwisobjectsJNI.IlwisObject_store__SWIG_3(swigCPtr, this, url);
   }
 
-  public boolean __bool__() {
-    return ilwisobjectsJNI.IlwisObject___bool__(swigCPtr, this);
+  public boolean isValid() {
+    return ilwisobjectsJNI.IlwisObject_isValid(swigCPtr, this);
   }
 
-  public String __str__() {
-    return ilwisobjectsJNI.IlwisObject___str__(swigCPtr, this);
+  public String toString() {
+    return ilwisobjectsJNI.IlwisObject_toString(swigCPtr, this);
   }
 
   public String __add__(String value) {

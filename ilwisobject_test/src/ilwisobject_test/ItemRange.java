@@ -8,16 +8,15 @@
 
 package ilwisobject_test;
 
-public class IObject {
+public class ItemRange extends Range {
   private long swigCPtr;
-  protected boolean swigCMemOwn;
 
-  protected IObject(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
+  protected ItemRange(long cPtr, boolean cMemoryOwn) {
+    super(ilwisobjectsJNI.ItemRange_SWIGUpcast(cPtr), cMemoryOwn);
     swigCPtr = cPtr;
   }
 
-  protected static long getCPtr(IObject obj) {
+  protected static long getCPtr(ItemRange obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
@@ -29,22 +28,27 @@ public class IObject {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        ilwisobjectsJNI.delete_IObject(swigCPtr);
+        ilwisobjectsJNI.delete_ItemRange(swigCPtr);
       }
       swigCPtr = 0;
     }
+    super.delete();
   }
 
-  public boolean isValid() {
-    return ilwisobjectsJNI.IObject_isValid(swigCPtr, this);
+  public void add(SWIGTYPE_p_QVariant dItem) {
+    ilwisobjectsJNI.ItemRange_add(swigCPtr, this, SWIGTYPE_p_QVariant.getCPtr(dItem));
   }
 
-  public String toString() {
-    return ilwisobjectsJNI.IObject_toString(swigCPtr, this);
+  public long count() {
+    return ilwisobjectsJNI.ItemRange_count(swigCPtr, this);
   }
 
-  public java.math.BigInteger ilwisType() {
-    return ilwisobjectsJNI.IObject_ilwisType(swigCPtr, this);
+  public void remove(String name) {
+    ilwisobjectsJNI.ItemRange_remove(swigCPtr, this, name);
+  }
+
+  public void clear() {
+    ilwisobjectsJNI.ItemRange_clear(swigCPtr, this);
   }
 
 }

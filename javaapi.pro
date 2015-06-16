@@ -25,7 +25,10 @@ HEADERS += \
     javaapi/javaapi_error.h \
     javaapi/javaapi_qissuelogger.h \
     javaapi/javaapi_coordinatesystem.h \
-    javaapi/javaapi_georeference.h
+    javaapi/javaapi_georeference.h \
+    javaapi/javaapi_domainitem.h \
+    javaapi/javaapi_range.h \
+    javaapi/javaapi_rangeiterator.h
 
 
 SOURCES += \
@@ -36,7 +39,10 @@ SOURCES += \
     javaapi/javaapi_error.cpp \
     javaapi/javaapi_qissuelogger.cpp \
     javaapi/javaapi_coordinatesystem.cpp \
-    javaapi/javaapi_georeference.cpp
+    javaapi/javaapi_georeference.cpp \
+    javaapi/javaapi_domainitem.cpp \
+    javaapi/javaapi_range.cpp \
+    javaapi/javaapi_rangeiterator.cpp
 
 
 OTHER_FILES += \
