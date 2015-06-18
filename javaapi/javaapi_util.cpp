@@ -17,7 +17,6 @@
 #include "../../IlwisCore/core/iooptions.h"
 
 #include "javaapi_util.h"
-//#include "javaapi_qvariant.h"
 #include "javaapi_error.h"
 
 namespace javaapi {

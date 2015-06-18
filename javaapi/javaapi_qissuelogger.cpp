@@ -1,7 +1,5 @@
 #include "javaapi_qissuelogger.h"
 
-//#include "javaapi_pyobject.h"
-
 namespace javaapi{
 
     QIssueLogger::QIssueLogger(){

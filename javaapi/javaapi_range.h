@@ -78,7 +78,7 @@ public:
 
 class ItemRange : public virtual Range {
 public:
-    //virtual void add(QVariant *dItem) = 0;
+    //virtual void add(const std::string &name, double min, double max, double resolution=0) = 0;
     quint32 count();
     void remove(const std::string& name);
     void clear();
@@ -162,6 +162,7 @@ public:
 
 class ColorPalette : public ItemRange, public ColorRange{
 public:
+
     ColorPalette();
 
     Color item(quint32 raw) const;

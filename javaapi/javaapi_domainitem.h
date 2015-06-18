@@ -2,7 +2,6 @@
 #define JAVAAPI_DOMAINITEM_H
 
 #include "javaapi_object.h"
-//#include "javaapi_pyobject.h"
 #include "javaapi_qtGNUTypedefs.h"
 #include <memory>
 

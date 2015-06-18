@@ -4,7 +4,6 @@
 #include "kernel.h"
 #include "javaapi_extension.h"
 #include "containerstatistics.h"
-//#include "javaapi_pyobject.h"
 #include <memory>
 
 namespace geos {

@@ -20,32 +20,30 @@
 #include "ilwisdata.h"
 #include "../../IlwisCore/core/util/range.h"
 #include "itemrange.h"
-
-//#include "javaapi_pyobject.h"
 #include "javaapi_error.h"
 #include "javaapi_extension.h"
 #include "javaapi_object.h"
-//#include "javaapi_engine.h"
+#include "javaapi_engine.h"
 #include "javaapi_ilwisobject.h"
 #include "javaapi_coordinatesystem.h"
-//#include "javaapi_table.h"
-//#include "javaapi_coverage.h"
+#include "javaapi_table.h"
+#include "javaapi_coverage.h"
 #include "javaapi_util.h"
-//#include "javaapi_geometry.h"
-//#include "javaapi_feature.h"
-//#include "javaapi_featureiterator.h"
-//#include "javaapi_featurecoverage.h"
-//#include "javaapi_pixeliterator.h"
+#include "javaapi_geometry.h"
+#include "javaapi_feature.h"
+#include "javaapi_featureiterator.h"
+#include "javaapi_featurecoverage.h"
+#include "javaapi_pixeliterator.h"
 #include "javaapi_georeference.h"
-//#include "javaapi_rastercoverage.h"
+#include "javaapi_rastercoverage.h"
 #include "javaapi_range.h"
-//#include "javaapi_catalog.h"
-//#include "javaapi_domain.h"
-//#include "javaapi_datadefinition.h"
-//#include "javaapi_columndefinition.h"
+#include "javaapi_catalog.h"
+#include "javaapi_domain.h"
+#include "javaapi_datadefinition.h"
+#include "javaapi_columndefinition.h"
 #include "javaapi_domainitem.h"
 #include "javaapi_rangeiterator.h"
-//#include "javaapi_vertexiterator.h"
+#include "javaapi_vertexiterator.h"
 %}
 
 %include "javaapi_qtGNUTypedefs.h"
@@ -63,6 +61,7 @@
 }
 
 %rename(multiply) operator*=;
+%rename(multiply) operator*;
 %rename(equal) operator==;
 %rename(notequal) operator!=;
 %rename(toString) __str__;
@@ -76,12 +75,13 @@
 %rename(isValid) __bool__; // always?
 %rename(get) __getitem__;
 %rename(next) __next__;
+%rename(add) __add__;
 
 %include "javaapi_extension.h"
 
 %include "javaapi_object.h"
 
-//%include "javaapi_engine.h"
+%include "javaapi_engine.h"
 
 %include "javaapi_ilwisobject.h"
 
@@ -97,14 +97,14 @@
 %template(Envelope) javaapi::BoxTemplate<Ilwis::Coordinate, javaapi::Coordinate, double>;
 //%template(NumericStatistics) javaapi::ContainerStatistics<double>;
 
-//%include "javaapi_table.h"
+%include "javaapi_table.h"
 
-//%include "javaapi_coverage.h"
+%include "javaapi_coverage.h"
 
 
 %include "javaapi_object.h"
 
-/*
+
 %include "javaapi_geometry.h"
 
 %include "javaapi_feature.h"
@@ -114,14 +114,14 @@
 %include "javaapi_featurecoverage.h"
 
 %include "javaapi_pixeliterator.h"
-*/
+
 %include "javaapi_georeference.h"
 
-//%include "javaapi_rastercoverage.h"
+%include "javaapi_rastercoverage.h"
 
-//%include "javaapi_catalog.h"
+%include "javaapi_catalog.h"
 
-//%include "javaapi_domain.h"
+%include "javaapi_domain.h"
 
 %include "javaapi_range.h"
 
@@ -130,13 +130,13 @@
 %template(NumericRangeIterator) javaapi::RangeIterator<double, javaapi::NumericRange, double, Ilwis::NumericRange>;
 //%template(ItemRangeIterator) javaapi::RangeIterator<javaapi::DomainItem, javaapi::ItemRange, Ilwis::SPDomainItem, Ilwis::ItemRange>;
 
-//%include "javaapi_datadefinition.h"
+%include "javaapi_datadefinition.h"
 
-//%include "javaapi_columndefinition.h"
+%include "javaapi_columndefinition.h"
 
 %include "javaapi_domainitem.h"
 
-//%include "javaapi_vertexiterator.h"
+%include "javaapi_vertexiterator.h"
 
 
 

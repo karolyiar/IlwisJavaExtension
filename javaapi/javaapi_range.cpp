@@ -15,7 +15,6 @@
 #include "../../IlwisCore/core/ilwisobjects/domain/coloritem.h"
 #include "../../IlwisCore/core/ilwisobjects/domain/rangeiterator.h"
 
-//#include "javaapi_pyobject.h"
 #include "javaapi_range.h"
 
 #include "javaapi_error.h"
@@ -207,7 +206,6 @@ void NumericItemRange::add(const std::string &name, double min, double max, doub
     } else {
         numitem = new Ilwis::Interval(label, { min, max, resolution});
     }
-
     static_cast<Ilwis::ItemRange*>(_range.get())->add(numitem);
 }
 

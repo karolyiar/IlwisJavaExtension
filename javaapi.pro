@@ -28,7 +28,21 @@ HEADERS += \
     javaapi/javaapi_georeference.h \
     javaapi/javaapi_domainitem.h \
     javaapi/javaapi_range.h \
-    javaapi/javaapi_rangeiterator.h
+    javaapi/javaapi_rangeiterator.h \
+    javaapi/javaapi_domain.h \
+    javaapi/javaapi_featurecoverage.h \
+    javaapi/javaapi_geometry.h \
+    javaapi/javaapi_vertexiterator.h \
+    javaapi/javaapi_feature.h \
+    javaapi/javaapi_datadefinition.h \
+    javaapi/javaapi_columndefinition.h \
+    javaapi/javaapi_coverage.h \
+    javaapi/javaapi_featureiterator.h \
+    javaapi/javaapi_table.h \
+    javaapi/javaapi_catalog.h \
+    javaapi/javaapi_rastercoverage.h \
+    javaapi/javaapi_pixeliterator.h \
+    javaapi/javaapi_engine.h
 
 
 SOURCES += \
@@ -42,7 +56,21 @@ SOURCES += \
     javaapi/javaapi_georeference.cpp \
     javaapi/javaapi_domainitem.cpp \
     javaapi/javaapi_range.cpp \
-    javaapi/javaapi_rangeiterator.cpp
+    javaapi/javaapi_rangeiterator.cpp \
+    javaapi/javaapi_domain.cpp \
+    javaapi/javaapi_featurecoverage.cpp \
+    javaapi/javaapi_geometry.cpp \
+    javaapi/javaapi_vertexiterator.cpp \
+    javaapi/javaapi_feature.cpp \
+    javaapi/javaapi_datadefinition.cpp \
+    javaapi/javaapi_columndefinition.cpp \
+    javaapi/javaapi_coverage.cpp \
+    javaapi/javaapi_featureiterator.cpp \
+    javaapi/javaapi_table.cpp \
+    javaapi/javaapi_catalog.cpp \
+    javaapi/javaapi_rastercoverage.cpp \
+    javaapi/javaapi_pixeliterator.cpp \
+    javaapi/javaapi_engine.cpp
 
 
 OTHER_FILES += \
