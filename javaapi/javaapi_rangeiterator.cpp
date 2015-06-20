@@ -75,6 +75,17 @@ RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::__next__(){
     }
 }
 
+template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange> bool //for java foreach, not working
+RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::hasNext(){
+    //Ilwis::RangeIterator<IlwOutput, IlwRange>& iter = this->ptr();
+    /*try {
+        __next__();
+    } catch(StopIteration& s) {
+        return false;
+    }*/
+    return false;
+}
+
 template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange> OutputType
 RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::current(){
     return *this->ptr();

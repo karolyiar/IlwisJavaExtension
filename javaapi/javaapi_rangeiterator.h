@@ -11,7 +11,6 @@ namespace Ilwis{
 }
 
 namespace javaapi{
-
     class Range;
     class NumericRange;
     class DomainItem;
@@ -41,6 +40,7 @@ public:
     std::string __str__();
     RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>* __iter__();
     OutputType __next__();
+    bool hasNext();
     OutputType current();
     OutputType __getitem__(quint32 pos);
 
