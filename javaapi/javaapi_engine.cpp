@@ -152,22 +152,22 @@ std::string Engine::getLocation(){
     QUrl location = cat->filesystemLocation();
     return location.toString().toStdString();
 }
-/*
-PyObject* Engine::operations(const std::string& filter){
+
+std::vector<std::string> Engine::operations(const std::string& filter){
     Ilwis::CatalogView opCat(QUrl(QString("ilwis://operations")));
     opCat.filter("type='OperationMetaData'");
     opCat.prepare();
     std::vector<Ilwis::Resource> ops = opCat.items();
-    PyObject* list = newPyTuple(ops.size());
-    int i = 0;
+    std::vector<std::string> vector;
     for(auto it = ops.begin(); it != ops.end(); it++){
-        if (!setTupleItem(list, i++, PyUnicodeFromString(it->name().toStdString().data()))){
+        /*if (!setTupleItem(list, i++, PyUnicodeFromString(it->name().toStdString().data()))){
             throw Ilwis::ErrorObject(QString("internal conversion error while trying to add '%1' to list of attributes").arg( it->name()));
-        }
+        }*/ //TODO error handling
+        vector.push_back( it->name().toStdString() );
     }
-    return list;
-}*/
-/*
+    return vector;
+}
+
 std::string Engine::operationMetaData(const std::string &name){
     Ilwis::CatalogView opCat(QUrl(QString("ilwis://operations")));
     opCat.filter("type='OperationMetaData'");
@@ -182,7 +182,7 @@ std::string Engine::operationMetaData(const std::string &name){
         }
     }
     return ret.toStdString();
-}*/
+}
 /*
 PyObject* Engine::_catalogItems(){
     Ilwis::ICatalog cat = Ilwis::context()->workingCatalog();
