@@ -1,7 +1,6 @@
 /* The ILWIS SWIG interface file*/
 
 %module(docstring="The Java API for ILWIS Objects") ilwisobjects
-
 %feature("autodoc","1");
 
 %include "exception.i"
@@ -74,8 +73,10 @@
 %rename(contains) __constains__;
 %rename(isValid) __bool__; // always?
 %rename(get) __getitem__;
-%rename(next) __next__;
+%rename(_next) __next__;
 %rename(add) __add__;
+%rename(contains) __contains__;
+%rename(iterator) __iter__;
 
 %include "javaapi_extension.h"
 
@@ -122,11 +123,15 @@
 %include "javaapi_catalog.h"
 
 %include "javaapi_domain.h"
-
+%typemap(javainterfaces) javaapi::NumericRange "Iterable<Double>";
 %include "javaapi_range.h"
+
 
 %include "javaapi_rangeiterator.h"
 
+%typemap(javainterfaces) javaapi::RangeIterator<double, javaapi::NumericRange, double, Ilwis::NumericRange> "Iterator<Double>";
+%typemap(javaimports) javaapi::RangeIterator<double, javaapi::NumericRange, double, Ilwis::NumericRange> "import java.util.Iterator;";
+%typemap(javacode) javaapi::RangeIterator<double, javaapi::NumericRange, double, Ilwis::NumericRange> "  public Double next() { return current(); }";
 %template(NumericRangeIterator) javaapi::RangeIterator<double, javaapi::NumericRange, double, Ilwis::NumericRange>;
 //%template(ItemRangeIterator) javaapi::RangeIterator<javaapi::DomainItem, javaapi::ItemRange, Ilwis::SPDomainItem, Ilwis::ItemRange>;
 
@@ -140,7 +145,7 @@
 
 
 
-	
+	/*
 %{
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QVariant"
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QPoint"
@@ -162,7 +167,7 @@
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QByteArray"
 #include "E:/Qt/5.2.1/mingw48_32/include/QtCore/QList"
 %}
-	
+	*/
 /* QVariant -> jobject */
 
 %typemap(in) QVariant * (jint size){
@@ -260,4 +265,8 @@ namespace std {
     return result;
   }
 %}
+
+
+
+
 	
