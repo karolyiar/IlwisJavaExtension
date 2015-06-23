@@ -8,8 +8,6 @@
 
 #include <vector>
 
-typedef struct _object PyObject;
-
 namespace Ilwis {
     class Coverage;
     typedef IlwisData<Coverage> ICoverage;
