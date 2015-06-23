@@ -110,7 +110,12 @@ QVariant* Feature::attribute(const std::string& name,const QVariant& defaultValu
 
 qint64 Feature::attribute(const std::string& name, qint64 defaultValue){
     bool ok; //TODO error handling
-    return this->attribute(name,QVariant(defaultValue))->toInt(&ok);
+    QVariant* qresult = this->attribute(name,QVariant(defaultValue));
+    qint64 result = qresult->toLongLong(&ok);
+    delete qresult;
+    if(!ok)
+        throw std::invalid_argument("Could not convert " + name + " to number.");
+    return result;
 }
 
 double Feature::attribute(const std::string& name, double defaultValue){
