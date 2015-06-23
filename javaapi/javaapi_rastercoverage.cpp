@@ -40,7 +40,7 @@ RasterCoverage::RasterCoverage(){
         this->_ilwisObject = std::shared_ptr<Ilwis::IIlwisObject>(new Ilwis::IIlwisObject(fc));
 }
 
-RasterCoverage::RasterCoverage(std::string resource){
+RasterCoverage::RasterCoverage(const std::string& resource){
     QString input (QString::fromStdString(resource));
     input.replace('\\','/');
     // if it is file:// (or http:// etc) leave it untouched; if not, append file:// and the working catalog path if it is missing
@@ -59,9 +59,12 @@ RasterCoverage::RasterCoverage(std::string resource){
                 input = "file:///" + file;
         }
     }
-    Ilwis::IRasterCoverage fc(input, itRASTER);
-    if (fc.isValid())
+    Ilwis::IRasterCoverage fc(input, itRASTER); //fails
+    if (fc.isValid()) {
         this->_ilwisObject = std::shared_ptr<Ilwis::IIlwisObject>(new Ilwis::IIlwisObject(fc));
+    }
+    else
+        throw InvalidObject("Can't load rastercoverage: " + input.toStdString());
 }
 
 RasterCoverage::~RasterCoverage(){

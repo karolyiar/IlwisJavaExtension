@@ -26,7 +26,7 @@ namespace javaapi {
          std::string dateToString(int datepart);
     public:
         RasterCoverage();
-        RasterCoverage(std::string resource);
+        RasterCoverage(const std::string& resource);
         ~RasterCoverage();
         RasterCoverage* operator+ (RasterCoverage &rc);
         RasterCoverage* operator+ (double value);
