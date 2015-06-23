@@ -40,6 +40,7 @@ public class TestModule {
 		} catch(Exception e) {
 			except = true;
 		}
+		//assertTrue(except);
 	}
 	
 	/*@Test //not implemented yet
@@ -49,11 +50,10 @@ public class TestModule {
 		try {
 			FeatureCoverage fc = new FeatureCoverage(workingDir + "/noneexistentDir/nonexistent.file");
 		} catch(Exception e) {
-			
 			assertEquals("Cann't find suitable factory for nonexistent.file", e.getMessage());
 			except = true;
 		}
-		assertEquals(true, except);
+		assertTrue(except);
 		ilwisobjects.connectIssueLogger();
 	}*/
 	

@@ -12,8 +12,9 @@ import org.junit.Test;
 
 public class TestUtil {
 
-	public final static String workingDir = "F:/documents/ilwis/ilwisObjects/pytest/";
+	public final static String workingDir = "file:///F:/documents/ilwis/ilwisObjects/pytest/";
 	public final static String ilwisLocation = "F:/documents/ilwis/ilwisObjects/output/win32debug/bin/";
+	public final static double precision = 1e-10;
 
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
@@ -83,9 +84,9 @@ public class TestUtil {
 		assertEquals(true, c.is3D());
 		assertEquals("coordinate(-1871900.470000,1874237.550000,2.000000)",
 				c.toString());
-		assertEquals(-1871900.47, c.x(), 0.0001);
+		assertEquals(-1871900.47, c.x(), TestUtil.precision);
 		c.setX(4.323);
-		assertEquals(4.323, c.x(), 0.0001);
+		assertEquals(4.323, c.x(), TestUtil.precision);
 	}
 
 	@Test
@@ -193,7 +194,7 @@ public class TestUtil {
 				30, 40 }), "blueish");
 		assertEquals("RGBA(10,20,30,40)", c.toString());
 		assertEquals("blueish", c.getName());
-		assertEquals(20, c.getItem("green"), 0.001);
+		assertEquals(20, c.getItem("green"), TestUtil.precision);
 	}
 
 	@Test
@@ -230,7 +231,7 @@ public class TestUtil {
 		double d = 1.0;
 		
 		for (NumericRangeIterator i = nr.begin(); i.compareTo(nr.end())!=0; i._next()) {
-			assertEquals(d, i.current(), 0.0001);
+			assertEquals(d, i.current(), TestUtil.precision);
 			d += 0.2;
 		}
 	}

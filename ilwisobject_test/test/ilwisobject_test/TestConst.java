@@ -2,8 +2,6 @@ package ilwisobject_test;
 
 import static org.junit.Assert.*;
 
-import java.math.BigInteger;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -37,8 +35,8 @@ public class TestConst {
 		//assertEquals(Const.sUNDEF, "?");
         //assertEquals(Const.shUNDEF, 32767);
         assertEquals(-2147483648, ilwisobjects.getIUNDEF());
-        //assertEquals(1e38, ilwisobjects.getFlUNDEF(), 0.00001);
-        assertEquals(-1e308, ilwisobjects.getRUNDEF(), 0.000001);
+        //assertEquals(1e38, ilwisobjects.getFlUNDEF(), TestUtil.precision);
+        assertEquals(-1e308, ilwisobjects.getRUNDEF(), TestUtil.precision);
         assertEquals(-9223372036854775808L, ilwisobjects.getI64UNDEF());
         
 	}

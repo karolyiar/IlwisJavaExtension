@@ -168,9 +168,9 @@ public class TestGeometry {
 		assertTrue(p.coveredBy(geom));
 		assertFalse(p.relate(geom, "T*T***T**")); // overlaps
 		assertTrue(p.relate(geom, "T*F**F***")); // within
-		assertEquals(p.distance(geom), 0, 0.0001);
-		assertEquals(p.getArea(), 81, 0.0001);
-		assertEquals(p.getLength(), 36, 0.0001);
+		assertEquals(p.distance(geom), 0, TestUtil.precision);
+		assertEquals(p.getArea(), 81, TestUtil.precision);
+		assertEquals(p.getLength(), 36, TestUtil.precision);
 		assertTrue(p.isWithinDistance(geom, 0));
 		assertEquals(
 				"POLYGON ((1.0000000000000000 0.0000000000000000, 0.8049096779838661 0.0192147195967707, "
