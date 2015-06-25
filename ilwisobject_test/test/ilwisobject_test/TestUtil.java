@@ -198,29 +198,6 @@ public class TestUtil {
 	}
 
 	@Test
-	public void colorRange() {
-		Color color1 = new Color(ColorModel.Value.cmRGBA,
-				ilwisobjects.array(new double[] { 220.0, 20.0, 30.0, 200.0 }));
-		Color color2 = new Color(ColorModel.Value.cmRGBA,
-				ilwisobjects.array(new double[] { 255.0, 80.0, 60.0, 240.0 }));
-		Color color3 = new Color(ColorModel.Value.cmRGBA,
-				ilwisobjects.array(new double[] { 230.0, 60.0, 50.0, 240.0 }));
-
-		ContinuousColorRange col = new ContinuousColorRange(color1, color2);
-		assertTrue(col.isValid());
-
-		ContinuousColorRange col2 = col.clone();
-		assertTrue(col2.isValid());
-
-		col.defaultColorModel(ColorModel.Value.cmRGBA);
-		assertEquals(col.defaultColorModel(), ColorModel.Value.cmRGBA);
-
-		// ColorDomain colDom = new ColorDomain("testdomain");
-		// colDom.setRange(col);
-		// assertEquals(colDom.containsColor(color3), "c);
-	}
-
-	@Test
 	public void numericRange() {
 		NumericRange nr = new NumericRange(1, 10, 0.2);
 		assertFalse(nr.contains(1.1));
@@ -237,71 +214,6 @@ public class TestUtil {
 	}
 
 	@Test
-	public void numericItemRange_containment() {
-		NumericItemRange interrange = new NumericItemRange();
-		interrange.add("sealevel", 40, 100);
-		interrange.add("dijks", 101, 151);
-
-		assertEquals("sealevel", interrange.listAll().get(0).get(0));
-		assertEquals("numericrange:40.0|100.0", interrange.listAll().get(0)
-				.get(1));
-		assertEquals("dijks", interrange.listAll().get(1).get(0));
-		assertEquals("numericrange:101.0|151.0", interrange.listAll().get(1)
-				.get(1));
-
-		ItemDomain childdom = new ItemDomain(interrange);
-
-		interrange.add("by the sea", 152.0, 181.0, 5.0);
-		ItemDomain parentdom = new ItemDomain(interrange);
-
-		childdom.setParent(parentdom);
-
-		assertEquals("cSELF", childdom.contains(40));
-		assertEquals("cNONE", childdom.contains(39.9));
-		assertEquals("cNONE", childdom.contains(161.1));
-
-		childdom.setStrict(false);
-		assertEquals("cPARENT", childdom.contains(161.1));
-	}
-
-	@Test
-	public void numericItemRange_parents() {
-		NumericItemRange nir = new NumericItemRange();
-		nir.add("sealevel", 40, 100);
-		ItemDomain childdom = new ItemDomain(nir);
-
-		nir.add("by the sea", 151, 181, 5);
-		ItemDomain parentdom = new ItemDomain(nir);
-
-		boolean exception = false;
-		try {
-			childdom.parent(); // raises exception
-		} catch (Exception e) {
-			assertEquals("ILWIS ErrorObject: No parent domain found",
-					e.getMessage());
-			exception = true;
-		}
-		assertTrue(exception);
-
-		childdom.setParent(parentdom);
-		assertTrue(childdom.parent().isValid());
-	}
-
-	@Test
-	public void numericItemRange_removeAndCount() {
-		NumericItemRange nir = new NumericItemRange();
-		nir.add("sealevel", 40.0, 100.0, 5.0);
-		nir.add("by the sea", 151.0, 181.0, 5.0);
-		ItemDomain childdom = new ItemDomain(nir);
-
-		assertEquals(2, childdom.count());
-		childdom.removeItem("sealevel");
-		assertEquals(1, childdom.count());
-		// childdom.add("sealevel", 185.0, 250.0, 5.0);
-		// assertEquals(2, childdom.count());
-	}
-
-	@Test
 	public void thematicRange() {
 		ThematicRange themRan = new ThematicRange();
 		themRan.add("Sea", "SE", "Area covered by the sea");
@@ -309,39 +221,6 @@ public class TestUtil {
 
 		assertTrue(themRan.isValid());
 		assertEquals("Area covered by sand", themRan.listAll().get(1).get(2));
-	}
-
-	@Test
-	public void helloWorld() {
-		try {
-			ilwisobjects.disconnectIssueLogger();
-			Engine.setWorkingCatalog(workingDir + "world");
-			ilwisobjects.connectIssueLogger();
-		} catch (Exception e) {
-			fail("could not set working directory!");
-		}
-		FeatureCoverage world = new FeatureCoverage("countries.mpa");
-		assertTrue(world.isValid());
-		assertFalse(world.isInternal());
-		assertEquals(286, world.featureCount());
-
-		HashMap<String, Integer> population_ranking = new HashMap<String, Integer>();
-
-		// TODO remake
-		for (FeatureIterator country = world.iterator();; country._next()) {
-			try {
-				String name = country.current().attribute("iso_a2", "");
-				if (!population_ranking.containsKey(name))
-					population_ranking.put(name,
-							(int) (country.current().attribute("pop_est", 0)));
-			} catch (Exception e) {
-				break;
-			}
-		}
-
-		assertEquals(3971020, (int) population_ranking.get("PR"));
-		assertEquals(3418085, (int) population_ranking.get("OM"));
-		assertEquals(14268711, (int) population_ranking.get("MW"));
 	}
 
 	@Test
