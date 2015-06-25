@@ -9,8 +9,6 @@ namespace Ilwis {
     typedef IlwisData<Table> ITable;
 }
 
-typedef struct _object PyObject;
-
 namespace javaapi {
     class ColumnDefinition;
     class Table : public IlwisObject{
@@ -33,8 +31,8 @@ namespace javaapi {
             std::vector<quint32> select(const std::string& conditions) const;
             std::vector<QVariant> record(quint32 rec) const;
 
-            QVariant* cell(const std::string& name, quint32 rec); //TODO
-            QVariant* cell(quint32 colIndex, quint32 rec);
+            std::string cell(const std::string& name, quint32 rec); //TODO
+            QVariant * cell(quint32 colIndex, quint32 rec);
             void setCell(const std::string &name, quint32 rec, const QVariant* value);
             void setCell(quint32 colIndex, quint32 rec, const QVariant* value);
             void setCell(const std::string &name, quint32 rec, qint64 value);

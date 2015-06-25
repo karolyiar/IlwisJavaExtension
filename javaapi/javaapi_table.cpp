@@ -90,12 +90,12 @@ namespace javaapi {
             return idx;
     }
 
-    QVariant* Table::cell(const std::string& name, quint32 rec){
+    std::string Table::cell(const std::string& name, quint32 rec){
         QVariant ret = this->ptr()->as<Ilwis::Table>()->cell(QString::fromStdString(name), rec,false);
         if (!ret.isValid())
             throw std::out_of_range(QString("No attribute '%1' found or record %2 out of bound").arg(name.c_str()).arg(rec).toStdString());
         //return /*QVariant2PyObject*/(ret);
-        return 0; // TODO
+        return ret.toString().toStdString(); // TODO
     }
 
     QVariant* Table::cell(quint32 colIndex, quint32 rec){
