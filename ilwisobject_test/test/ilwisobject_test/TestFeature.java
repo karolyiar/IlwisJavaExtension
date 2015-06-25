@@ -40,7 +40,7 @@ public class TestFeature {
 		ilwisobjects._exitIlwisObjects();
 	}
 
-	/*@Test
+	/*@Test //fails, no testdata?
 	public void GPXFromFile() {
 		FeatureCoverage fc = new FeatureCoverage(workingDir + "feature/test.gpx/tracks");
 	    assertFalse(fc.isInternal());
@@ -71,15 +71,16 @@ public class TestFeature {
 	    
 	    FeatureCoverage fc_invalid = new FeatureCoverage("newFC");
 	    assertTrue(fc_invalid.isInternal());
+	    //assertFalse(fc_invalid.isValid());
 	    g = new Geometry("POINT(5.4 6 9.0)", new CoordinateSystem("code=epsg:23035"));
-	    /*boolean except = false;
+	    /*boolean except = false; //doesn't drop exception, just fails
 	    try {
 	    	newfeature = fc_invalid.newFeature(g);
 	    } catch (Exception e) {
 	    	except = true;
 	    	System.out.println(e.getMessage());
 	    }
-	    assertTrue(except);*/	                
+	    assertTrue(except);*/       
 	}
 	
 	@Test
@@ -169,10 +170,10 @@ public class TestFeature {
 	public void loadGDALstorageGDAL() {
 		FeatureCoverage world;
 		// polygons
-        /*world = new FeatureCoverage("ne_110m_admin_0_countries.shp"); //no testdata
+        world = new FeatureCoverage("ne_110m_admin_0_countries.shp");
         assertTrue(world.isValid());
         assertFalse(world.isInternal());
-        world.store(workingDir + "temp/countries_fromshp.shp", "ESRI Shapefile", "gdal");*/
+        world.store(workingDir + "temp/countries_fromshp.shp", "ESRI Shapefile", "gdal");
         // points
         world = new FeatureCoverage("rainfall.shp");
         assertTrue(world.isValid());
@@ -183,5 +184,19 @@ public class TestFeature {
         assertTrue(world.isValid());
         assertFalse(world.isInternal());
         world.store(workingDir + "temp/drainage_fromshp.shp", "ESRI Shapefile", "gdal");
+	}
+	
+	@Test
+	public void loadGDALstorageIlwis3() {
+		// polygons
+        FeatureCoverage world = new FeatureCoverage("ne_110m_admin_0_countries.shp");
+        assertTrue(world.isValid());
+        assertFalse(world.isInternal());
+        // points
+        world = new FeatureCoverage("rainfall.shp");
+        assertTrue(world.isValid());
+        assertFalse(world.isInternal());
+        world.setCoordinateSystem(new CoordinateSystem(workingDir + "feature/countries.csy"));
+        world.store(workingDir + "temp/rainfall_fromshp", "vectormap", "ilwis3");
 	}
 }

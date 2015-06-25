@@ -31,7 +31,7 @@ public class TestRaster {
 	@Before
 	public void setUp() throws Exception {
 		ilwisobjects.disconnectIssueLogger();
-        Engine.setWorkingCatalog(workingDir+"raster");
+        Engine.setWorkingCatalog(workingDir+"raster/");
         ilwisobjects.connectIssueLogger();
 	}
 
@@ -42,8 +42,8 @@ public class TestRaster {
 	
 	@Test
 	public void rasterCalculation() {
-		/*RasterCoverage rc = new RasterCoverage("n000302.mpr"); //errors
-	    RasterCoverage rctif = new RasterCoverage("n0.mpr");
+		/*RasterCoverage rc = new RasterCoverage(workingDir+"raster/n000302.mpr"); //errors
+	    RasterCoverage rctif = new RasterCoverage(workingDir+"raster/n0.mpr");
 	    assertTrue("couldn't load RasterCoverages", rc.isValid() &&  rctif.isValid());*/
 	}
 	
@@ -73,5 +73,7 @@ public class TestRaster {
 	    RasterCoverage rcReproj2 = rc.reprojectRaster("newraster", 2050, "bilinear");
 	    assertTrue(rcReproj2.isValid());*/
 	}
+	
+	//TODO more tests
 
 }

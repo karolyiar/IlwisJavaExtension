@@ -34,7 +34,7 @@ public class TestConst {
 	public void undef() {
 		//assertEquals(Const.sUNDEF, "?");
         //assertEquals(Const.shUNDEF, 32767);
-        assertEquals(-2147483648, ilwisobjects.getIUNDEF());
+        assertEquals(2147483645, ilwisobjects.getIUNDEF());
         //assertEquals(1e38, ilwisobjects.getFlUNDEF(), TestUtil.precision);
         assertEquals(-1e308, ilwisobjects.getRUNDEF(), TestUtil.precision);
         assertEquals(-9223372036854775808L, ilwisobjects.getI64UNDEF());
