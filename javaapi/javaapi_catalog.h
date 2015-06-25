@@ -7,8 +7,6 @@ namespace Ilwis {
     class CatalogView;
 }
 
-typedef struct _object PyObject;
-
 namespace javaapi {
 
     class Catalog : public IObject{

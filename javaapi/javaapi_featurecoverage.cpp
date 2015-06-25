@@ -97,6 +97,8 @@ Feature FeatureCoverage::newFeature(const std::string& wkt, const CoordinateSyst
 }
 
 Feature FeatureCoverage::newFeature(const Geometry &geometry){
+    if ( !this->__bool__() )
+        throw InvalidObject("Invalid FeatureCoverage");
     Ilwis::SPFeatureI ilwFeatureI =this->ptr()->as<Ilwis::FeatureCoverage>()->newFeature(geometry.ptr().get()->clone());
     return Feature(ilwFeatureI, this);
 }

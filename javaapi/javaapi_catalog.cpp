@@ -81,7 +81,6 @@ namespace javaapi {
     std::vector<std::string> Catalog::items(){
         if (this->__bool__()){
             std::vector<Ilwis::Resource> itms = this->_data->items();
-            //PyObject* ret = newPyTuple(itms.size());
             std::vector<std::string> ret;
             int i = 0;
             for(auto it = itms.begin(); it < itms.end(); it++ ){

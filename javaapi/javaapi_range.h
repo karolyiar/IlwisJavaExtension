@@ -15,8 +15,6 @@ class DomainItem;
 typedef QSharedPointer<DomainItem> SPDomainItem;
 }
 
-//typedef struct _object PyObject;
-
 namespace javaapi {
 
 class Range: public IObject{

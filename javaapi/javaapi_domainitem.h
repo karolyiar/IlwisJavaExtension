@@ -10,9 +10,8 @@ class DomainItem;
 }
 
 namespace javaapi{
-    /*From pyobject.h*/
     const double rUNDEF = -1e308;
-    const long   iUNDEF  = -2147483648L;
+    const long   iUNDEF  = 2147483645;
     const long long i64UNDEF = std::numeric_limits < qint64 >::min();
 
     class NumericRange;

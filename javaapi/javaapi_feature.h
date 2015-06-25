@@ -12,8 +12,6 @@ namespace Ilwis{
 
 class QVariant;
 
-typedef struct _object PyObject;
-
 namespace javaapi{
 
     class FeatureCoverage;

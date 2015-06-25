@@ -5,9 +5,6 @@
 
 #include "javaapi_qtGNUTypedefs.h"
 
-//predeclaration of PyObject from object.h
-typedef struct _object PyObject;
-
 namespace javaapi{
 
     //to indicate an error caused by the attempt to use an invalid (ilwis) object
