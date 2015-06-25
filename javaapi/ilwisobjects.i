@@ -73,10 +73,17 @@
 %rename(contains) __constains__;
 %rename(isValid) __bool__; // always?
 %rename(get) __getitem__;
-%rename(_next) __next__;
+%rename(next) __next__;
 %rename(add) __add__;
 %rename(contains) __contains__;
 %rename(iterator) __iter__;
+
+
+%typemap(javainterfaces) javaapi::FeatureCoverage "Iterable<Feature>";
+%typemap(javaimports) javaapi::FeatureCoverage "import java.util.Iterator;";
+
+%typemap(javainterfaces) javaapi::FeatureIterator "Iterator<Feature>";
+%typemap(javaimports) javaapi::FeatureIterator "import java.util.Iterator;";
 
 %include "javaapi_extension.h"
 
@@ -143,7 +150,7 @@
 
 %include "javaapi_vertexiterator.h"
 
-
+//%include "javaapi_error.h"
 
 	/*
 %{

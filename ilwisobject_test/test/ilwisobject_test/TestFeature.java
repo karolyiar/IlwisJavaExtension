@@ -88,18 +88,14 @@ public class TestFeature {
 		FeatureCoverage fc = new FeatureCoverage("rainfall.shp");
 	    assertTrue("FeatureCoverage(rainfall.shp) not loaded correctly!", fc.isValid());
 	    double summ = 0;
-	    for(FeatureIterator f = fc.iterator(); ;f._next()) {
-	    	try {
-		    	double tempsum = f.current().attribute("MAY", 0.0);
-		    	if (tempsum != ilwisobjects.getRUNDEF())
-		    		summ += (int)tempsum;
-		    	f.current().setAttribute("sum", Double.toString(summ));
-		    	assertTrue("wrong feature representation", f.current().toString().matches("Feature\\([0-9]*\\)") );	
-		    	assertTrue("wrong geometry representation", f.current().geometry().toString()
-		    			.matches("POINT\\s\\(([0-9\\.\\-]+|\\-1e\\+308|5\\.4)\\s([0-9\\.\\-]+|\\-1e\\+308|[0-9]+\\.[0-9]+e\\+[0-9]+)\\)") );
-		    } catch (Exception e) {
-				break;
-			}
+	    for(Feature f : fc) {
+	    	double tempsum = f.attribute("MAY", 0.0);
+	    	if (tempsum != ilwisobjects.getRUNDEF())
+	    		summ += (int)tempsum;
+	    	f.setAttribute("sum", Double.toString(summ));
+	    	assertTrue("wrong feature representation", f.toString().matches("Feature\\([0-9]*\\)") );	
+	    	assertTrue("wrong geometry representation", f.geometry().toString()
+	    			.matches("POINT\\s\\(([0-9\\.\\-]+|\\-1e\\+308|5\\.4)\\s([0-9\\.\\-]+|\\-1e\\+308|[0-9]+\\.[0-9]+e\\+[0-9]+)\\)") );
 	    }
 	    if (fc.featureCount() == 14)
 	    	assertEquals("wrong sum over rainfall in MAY!", 298.0, summ, TestUtil.precision);
@@ -117,9 +113,9 @@ public class TestFeature {
 	    
 	    Feature f = it3.current();
 	    assertEquals("Feature(0)", f.toString());
-	    f = it3._next();
+	    f = it3.next();
 	    assertEquals("Feature(0)", f.toString());
-	    f = it3._next();
+	    f = it3.next();
 	    assertEquals("Feature(1)", f.toString());
 	}
 	
@@ -128,7 +124,7 @@ public class TestFeature {
 		FeatureCoverage fc = new FeatureCoverage("GDAL_OGR_feature.vrt");
 	    assertEquals("meta data contains wrong featureCount", 100, fc.featureCount());
 	    FeatureIterator it = fc.iterator();
-	    Feature f = it._next();
+	    Feature f = it.next();
 	    assertEquals("after loading binary data featureCount is correct", 3, fc.featureCount());
 	    assertEquals("unsuccessfully altered geometry",
 	    		"LINESTRING (1.0000000000000000 1.0000000000000000, 2.0000000000000000 2.0000000000000000)", f.geometry().toWKT());

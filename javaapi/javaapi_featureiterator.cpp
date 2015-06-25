@@ -41,6 +41,11 @@ Feature FeatureIterator::__next__(){
     }
 }
 
+bool FeatureIterator::hasNext() {
+    Ilwis::FeatureIterator& iter = this->ptr();
+    return (iter != (*this->_end));
+}
+
 Feature FeatureIterator::current(){
     return Feature(new Ilwis::SPFeatureI(*this->ptr()), this->_coverage);
 }

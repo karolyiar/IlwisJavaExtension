@@ -22,6 +22,7 @@ namespace javaapi {
              * @return
              */
             Feature __next__();
+            bool hasNext();
             Feature current();
             FeatureIterator* __iter__();
 
