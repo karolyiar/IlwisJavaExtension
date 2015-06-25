@@ -56,7 +56,7 @@ RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::__iter__(){
 }
 
 template<typename OutputType, typename RangeType, typename IlwOutput, typename IlwRange> OutputType
-RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::__next__(){
+RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>::_next(){
     Ilwis::RangeIterator<IlwOutput, IlwRange>& iter = this->ptr();
     if (iter.isValid()){
         IlwOutput t = (*iter);

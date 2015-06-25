@@ -39,7 +39,7 @@ public:
     bool __bool__() const;
     std::string __str__();
     RangeIterator<OutputType, RangeType, IlwOutput, IlwRange>* __iter__();
-    OutputType __next__();
+    OutputType _next();
     bool hasNext();
     OutputType current();
     OutputType __getitem__(quint32 pos);
