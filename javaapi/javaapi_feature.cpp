@@ -75,12 +75,12 @@ VertexIterator Feature::__iter__(){
     return Feature(ilwFeat, _coverage);
 }*/
 
-QVariant* Feature::attribute(const std::string& name,const QVariant& defaultValue){
+QVariant Feature::attribute(const std::string& name,const QVariant& defaultValue){
     if (!defaultValue.isNull()){
         QVariant ret =  this->ptr()->cell(QString::fromStdString(name),false);
         if (!ret.isValid())
             throw std::out_of_range(QString("No attribute '%1' found").arg(name.c_str()).toStdString());
-        return new QVariant(ret); //TODO delete
+        return QVariant(ret);
     }else{
         QVariant var = this->ptr()->cell(QString::fromStdString(name), false);
         Ilwis::ColumnDefinition coldef = this->ptr()->attributedefinition(QString::fromStdString(name));
@@ -89,17 +89,17 @@ QVariant* Feature::attribute(const std::string& name,const QVariant& defaultValu
             if( (type & itNUMBER) || (type & itDATETIME)){
                 if(var.canConvert(QVariant::Double)){
                     if(var.toDouble() == Ilwis::rUNDEF){
-                        return new QVariant(defaultValue); //TODO delete
+                        return QVariant(defaultValue);
                     }else{
-                        return new QVariant(var); //TODO delete
+                        return QVariant(var);
                     }
                 }
             }else if((type & itSTRING) || (type & itDOMAINITEM)){
                 if(var.canConvert(QVariant::String)){
                     if(var.toString().compare(sUNDEF) == 0){
-                        return new QVariant(defaultValue); //TODO delete
+                        return QVariant(defaultValue);
                     }else{
-                        return new QVariant(var); //TODO delete
+                        return QVariant(var);
                     }
                 }
             }
@@ -109,22 +109,23 @@ QVariant* Feature::attribute(const std::string& name,const QVariant& defaultValu
 }
 
 qint64 Feature::attribute(const std::string& name, qint64 defaultValue){
-    bool ok; //TODO error handling
-    QVariant* qresult = this->attribute(name,QVariant(defaultValue));
-    qint64 result = qresult->toLongLong(&ok);
-    delete qresult;
+    bool ok;
+    qint64 result = this->attribute(name,QVariant(defaultValue)).toLongLong(&ok);
     if(!ok)
-        throw std::invalid_argument("Could not convert " + name + " to number.");
+        throw std::invalid_argument("Could not convert " + name + " to long.");
     return result;
 }
 
 double Feature::attribute(const std::string& name, double defaultValue){
-    bool ok; //TODO error handling
-    return this->attribute(name,QVariant(defaultValue))->toDouble(&ok);
+    bool ok;
+    double result = this->attribute(name,QVariant(defaultValue)).toDouble(&ok);
+    if(!ok)
+        throw std::invalid_argument("Could not convert " + name + " to double.");
+    return result;
 }
 
 std::string Feature::attribute(const std::string& name, const std::string& defaultValue){
-    return this->attribute(name,QVariant(QString::fromStdString(defaultValue)))->toString().toStdString();
+    return this->attribute(name,QVariant(QString::fromStdString(defaultValue))).toString().toStdString();
 }
 
 void Feature::setAttribute(const std::string& name, const QVariant* value){

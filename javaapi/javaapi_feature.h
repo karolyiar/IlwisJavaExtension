@@ -59,7 +59,7 @@ namespace javaapi{
         VertexIterator end();
 
     private:
-        QVariant* attribute(const std::string& name, const QVariant& defaultValue);
+        QVariant attribute(const std::string& name, const QVariant& defaultValue);
         QVariant* checkIndex(QVariant* obj);
         Feature(std::shared_ptr<Ilwis::FeatureInterface> ilwisFeature, FeatureCoverage* fc);
         Feature(Ilwis::SPFeatureI* ilwFeat, FeatureCoverage* fc);
