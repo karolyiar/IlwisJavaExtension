@@ -14,20 +14,7 @@ public class TestWorld {
 
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
-		final String ilwisLocation = TestUtil.ilwisLocation;
-		try {
-			System.load(ilwisLocation
-					+ "extensions/_ilwisobjects/_ilwisobjects.dll");
-			ilwisobjects._initIlwisObjects(ilwisLocation);
-		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load.\n");
-			e.printStackTrace();
-			System.exit(1);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
+		TestUtil.onceExecutedBeforeAll();
 	}
 
 	@Before
@@ -39,7 +26,7 @@ public class TestWorld {
 
 	@AfterClass
 	public static void onceExecutedAfterAll() {
-		ilwisobjects._exitIlwisObjects();
+		TestUtil.onceExecutedAfterAll();
 	}
 	
 	@Test
@@ -51,13 +38,12 @@ public class TestWorld {
 
 		HashMap<String, Integer> population_ranking = new HashMap<String, Integer>();
 
-		// TODO remake
-		for (FeatureIterator country = world.iterator();; country._next()) {
+		for (Feature country : world) {
 			try {
-				String name = country.current().attribute("iso_a2", "");
+				String name = country.attribute("iso_a2", "");
 				if (!population_ranking.containsKey(name))
 					population_ranking.put(name,
-							(int) (country.current().attribute("pop_est", 0)));
+							(int) (country.attribute("pop_est", 0)));
 			} catch (Exception e) {
 				break;
 			}
@@ -102,14 +88,17 @@ public class TestWorld {
 	    assertEquals(63, columns.size());
 	    assertEquals(42, table.columnIndex("iso_a2"));
 	    assertEquals(ilwisobjects.getIUNDEF(), table.columnIndex("ihfg"));
-	    /*column = table.column(42);
+	    vectors column = table.column(42);
 	    assertEquals(177, column.size());
-	    column1 = table.column("iso_a2");
-	    assertEquals(column, column1);
-	    record = table.record(4);
-	    assertEquals(63, len(record))
-	    table.addColumn("newCol", "value")
-	    assertEquals(64, table.columnCount())*/
+	    vectors column1 = table.column("iso_a2");
+	    assertEquals(column.size(), column1.size());
+	    for(int i=0; i<column.size(); ++i) {
+	    	assertEquals(column.get(i), column1.get(i));
+	    }
+	    vectors record = table.record(4);
+	    assertEquals(63, record.size());
+	    table.addColumn("newCol", "value");
+	    assertEquals(64, table.columnCount());
 	}
 
 }

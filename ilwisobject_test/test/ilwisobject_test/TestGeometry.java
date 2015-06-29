@@ -9,30 +9,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestGeometry {
-
-	private final static String workingDir = TestUtil.workingDir;
-
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
-		final String ilwisLocation = TestUtil.ilwisLocation;
-		try {
-			System.load(ilwisLocation
-					+ "extensions/_ilwisobjects/_ilwisobjects.dll");
-			ilwisobjects._initIlwisObjects(ilwisLocation);
-		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load.\n");
-			e.printStackTrace();
-			System.exit(1);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
+		TestUtil.onceExecutedBeforeAll();
 	}
 
 	@AfterClass
-	public static void onceExecutedAfterAll() {
-		ilwisobjects._exitIlwisObjects();
+	public static void onceExecutedAfterAll() throws InterruptedException {
+		TestUtil.onceExecutedAfterAll();
 	}
 
 	@Test
@@ -43,14 +27,13 @@ public class TestGeometry {
 				g.toString());
 		assertEquals("POINT (5.4000000000000004 6.0000000000000000)", g.toWKT());
 		assertTrue(g.isValid());
-		assertEquals(new BigInteger("1"), g.ilwisType());
+		assertEquals(BigInteger.valueOf(1), g.ilwisType());
 		assertEquals("Sibun Gorge 1922", g.coordinateSystem().name());
-		assertTrue(g.coordinateSystem().equal(csy));
+		assertTrue(g.coordinateSystem().equals(csy));
 	}
 
 	@Test
 	public void transform() {
-		CoordinateSystem csy = new CoordinateSystem("code=epsg:5464");
 		CoordinateSystem pm = new CoordinateSystem("code=epsg:3857");
 		assertEquals("WGS 84 / Pseudo-Mercator", pm.name());
 		CoordinateSystem wgs = new CoordinateSystem("code=epsg:4326");
@@ -115,6 +98,7 @@ public class TestGeometry {
 		Boolean except = false;
 		try {
 			Geometry g = new Geometry("dgjfdkgkjd", csy);
+			g.isValid();
 		} catch (Exception e) {
 			assertEquals("ParseException: Unknown type: 'DGJFDKGKJD'",
 					e.getMessage());

@@ -9,25 +9,12 @@ import org.junit.Test;
 public class TestColorDomain {
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
-		final String ilwisLocation = TestUtil.ilwisLocation;
-		try {
-			System.load(ilwisLocation
-					+ "extensions/_ilwisobjects/_ilwisobjects.dll");
-			ilwisobjects._initIlwisObjects(ilwisLocation);
-		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load.\n");
-			e.printStackTrace();
-			System.exit(1);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
+		TestUtil.onceExecutedBeforeAll();
 	}
 
 	@AfterClass
 	public static void onceExecutedAfterAll() {
-		ilwisobjects._exitIlwisObjects();
+		TestUtil.onceExecutedAfterAll();
 	}
 
 	@Test

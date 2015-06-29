@@ -12,20 +12,7 @@ public class TestCoordinateSystem {
 
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
-		final String ilwisLocation = TestUtil.ilwisLocation;
-		try {
-			System.load(ilwisLocation
-					+ "extensions/_ilwisobjects/_ilwisobjects.dll");
-			ilwisobjects._initIlwisObjects(ilwisLocation);
-		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load.\n");
-			e.printStackTrace();
-			System.exit(1);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
+		TestUtil.onceExecutedBeforeAll();
 	}
 
 	@Before
@@ -37,7 +24,7 @@ public class TestCoordinateSystem {
 
 	@AfterClass
 	public static void onceExecutedAfterAll() {
-		ilwisobjects._exitIlwisObjects();
+		TestUtil.onceExecutedAfterAll();
 	}
 	
 	@Test
@@ -76,7 +63,7 @@ public class TestCoordinateSystem {
 		CoordinateSystem cs1 = new CoordinateSystem(
 				"code=proj4:+proj=utm +zone=35 +ellps=intl +towgs84=-87,-98,-121,0,0,0,0 +units=m +no_defs");
 		CoordinateSystem cs2 = new CoordinateSystem("code=epsg:23035");
-	    assertTrue( cs1.equal(cs2) );
+	    assertTrue( cs1.equals(cs2) );
 	    assertFalse( cs1.notequal(cs2) );
 	}
 	

@@ -8,35 +8,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestNumericDomain {
-	private final static String workingDir = TestUtil.workingDir;
-
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
-		final String ilwisLocation = TestUtil.ilwisLocation;
-		try {
-			System.load(ilwisLocation
-					+ "extensions/_ilwisobjects/_ilwisobjects.dll");
-			ilwisobjects._initIlwisObjects(ilwisLocation);
-		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load.\n");
-			e.printStackTrace();
-			System.exit(1);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
+		TestUtil.onceExecutedBeforeAll();
 	}
-
 	@Before
 	public void setUp() throws Exception {
 		ilwisobjects.disconnectIssueLogger();
 		ilwisobjects.connectIssueLogger();
 	}
-
 	@AfterClass
 	public static void onceExecutedAfterAll() {
-		ilwisobjects._exitIlwisObjects();
+		TestUtil.onceExecutedAfterAll();
 	}
 
 	@Test

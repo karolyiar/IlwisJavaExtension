@@ -3,7 +3,6 @@ package ilwisobject_test;
 import static org.junit.Assert.*;
 
 import java.math.BigInteger;
-import java.util.HashMap;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -50,7 +49,7 @@ public class TestUtil {
 		assertTrue(p.isValid());
 		assertEquals("pixel(4,5)", p.toString());
 		p.multiply(3);
-		assertTrue(p.equal(new Pixel(12, 15)));
+		assertTrue(p.equals(new Pixel(12, 15)));
 		p.divide(4);
 		assertEquals("pixel(3,3)", p.toString());
 		assertTrue(p.notequal(new Pixel(3, 4)));
@@ -74,7 +73,7 @@ public class TestUtil {
 		assertEquals("coordinate(-1871900.470000,1874237.550000)", c.toString());
 		c.multiply(6);
 		assertEquals(true,
-				c.equal(new Coordinate(-11231402.820000, 11245425.300000)));
+				c.equals(new Coordinate(-11231402.820000, 11245425.300000)));
 		assertEquals("coordinate(-11231402.820000,11245425.300000)",
 				c.toString());
 		c.divide(6);
@@ -94,13 +93,13 @@ public class TestUtil {
 		Size sz = new Size(2, 4, 5);
 	    assertTrue(sz.isValid());
 	    assertEquals(sz.toString(), "Size(2, 4, 5)");
-	    assertEquals(sz.linearSize(), new BigInteger("40"));
+	    assertEquals(sz.linearSize(), BigInteger.valueOf(40));
 	    sz.multiply(2);
 	    assertEquals(sz.toString(), "Size(4, 8, 10)");
 	    sz.increase( new Size(4, 4, 0) );
-	    assertTrue(sz.equal( new Size(8, 12, 10) ));
+	    assertTrue(sz.equals( new Size(8, 12, 10) ));
 	    sz.decrease( new Size(1, 1, 0) );
-	    assertTrue(sz.equal( new Size(7, 11, 10) ));
+	    assertTrue(sz.equals( new Size(7, 11, 10) ));
 	    sz.setXsize(3);
 	    assertEquals(sz.xsize(), 3);
 	    assertTrue( sz.contains(new Pixel(1, 1, 1)) );
@@ -108,7 +107,7 @@ public class TestUtil {
 	    
 	    SizeD szd = new SizeD(sz);
 	    assertEquals(szd.toString(), "Size(3, 11, 10)");
-	    assertTrue(szd.equal(new SizeD(3., 11., 10.)));
+	    assertTrue(szd.equals(new SizeD(3., 11., 10.)));
 	    assertTrue(szd.contains(new Pixel(2, 10, 9)));
 	    assertTrue(szd.contains(new PixelD(2., 10., 9.)));
 	    assertTrue(szd.contains(new Coordinate(2., 10., 9.)));
@@ -120,9 +119,9 @@ public class TestUtil {
 	    szd.decrease(new SizeD(10, 10, 0));  // calculation with invalid szd == Size(0, 0, 9) results in Size(0, 0, 0);
 	    assertEquals(szd.toString(), "Size(0, 0, 0)");
 	    szd = new SizeD(2.5, 4.4, 5.1);
-	    assertTrue(szd.equal(new SizeD(2.5, 4.4, 5.1)));
+	    assertTrue(szd.equals(new SizeD(2.5, 4.4, 5.1)));
 	    assertEquals(szd.toString(), "Size(2.5, 4.4, 5.1)");
-	    assertEquals(szd.linearSize(), new BigInteger("40")); // == int(2.5) * int(4.4) * int(5.1)
+	    assertEquals(szd.linearSize(), BigInteger.valueOf(40)); // == int(2.5) * int(4.4) * int(5.1)
 	    szd.multiply(2);
 	    assertEquals(szd.toString(), "Size(5, 8.8, 10.2)");
 	    
@@ -136,15 +135,15 @@ public class TestUtil {
 		assertTrue(b.isValid());
         assertTrue(b.is3D());
         assertEquals(b.toString(), "3 4 5 4 5 6");
-        assertTrue(b.equal(new Box("POLYGON(3 4 5,4 5 6)")));
+        assertTrue(b.equals(new Box("POLYGON(3 4 5,4 5 6)")));
         assertEquals(b.minCorner().toString(), "pixel(3,4,5)");
         b.minCorner().setX(39);
         assertEquals(b.minCorner().toString(), "pixel(3,4,5)");
-        assertTrue(b.minCorner().equal( new Pixel(3, 4, 5) ));
+        assertTrue(b.minCorner().equals( new Pixel(3, 4, 5) ));
         assertEquals(b.maxCorner().toString(), "pixel(4,5,6)");
         assertEquals(b.size().toString(), "Size(2, 2, 2)");
-        assertTrue(b.size().equal(new Size(2, 2, 2)));
-        assertEquals(b.size().linearSize(), new BigInteger("8") );
+        assertTrue(b.size().equals(new Size(2, 2, 2)));
+        assertEquals(b.size().linearSize(), BigInteger.valueOf(8) );
         b = new Box(new Pixel(2, 3), new Pixel(4, 5));
         assertEquals(b.toString(), "2 3 4 5");
         assertFalse(b.is3D());
@@ -156,7 +155,7 @@ public class TestUtil {
         env = new Envelope("POLYGON(3.6111119 4.7 5.9,4.7 5.8 6.9)");
         assertEquals(env.toString(), "3.61111 4.7 5.9 4.7 5.8 6.9");
         assertEquals(env.size().toString(), "Size(2.08889, 2.1, 2)");
-        assertFalse(env.size().equal(new SizeD(2.08889, 2.1, 2)));  
+        assertFalse(env.size().equals(new SizeD(2.08889, 2.1, 2)));  
         env = new Envelope(env.size());
         assertEquals("0 0 0 1.08889 1.1 1", env.toString());
         env = new Envelope(new Coordinate(3, 4, 5), new Coordinate(4, 5, 6));
@@ -178,9 +177,9 @@ public class TestUtil {
 		assertEquals(20, c.getItem("green"), TestUtil.precision);
 	}
 
-	@Test
+	/*@Test
 	public void numericRange() {
-		NumericRange nr = new NumericRange(1, 10, 0.2);
+		NumericRange nr = new NumericRange(1, 2, 0.2);
 		assertFalse(nr.contains(1.1));
 		assertFalse(nr.contains(0.8));
 		assertFalse(nr.contains(10.2));
@@ -192,7 +191,7 @@ public class TestUtil {
 			assertEquals(d, j, TestUtil.precision);
 			d += 0.2;
 		}
-	}
+	}*/
 
 	@Test
 	public void thematicRange() {
@@ -202,36 +201,6 @@ public class TestUtil {
 
 		assertTrue(themRan.isValid());
 		assertEquals("Area covered by sand", themRan.listAll().get(1).get(2));
-	}
-
-	@Test
-	public void testBaby() {
-		try {
-			ilwisobjects.disconnectIssueLogger();
-			Engine.setWorkingCatalog(workingDir + "feature");
-			ilwisobjects.connectIssueLogger();
-		} catch (Exception e) {
-			fail("could not set working directory!");
-		}
-		FeatureCoverage fc = new FeatureCoverage("rainfall.shp");
-		Table t = new Table("rainfall.shp");
-		assertEquals("rainfall.shp", t.name());
-		String[] expected = new String[] { "RAINFALL", "JANUARY", "FEBRUARY",
-				"MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER",
-				"OCTOBER", "NOVEMBER", "DECEMBER", "NEWCOL", "IDENT" };
-		for (int i = 0; i < expected.length; ++i)
-			assertEquals(expected[i], t.columns().get(i));
-
-		// assertEquals( ilwisobjects.getIUNDEF(),
-		// t.columnIndex("unknownColumn") ); // not working
-
-		assertEquals(10, t.columnIndex("OCTOBER"));
-
-		/*
-		 * double[] expected1 = new double[] {48, 46, 86, 89, 44, 40, 44, 85,
-		 * 89, 0, 0, 0, 0}; for(int i=0; i<expected1.length; ++i)
-		 * assertEquals(expected[i], t.column("OCTOBER")
-		 */
 	}
 
 }

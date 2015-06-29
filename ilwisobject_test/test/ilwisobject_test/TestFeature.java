@@ -12,20 +12,7 @@ public class TestFeature {
 
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
-		final String ilwisLocation = TestUtil.ilwisLocation;
-		try {
-			System.load(ilwisLocation
-					+ "extensions/_ilwisobjects/_ilwisobjects.dll");
-			ilwisobjects._initIlwisObjects(ilwisLocation);
-		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load.\n");
-			e.printStackTrace();
-			System.exit(1);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
+		TestUtil.onceExecutedBeforeAll();
 	}
 
 	@Before
@@ -37,7 +24,7 @@ public class TestFeature {
 
 	@AfterClass
 	public static void onceExecutedAfterAll() {
-		ilwisobjects._exitIlwisObjects();
+		TestUtil.onceExecutedAfterAll();
 	}
 
 	/*@Test //fails, no testdata?
@@ -107,9 +94,9 @@ public class TestFeature {
 	    assertEquals("FeatureIterator for rainfall.shp", it.toString());
 	    FeatureIterator it2 = new FeatureIterator(it.add(2));
 	    assertTrue( it.notequal(it2) );
-	    assertFalse( it.equal(it2) );
+	    assertFalse( it.equals(it2) );
 	    FeatureIterator it3 = new FeatureIterator(it2.subtract(2));
-	    assertTrue( it.equal(it3) );
+	    assertTrue( it.equals(it3) );
 	    
 	    Feature f = it3.current();
 	    assertEquals("Feature(0)", f.toString());
