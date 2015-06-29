@@ -61,6 +61,10 @@ Coordinate VertexIterator::__next__(){
     }
 }
 
+bool VertexIterator::hasNext() {
+    return ( this->compareTo(end()) != 0);
+}
+
 VertexIterator VertexIterator::operator +(int n){
     VertexIterator iter(*this);
     iter.ptr() += n;

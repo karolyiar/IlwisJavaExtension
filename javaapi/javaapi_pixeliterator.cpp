@@ -53,7 +53,7 @@ PixelIterator* PixelIterator::__iter__(){
     return this;
 }
 
-double PixelIterator::__next__(){
+double PixelIterator::_next(){
     Ilwis::PixelIterator& iter = this->ptr();
     if (iter.linearPosition() != this->_endposition){
         double d = (*iter);
@@ -62,6 +62,11 @@ double PixelIterator::__next__(){
     }else{
         throw StopIteration();
     }
+}
+
+bool PixelIterator::hasNext() {
+    Ilwis::PixelIterator& iter = this->ptr();
+    return (iter.linearPosition() != this->_endposition);
 }
 
 bool PixelIterator::__bool__() const{

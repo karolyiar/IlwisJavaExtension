@@ -42,7 +42,8 @@ class PixelIterator{
          * @return
          */
         PixelIterator* __iter__();
-        double __next__();
+        double _next();
+        bool hasNext();
         bool __bool__() const;
         std::string __str__();
         /**

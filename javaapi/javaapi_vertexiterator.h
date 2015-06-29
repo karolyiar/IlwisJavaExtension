@@ -26,6 +26,7 @@ public:
     std::string __str__() const;
     VertexIterator* __iter__();
     Coordinate __next__();
+    bool hasNext();
 
     VertexIterator operator+(int n);
     VertexIterator __radd__(int n);

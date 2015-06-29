@@ -61,7 +61,7 @@
 
 %rename(multiply) operator*=;
 %rename(multiply) operator*;
-%rename(equal) operator==;
+%rename(equals) operator==;
 %rename(notequal) operator!=;
 %rename(toString) __str__;
 %rename(increase) operator+=;
@@ -80,10 +80,17 @@
 
 
 %typemap(javainterfaces) javaapi::FeatureCoverage "Iterable<Feature>";
-%typemap(javaimports) javaapi::FeatureCoverage "import java.util.Iterator;";
-
 %typemap(javainterfaces) javaapi::FeatureIterator "Iterator<Feature>";
 %typemap(javaimports) javaapi::FeatureIterator "import java.util.Iterator;";
+
+%typemap(javainterfaces) javaapi::Geometry "Iterable<Coordinate>";
+%typemap(javainterfaces) javaapi::VertexIterator "Iterator<Coordinate>";
+%typemap(javaimports) javaapi::VertexIterator "import java.util.Iterator;";
+
+//%typemap(javainterfaces) javaapi::RasterCoverage "Iterable<Pixel>";
+%typemap(javainterfaces) javaapi::PixelIterator "Iterator<Double>";
+%typemap(javaimports) javaapi::PixelIterator "import java.util.Iterator;";
+%typemap(javacode) javaapi::PixelIterator "  public Double next() { return _next(); }";
 
 %include "javaapi_extension.h"
 
@@ -250,6 +257,7 @@
 namespace std {
    %template(vectori) vector<int>;
    %template(vectord) vector<double>;
+   %template(vectorl) vector<quint32>;
    %template (mapsd) map<std::string, double>;
    %template (vectorvs) vector<std::vector<std::string> >;
    %template (vectors) vector<std::string>;
