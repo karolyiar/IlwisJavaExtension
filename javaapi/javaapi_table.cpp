@@ -94,29 +94,27 @@ namespace javaapi {
         QVariant ret = this->ptr()->as<Ilwis::Table>()->cell(QString::fromStdString(name), rec,false);
         if (!ret.isValid())
             throw std::out_of_range(QString("No attribute '%1' found or record %2 out of bound").arg(name.c_str()).arg(rec).toStdString());
-        //return /*QVariant2PyObject*/(ret);
-        return ret.toString().toStdString(); // TODO
+        return ret.toString().toStdString();
     }
 
-    QVariant* Table::cell(quint32 colIndex, quint32 rec){
+    std::string Table::cell(quint32 colIndex, quint32 rec){
         if(this->ptr()->as<Ilwis::Table>()->isDataLoaded()){
             QVariant ret = this->ptr()->as<Ilwis::Table>()->cell(colIndex, rec,false);
             if (!ret.isValid())
                 throw std::out_of_range(QString("No attribute in '%1.' column found or record %2 out of bound").arg(colIndex).arg(rec).toStdString());
-            //return QVariant2PyObject(ret);
-            return 0; // TODO
+            return ret.toString().toStdString();
         } else {
             throw InvalidObject("Data of the table is not loaded. Access a feature first.");
         }
     }
 
-    void Table::setCell(const std::string& name, quint32 rec, const QVariant*/*PyObject**/ value){
-        const QVariant* v = /*PyObject2QVariant*/(value);
+    void Table::setCell(const std::string& name, quint32 rec, const QVariant* value){
+        const QVariant* v = value;
         this->ptr()->as<Ilwis::Table>()->setCell(QString::fromStdString(name), rec, *v);
         delete v;
     }
 
-    void Table::setCell(quint32 colIndex, quint32 rec, const QVariant*/*PyObject**/ value){
+    void Table::setCell(quint32 colIndex, quint32 rec, const QVariant* value){
         this->ptr()->as<Ilwis::Table>()->setCell(colIndex, rec, *value);
     }
 
@@ -144,16 +142,28 @@ namespace javaapi {
         this->ptr()->as<Ilwis::Table>()->setCell(colIndex, rec, QVariant(value));
     }
 
-    std::vector<QVariant> Table::column(const std::string& name) const{
-        return this->ptr()->as<Ilwis::Table>()->column(QString::fromStdString(name));
+    std::vector<std::string> Table::column(const std::string& name) const{
+        std::vector<QVariant> source = this->ptr()->as<Ilwis::Table>()->column(QString::fromStdString(name));
+        std::vector<std::string> result(source.size());
+        for(int i=0; i<source.size(); ++i)
+            result[i] = source[i].toString().toStdString();
+        return result;
     }
 
-    std::vector<QVariant> Table::column(quint32 columnIndex) const{
-        return this->ptr()->as<Ilwis::Table>()->column(columnIndex);
+    std::vector<std::string> Table::column(quint32 columnIndex) const{
+        std::vector<QVariant> source = this->ptr()->as<Ilwis::Table>()->column(columnIndex);
+        std::vector<std::string> result(source.size());
+        for(int i=0; i<source.size(); ++i)
+            result[i] = source[i].toString().toStdString();
+        return result;
    }
 
-    std::vector<QVariant> Table::record(quint32 rec) const{
-        return this->ptr()->as<Ilwis::Table>()->record(rec);
+    std::vector<std::string> Table::record(quint32 rec) const{
+        std::vector<QVariant> source = this->ptr()->as<Ilwis::Table>()->record(rec);
+        std::vector<std::string> result(source.size());
+        for(int i=0; i<source.size(); ++i)
+            result[i] = source[i].toString().toStdString();
+        return result;
     }
 
     Table* Table::toTable(IObject *obj){

@@ -24,15 +24,15 @@ namespace javaapi {
             bool addColumn(const std::string& name, const std::string &domain);
             bool addColumn(ColumnDefinition& coldef);
             qint32 columnIndex(const std::string& name) const;
-            std::vector<QVariant> column(const std::string& name) const;
-            std::vector<QVariant> column(quint32 columnIndex) const;
+            std::vector<std::string> column(const std::string& name) const;
+            std::vector<std::string> column(quint32 columnIndex) const;
 
             quint32 recordCount() const;
             std::vector<quint32> select(const std::string& conditions) const;
-            std::vector<QVariant> record(quint32 rec) const;
+            std::vector<std::string> record(quint32 rec) const;
 
-            std::string cell(const std::string& name, quint32 rec); //TODO
-            QVariant * cell(quint32 colIndex, quint32 rec);
+            std::string cell(const std::string& name, quint32 rec);
+            std::string cell(quint32 colIndex, quint32 rec);
             void setCell(const std::string &name, quint32 rec, const QVariant* value);
             void setCell(quint32 colIndex, quint32 rec, const QVariant* value);
             void setCell(const std::string &name, quint32 rec, qint64 value);
