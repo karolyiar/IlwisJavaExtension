@@ -51,22 +51,20 @@ public class TestEngine {
                e.operationMetaData("iff"));
 	}
 	
-	@Test //not working
+	@Test
 	public void gridding() {
 		Engine e = new Engine();
 		CoordinateSystem cs = new CoordinateSystem(
                 "code=proj4:+proj=utm +zone=35 +ellps=intl +towgs84=-87,-98,-121,0,0,0,0 +units=m +no_defs");
 		assertTrue(cs.isValid());
-		/*
-		 *  metadata of _ilwisobject_4646 not properly initialized
-		 *  couldn't do(gridding=_ILWISOBJECT_4646(coordinate(225358.660500,3849480.570000),1000.0,1000.0,12,12))
-		 */
-		/*IObject polygongrid = Engine._do("gridding", cs.toString(), new Coordinate(225358.6605, 3849480.5700).toString(),
-				Double.toString(1000.0), Double.toString(1000.0), Integer.toString(12), Integer.toString(12));
-	    assertTrue(polygongrid.isValid());*/
-	    /*assertEqual(polygongrid.type(), "FeatureCoverage", msg="wrong IlwisObject type")
-	    assertRegex(polygongrid.name(), r"gridding_[0-9]*" );
-	    assertEqual(polygongrid.featureCount(), 144, msg="wrong number of polygons in gridding result!")*/
+
+		FeatureCoverage polygongrid = FeatureCoverage.toFeatureCoverage( Engine._do("gridding_1", "gridding", cs.toString(), new Coordinate(225358.6605, 3849480.5700).toString(),
+				Double.toString(1000.0), Double.toString(1000.0), Integer.toString(12), Integer.toString(12)) );
+	    assertTrue(polygongrid.isValid());
+	    assertEquals("wrong IlwisObject type", polygongrid.type(), "FeatureCoverage");
+	    System.out.println(polygongrid.name());
+	    assertTrue( polygongrid.name().matches("gridding_[0-9]*") );
+	    assertEquals("wrong number of polygons in gridding result!", polygongrid.featureCount(), 144);
 	}
 	
 	/*@Test //no testdata
