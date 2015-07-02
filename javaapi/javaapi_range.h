@@ -103,14 +103,14 @@ public:
     IndexedItemRange* clone();
 };*/
 
-/*class NamedItemRange : public ItemRange {
+class NamedItemRange : public ItemRange {
 public:
     NamedItemRange();
-    void add(QVariant *item);
-    QVariant* listAll();
+    void add(const std::string& item);
+    std::vector<std::string> listAll();
     qint32 gotoIndex(qint32 index, qint32 step) const;
     NamedItemRange* clone();
-};*/
+};
 
 class ThematicRange : public ItemRange {
 public:

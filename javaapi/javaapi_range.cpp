@@ -278,28 +278,28 @@ IndexedItemRange *IndexedItemRange::clone()
 }
 */
 //------------------------------------------------------------
-/*
+
 NamedItemRange::NamedItemRange()
 {
     _range.reset(new Ilwis::NamedIdentifierRange());
 }
 
-void NamedItemRange::add(PyObject *item)
+void NamedItemRange::add(const std::string& item)
 {
-    QString name = QString::fromStdString(CppString2stdString(item));
+    QString name = QString::fromStdString(item);
     Ilwis::NamedIdentifier *id = new Ilwis::NamedIdentifier(name);
     static_cast<Ilwis::ItemRange*>(_range.get())->add(id);
 
 }
 
-PyObject* NamedItemRange::listAll(){
+std::vector<std::string> NamedItemRange::listAll(){
     int entries = this->count();
-    PyObject* list = newPyList(entries);
+    std::vector<std::string> vector(entries);
     for(int i=0; i < entries; i++){
         Ilwis::DomainItem* item = static_cast<Ilwis::NamedIdentifierRange*>(_range.get())->item(i).data();
-        setListItem(list, i, PyBuildString(static_cast<Ilwis::NamedIdentifier*>(item)->name().toStdString()));
+        vector[i] = static_cast<Ilwis::NamedIdentifier*>(item)->name().toStdString();
     }
-    return list;
+    return vector;
 }
 
 qint32 NamedItemRange::gotoIndex(qint32 index, qint32 step) const
@@ -313,7 +313,7 @@ NamedItemRange *NamedItemRange::clone()
     newRange->_range.reset(static_cast<Ilwis::NamedIdentifierRange*>(this->_range.get()));
     return newRange;
 }
-*/
+
 //-----------------------------------------------------------
 
 ThematicRange::ThematicRange()
