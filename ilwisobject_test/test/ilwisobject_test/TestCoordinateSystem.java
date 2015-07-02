@@ -2,7 +2,6 @@ package ilwisobject_test;
 
 import static org.junit.Assert.*;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,11 +19,6 @@ public class TestCoordinateSystem {
 		ilwisobjects.disconnectIssueLogger();
         Engine.setWorkingCatalog(workingDir+"feature/");
         ilwisobjects.connectIssueLogger();
-	}
-
-	@AfterClass
-	public static void onceExecutedAfterAll() {
-		TestUtil.onceExecutedAfterAll();
 	}
 	
 	@Test
@@ -72,10 +66,11 @@ public class TestCoordinateSystem {
 		ilwisobjects.disconnectIssueLogger();
         Engine.setWorkingCatalog(workingDir+"raster/");
         ilwisobjects.connectIssueLogger();
-		/*RasterCoverage rc = new RasterCoverage(workingDir + "raster/n000302.mpr"); //fails
+		//RasterCoverage rc = new RasterCoverage(workingDir + "raster/n000302.mpr"); //fails
+        RasterCoverage rc = new RasterCoverage(workingDir + "raster/small.mpr");
 	    Envelope env = rc.envelope();
 	    CoordinateSystem csyNew = new CoordinateSystem("code=epsg:2050");
 	    Envelope newEnv = rc.coordinateSystem().convertEnvelope(csyNew, env);
-	    assertNotEquals(env.toString(), newEnv.toString());*/
+	    assertNotEquals(env.toString(), newEnv.toString());
 	}
 }

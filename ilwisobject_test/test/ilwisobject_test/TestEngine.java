@@ -2,7 +2,6 @@ package ilwisobject_test;
 
 import static org.junit.Assert.*;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,12 +11,7 @@ public class TestEngine {
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
 		TestUtil.onceExecutedBeforeAll();
-	}
-	@AfterClass
-	public static void onceExecutedAfterAll() {
-		TestUtil.onceExecutedAfterAll();
-	}
-	
+	}	
 	@Before
 	public void setUp() throws Exception {
 		ilwisobjects.disconnectIssueLogger();

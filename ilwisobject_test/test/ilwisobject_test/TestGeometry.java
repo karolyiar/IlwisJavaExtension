@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.math.BigInteger;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,13 +13,8 @@ public class TestGeometry {
 		TestUtil.onceExecutedBeforeAll();
 	}
 
-	@AfterClass
-	public static void onceExecutedAfterAll() throws InterruptedException {
-		TestUtil.onceExecutedAfterAll();
-	}
-
 	@Test
-	public void testGeometry() {
+	public void geometry() {
 		CoordinateSystem csy = new CoordinateSystem("code=epsg:5464");
 		Geometry g = new Geometry("POINT(5.4 6 9.0)", csy);
 		assertEquals("POINT (5.4000000000000004 6.0000000000000000)",

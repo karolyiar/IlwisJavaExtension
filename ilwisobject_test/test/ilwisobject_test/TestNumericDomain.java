@@ -2,7 +2,6 @@ package ilwisobject_test;
 
 import static org.junit.Assert.*;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,10 +15,6 @@ public class TestNumericDomain {
 	public void setUp() throws Exception {
 		ilwisobjects.disconnectIssueLogger();
 		ilwisobjects.connectIssueLogger();
-	}
-	@AfterClass
-	public static void onceExecutedAfterAll() {
-		TestUtil.onceExecutedAfterAll();
 	}
 
 	@Test
@@ -94,7 +89,7 @@ public class TestNumericDomain {
 		try {
 			childnumdom.parent();
 		} catch (Exception e) {
-			System.out.println( e.getMessage() );
+			assertEquals("", e.getMessage() );
 			except = true;
 		}
 		assertTrue(except);*/

@@ -2,7 +2,6 @@ package ilwisobject_test;
 
 import static org.junit.Assert.*;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,10 +15,6 @@ public class TestInterval {
 	public void setUp() throws Exception {
 		ilwisobjects.disconnectIssueLogger();
         ilwisobjects.connectIssueLogger();
-	}
-	@AfterClass
-	public static void onceExecutedAfterAll() {
-		TestUtil.onceExecutedAfterAll();
 	}
 	
 	@Test
@@ -83,8 +78,8 @@ public class TestInterval {
 		assertEquals(2, childdom.count());
 		childdom.removeItem("sealevel");
 		assertEquals(1, childdom.count());
-		// childdom.add("sealevel", 185.0, 250.0, 5.0); //try: public abstract add
-		// assertEquals(2, childdom.count());
+		//childdom.add("sealevel", 185.0, 250.0, 5.0); //ItemDomain.addItem not implemented
+		//assertEquals(2, childdom.count());
 	}
 	
 	@Test

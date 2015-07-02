@@ -4,29 +4,22 @@ import static org.junit.Assert.*;
 
 import java.math.BigInteger;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+
 public class TestTable {
 	private final static String workingDir = TestUtil.workingDir;
-
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
 		TestUtil.onceExecutedBeforeAll();
 	}
-
 	@Before
 	public void setUp() {
 		ilwisobjects.disconnectIssueLogger();
 		Engine.setWorkingCatalog(workingDir + "feature/");
 		ilwisobjects.connectIssueLogger();
-	}
-
-	@AfterClass
-	public static void onceExecutedAfterAll() {
-		TestUtil.onceExecutedAfterAll();
 	}
 
 	@Test

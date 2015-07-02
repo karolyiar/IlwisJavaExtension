@@ -4,19 +4,16 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestVertexIterator {
 	private final static String workingDir = TestUtil.workingDir;
-
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
 		TestUtil.onceExecutedBeforeAll();
 	}
-
 	@Before
 	public void setUp() throws Exception {
 		ilwisobjects.disconnectIssueLogger();
@@ -24,10 +21,6 @@ public class TestVertexIterator {
 		ilwisobjects.connectIssueLogger();
 	}
 
-	@AfterClass
-	public static void onceExecutedAfterAll() {
-		TestUtil.onceExecutedAfterAll();
-	}
 	@Test
 	public void vertexIterator() {
 		FeatureCoverage fc = new FeatureCoverage(workingDir+"feature/drainage.shp");

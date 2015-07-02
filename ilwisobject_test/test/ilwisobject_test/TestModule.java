@@ -2,35 +2,17 @@ package ilwisobject_test;
 
 import static org.junit.Assert.*;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestModule {
 	private final static String workingDir = TestUtil.workingDir;
-
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
 		TestUtil.onceExecutedBeforeAll();
 	}
-
-	@AfterClass
-	public static void onceExecutedAfterAll() {
-		TestUtil.onceExecutedAfterAll();
-	}
-
-	@Test
-	public void exceptions() {
-		boolean except = false;
-		try {
-			;//not implemented yet
-		} catch(Exception e) {
-			except = true;
-		}
-		//assertTrue(except);
-	}
 	
-	/*@Test //not implemented yet
+	/*@Test //just logs ilwisExceptions
 	public void issueLogger() {
 		ilwisobjects.disconnectIssueLogger();
 		boolean except = false;

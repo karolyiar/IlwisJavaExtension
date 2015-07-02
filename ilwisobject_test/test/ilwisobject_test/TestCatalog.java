@@ -3,31 +3,24 @@ package ilwisobject_test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestCatalog {
 	private final static String workingDir = TestUtil.workingDir;
-
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
 		TestUtil.onceExecutedBeforeAll();
 	}
-
 	@Before
 	public void setUp() throws Exception {
 		ilwisobjects.disconnectIssueLogger();
         Engine.setWorkingCatalog(workingDir+"feature/");
         ilwisobjects.connectIssueLogger();
 	}
-
-	@AfterClass
-	public static void onceExecutedAfterAll() {
-		TestUtil.onceExecutedAfterAll();
-	}
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void fromGPX() {
 		Catalog cat = new Catalog(workingDir + "feature/test.gpx");
@@ -38,7 +31,7 @@ public class TestCatalog {
 	    assertTrue(cat.isValid());
 	    FeatureCoverage trks = FeatureCoverage.toFeatureCoverage( cat._getitem("tracks") );
 	    assertTrue(trks.isValid());
-	    FeatureIterator it = trks.iterator();
+		FeatureIterator it = trks.iterator();
 	    assertEquals(1, trks.featureCount());
 	    
 	    FeatureCoverage trkpts = FeatureCoverage.toFeatureCoverage( cat._getitem("track_points") );

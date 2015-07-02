@@ -2,44 +2,22 @@ package ilwisobject_test;
 
 import static org.junit.Assert.*;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestFeature {
 	private final static String workingDir = TestUtil.workingDir;
-
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
 		TestUtil.onceExecutedBeforeAll();
 	}
-
 	@Before
 	public void setUp() throws Exception {
 		ilwisobjects.disconnectIssueLogger();
         Engine.setWorkingCatalog(workingDir+"feature/");
         ilwisobjects.connectIssueLogger();
 	}
-
-	@AfterClass
-	public static void onceExecutedAfterAll() {
-		TestUtil.onceExecutedAfterAll();
-	}
-
-	/*@Test //fails, no testdata?
-	public void GPXFromFile() {
-		FeatureCoverage fc = new FeatureCoverage(workingDir + "feature/test.gpx/tracks");
-	    assertFalse(fc.isInternal());
-	    assertEquals(1, fc.featureCount());
-	    for(FeatureIterator f = fc.iterator(); ; f._next()) {
-	    	try {
-	    		assertTrue(f.current().geometry().toString().matches("MULTILINESTRING\\s\\(\\([\\s\\.\\-\\,0-9]*\\)\\)"));
-	    	} catch (Exception e) {
-				break;
-			}
-	    }
-	}*/
 	
 	@Test
 	public void featureCoverage() {
@@ -67,7 +45,7 @@ public class TestFeature {
 	    	except = true;
 	    	System.out.println(e.getMessage());
 	    }
-	    assertTrue(except);*/       
+	    assertTrue(except);*/  
 	}
 	
 	@Test
@@ -92,18 +70,18 @@ public class TestFeature {
 	    FeatureIterator it = new FeatureIterator(fc);
 	    assertTrue(fc.isValid());
 	    assertEquals("FeatureIterator for rainfall.shp", it.toString());
-	    FeatureIterator it2 = new FeatureIterator(it.add(2));
+	    FeatureIterator it2 = it.add(2);
 	    assertTrue( it.notequal(it2) );
 	    assertFalse( it.equals(it2) );
-	    FeatureIterator it3 = new FeatureIterator(it2.subtract(2));
+	    FeatureIterator it3 = it2.subtract(2);
 	    assertTrue( it.equals(it3) );
 	    
 	    Feature f = it3.current();
-	    assertEquals("Feature(0)", f.toString());
+	    int index = Integer.parseInt( f.toString().substring(8, f.toString().length()-1) );
 	    f = it3.next();
-	    assertEquals("Feature(0)", f.toString());
+	    assertEquals("Feature(" + index + ")", f.toString());
 	    f = it3.next();
-	    assertEquals("Feature(1)", f.toString());
+	    assertEquals("Feature(" + (index+1) + ")", f.toString());
 	}
 	
 	@Test
@@ -146,7 +124,7 @@ public class TestFeature {
 	    f.setAttribute("Float", 23.4e-32);
 	    assertEquals(23.4e-32, f.attribute("Float", 0.), TestUtil.precision);
 	    
-	    //datetime tests
+	    //TODO datetime tests
 	}
 
 	@Test
