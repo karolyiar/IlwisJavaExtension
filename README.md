@@ -6,3 +6,8 @@
 
 <h2>IlwisObject Test</h2>
 Java project for testing the generated output.
+<h3>Set up</h3>
+<li>Ilwis location have to be in the PATH variable. (Folder with ilwis.exe, default location: "D:\ilwisObjects\output\win32debug\bin;").</li>
+<li>_ilwisobjects.dll have to be reachable by Ilwis, in "ilwislocation\extensions\_ilwisobjects\".</li>
+<li>Open the project in Eclipse.</li>
+<li>To run all the tests, right-click on the test folder, "Run as" JUnit Test.</li>
