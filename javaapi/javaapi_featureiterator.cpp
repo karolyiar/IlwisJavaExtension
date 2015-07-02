@@ -32,7 +32,6 @@ FeatureIterator::FeatureIterator(const FeatureIterator &it): _coverage(it._cover
 Feature FeatureIterator::__next__(){
     Ilwis::FeatureIterator& iter = this->ptr();
     if (iter != (*this->_end)){
-        Ilwis::SPFeatureI test = *iter;
         Ilwis::SPFeatureI* f = new Ilwis::SPFeatureI(*iter);
         iter++;
         return Feature(f, this->_coverage);

@@ -116,7 +116,7 @@ IObject* Engine::_do(std::string output_name, std::string operation, std::string
         } else if (result._type == itBOOL){
 
         }
-        throw Ilwis::ErrorObject(QString("couldn't handle return type of do(%1)").arg(command));
+        throw Ilwis::ErrorObject(QString("couldn't handle return type (IlwisType=%2) of do(%1)").arg(command).arg(result._type));
     }else{
         throw Ilwis::ErrorObject(QString("couldn't do(%1)").arg(command));
     }
