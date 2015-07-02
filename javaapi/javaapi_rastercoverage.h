@@ -66,6 +66,8 @@ namespace javaapi {
         PixelIterator begin();
         PixelIterator end();
 
+        PixelIterator band(double index);
+        PixelIterator band(const std::string& index);
         /*PixelIterator band(PyObject* pyTrackIndex);
         void addBand(PyObject* pyTrackIndex, PixelIterator* pyIter);
         void setBandDefinition(PyObject* pyTrackIndex, const DataDefinition& datdef);

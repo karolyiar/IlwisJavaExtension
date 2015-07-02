@@ -276,11 +276,19 @@ PixelIterator RasterCoverage::end(){
          Ilwis::PixelIterator* ilwIter = new Ilwis::PixelIterator(this->ptr()->as<Ilwis::RasterCoverage>()->band(qIndex.toString()));
         return PixelIterator(ilwIter);
     }
-
     throw InvalidObject("Couldn't find data at this index.");
+}*/
+PixelIterator RasterCoverage::band(double index) {
+   Ilwis::PixelIterator* ilwIter = new Ilwis::PixelIterator(this->ptr()->as<Ilwis::RasterCoverage>()->band(index));
+   return PixelIterator(ilwIter);
 }
 
-void RasterCoverage::addBand(PyObject* pyTrackIndex, PixelIterator* pyIter){
+PixelIterator RasterCoverage::band(const std::string& index) {
+   Ilwis::PixelIterator* ilwIter = new Ilwis::PixelIterator(this->ptr()->as<Ilwis::RasterCoverage>()->band(QString::fromStdString(index)));
+   return PixelIterator(ilwIter);
+}
+
+/*void RasterCoverage::addBand(PyObject* pyTrackIndex, PixelIterator* pyIter){
     QVariant qIndex = resolveIndex(pyTrackIndex);
     if((QMetaType::Type)qIndex.type() == QMetaType::Double){
         this->_ilwisObject->as<Ilwis::RasterCoverage>()->band(qIndex.toDouble(), pyIter->ptr());
