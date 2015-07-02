@@ -98,6 +98,21 @@ std::string Domain::contains(double value) const{
     }
 }
 
+std::string Domain::contains(const std::string& value) const{
+    Domain::Containement dc = (Domain::Containement)this->ptr()->as<Ilwis::Domain>()->contains(QVariant(QString::fromStdString(value)));
+    switch(dc){
+    case 1: return "cSELF";
+                break;
+    case 2: return "cPARENT";
+                break;
+    case 3: return "cDECLARED";
+                break;
+    case 0: return "cNONE";
+        break;
+    default: return "Not found anywhere";
+    }
+}
+
 bool Domain::isCompatibleWith(const Domain &dom) const{
     return this->ptr()->as<Ilwis::Domain>()->isCompatibleWith(dom.ptr()->ptr());
 }

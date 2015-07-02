@@ -38,6 +38,7 @@ namespace javaapi {
 
         Range& getRange();
         std::string contains(double value) const;
+        std::string contains(const std::string& value) const;
         bool isCompatibleWith(const Domain& dom) const;
         void setRange(const Range& rng);
         IlwisTypes valueType() const;
