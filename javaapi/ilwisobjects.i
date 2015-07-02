@@ -3,11 +3,16 @@
 %module(docstring="The Java API for ILWIS Objects") ilwisobjects
 %feature("autodoc","1");
 
+%typemap(javacode) std::vector<double> "  public vectord(double[] array) {
+	this();
+    for ( double i : array )
+      add( i );
+  }";
+
 %include "exception.i"
 %include "std_string.i"
 %include "std_vector.i"
 %include "std_pair.i"
-
 %include "std_map.i"
 
 %begin %{
@@ -51,11 +56,9 @@
 %exception{
     try {
         $action
-    }catch (std::exception& e) {
-        //PyErr_SetString(javaapi::translate_Exception_type(e),javaapi::get_err_message(e));
+    } catch (std::exception& e) {
         jenv->ThrowNew(jenv->FindClass("java/lang/Exception"),javaapi::get_err_message(e));
         //SWIG_fail;
-		// TODO: Exception handling
     }
 }
 
@@ -77,6 +80,10 @@
 %rename(add) __add__;
 %rename(contains) __contains__;
 %rename(iterator) __iter__;
+%rename(toDouble) __float__;
+%rename(toBigInteger) __int__;
+%rename(set) __set__;
+%rename(set) __setitem__;
 
 
 %typemap(javainterfaces) javaapi::FeatureCoverage "Iterable<Feature>";
@@ -87,7 +94,7 @@
 %typemap(javainterfaces) javaapi::VertexIterator "Iterator<Coordinate>";
 %typemap(javaimports) javaapi::VertexIterator "import java.util.Iterator;";
 
-//%typemap(javainterfaces) javaapi::RasterCoverage "Iterable<Pixel>";
+%typemap(javainterfaces) javaapi::RasterCoverage "Iterable<Double>";
 %typemap(javainterfaces) javaapi::PixelIterator "Iterator<Double>";
 %typemap(javaimports) javaapi::PixelIterator "import java.util.Iterator;";
 %typemap(javacode) javaapi::PixelIterator "  public Double next() { return _next(); }";
@@ -264,23 +271,10 @@ namespace std {
 };
 
 %pragma(java) modulecode=%{
-  public final static vectord array(double[] array) {
-    vectord result = new vectord();
-    for ( double i : array ) {
-      result.add( i );
-    }
-    return result;
-  }
-  
-  public final static vectori array(int[] array) {
-    vectori result = new vectori();
-    for ( int i : array ) {
-      result.add( i );
-    }
-    return result;
-  }
+  public static String getsUNDEF() { return "?"; }
+  public static int getshUNDEF() { return 32767; }
+  public static float getFlUNDEF() { return (float)1e38; }
 %}
-
 
 
 
