@@ -89,8 +89,8 @@ public class PixelD {
     return (cPtr == 0) ? null : new PixelD(cPtr, false);
   }
 
-  public boolean equal(PixelD other) {
-    return ilwisobjectsJNI.PixelD_equal(swigCPtr, this, PixelD.getCPtr(other), other);
+  public boolean equals(PixelD other) {
+    return ilwisobjectsJNI.PixelD_equals(swigCPtr, this, PixelD.getCPtr(other), other);
   }
 
   public boolean notequal(PixelD other) {

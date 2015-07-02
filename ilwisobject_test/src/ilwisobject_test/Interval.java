@@ -35,4 +35,24 @@ public class Interval extends DomainItem {
     super.delete();
   }
 
+  public Interval() {
+    this(ilwisobjectsJNI.new_Interval__SWIG_0(), true);
+  }
+
+  public Interval(String label, NumericRange nr) {
+    this(ilwisobjectsJNI.new_Interval__SWIG_1(label, NumericRange.getCPtr(nr), nr), true);
+  }
+
+  public boolean isOrdered() {
+    return ilwisobjectsJNI.Interval_isOrdered(swigCPtr, this);
+  }
+
+  public NumericRange range() {
+    return new NumericRange(ilwisobjectsJNI.Interval_range__SWIG_0(swigCPtr, this), true);
+  }
+
+  public void range(NumericRange nr) {
+    ilwisobjectsJNI.Interval_range__SWIG_1(swigCPtr, this, NumericRange.getCPtr(nr), nr);
+  }
+
 }

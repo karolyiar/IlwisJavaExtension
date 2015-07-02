@@ -67,16 +67,16 @@ public class Box {
     return ilwisobjectsJNI.Box_is3D(swigCPtr, this);
   }
 
-  public boolean __contains__(Pixel point) {
-    return ilwisobjectsJNI.Box___contains____SWIG_0(swigCPtr, this, Pixel.getCPtr(point), point);
+  public boolean contains(Pixel point) {
+    return ilwisobjectsJNI.Box_contains__SWIG_0(swigCPtr, this, Pixel.getCPtr(point), point);
   }
 
-  public boolean __contains__(Box box) {
-    return ilwisobjectsJNI.Box___contains____SWIG_1(swigCPtr, this, Box.getCPtr(box), box);
+  public boolean contains(Box box) {
+    return ilwisobjectsJNI.Box_contains__SWIG_1(swigCPtr, this, Box.getCPtr(box), box);
   }
 
-  public boolean equal(Box other) {
-    return ilwisobjectsJNI.Box_equal(swigCPtr, this, Box.getCPtr(other), other);
+  public boolean equals(Box other) {
+    return ilwisobjectsJNI.Box_equals(swigCPtr, this, Box.getCPtr(other), other);
   }
 
   public boolean notequal(Box other) {

@@ -85,8 +85,8 @@ public class Coordinate {
     return (cPtr == 0) ? null : new Coordinate(cPtr, false);
   }
 
-  public boolean equal(Coordinate other) {
-    return ilwisobjectsJNI.Coordinate_equal(swigCPtr, this, Coordinate.getCPtr(other), other);
+  public boolean equals(Coordinate other) {
+    return ilwisobjectsJNI.Coordinate_equals(swigCPtr, this, Coordinate.getCPtr(other), other);
   }
 
   public boolean notequal(Coordinate other) {

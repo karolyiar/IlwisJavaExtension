@@ -75,8 +75,8 @@ public class IlwisObject extends IObject {
     return ilwisobjectsJNI.IlwisObject_toString(swigCPtr, this);
   }
 
-  public String __add__(String value) {
-    return ilwisobjectsJNI.IlwisObject___add__(swigCPtr, this, value);
+  public String add(String value) {
+    return ilwisobjectsJNI.IlwisObject_add(swigCPtr, this, value);
   }
 
   public String __radd__(String value) {

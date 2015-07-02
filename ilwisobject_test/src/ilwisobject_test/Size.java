@@ -79,13 +79,13 @@ public class Size {
     return ilwisobjectsJNI.Size_linearSize(swigCPtr, this);
   }
 
-  public Size add(Size sz) {
-    long cPtr = ilwisobjectsJNI.Size_add(swigCPtr, this, Size.getCPtr(sz), sz);
+  public Size increase(Size sz) {
+    long cPtr = ilwisobjectsJNI.Size_increase(swigCPtr, this, Size.getCPtr(sz), sz);
     return (cPtr == 0) ? null : new Size(cPtr, false);
   }
 
-  public Size subtract(Size sz) {
-    long cPtr = ilwisobjectsJNI.Size_subtract(swigCPtr, this, Size.getCPtr(sz), sz);
+  public Size decrease(Size sz) {
+    long cPtr = ilwisobjectsJNI.Size_decrease(swigCPtr, this, Size.getCPtr(sz), sz);
     return (cPtr == 0) ? null : new Size(cPtr, false);
   }
 
@@ -94,24 +94,24 @@ public class Size {
     return (cPtr == 0) ? null : new Size(cPtr, false);
   }
 
-  public boolean equal(Size sz) {
-    return ilwisobjectsJNI.Size_equal(swigCPtr, this, Size.getCPtr(sz), sz);
+  public boolean equals(Size sz) {
+    return ilwisobjectsJNI.Size_equals(swigCPtr, this, Size.getCPtr(sz), sz);
   }
 
   public boolean notequal(Size sz) {
     return ilwisobjectsJNI.Size_notequal(swigCPtr, this, Size.getCPtr(sz), sz);
   }
 
-  public boolean __contains__(Coordinate pix) {
-    return ilwisobjectsJNI.Size___contains____SWIG_0(swigCPtr, this, Coordinate.getCPtr(pix), pix);
+  public boolean contains(Coordinate pix) {
+    return ilwisobjectsJNI.Size_contains__SWIG_0(swigCPtr, this, Coordinate.getCPtr(pix), pix);
   }
 
-  public boolean __contains__(Pixel pix) {
-    return ilwisobjectsJNI.Size___contains____SWIG_1(swigCPtr, this, Pixel.getCPtr(pix), pix);
+  public boolean contains(Pixel pix) {
+    return ilwisobjectsJNI.Size_contains__SWIG_1(swigCPtr, this, Pixel.getCPtr(pix), pix);
   }
 
-  public boolean __contains__(PixelD pix) {
-    return ilwisobjectsJNI.Size___contains____SWIG_2(swigCPtr, this, PixelD.getCPtr(pix), pix);
+  public boolean contains(PixelD pix) {
+    return ilwisobjectsJNI.Size_contains__SWIG_2(swigCPtr, this, PixelD.getCPtr(pix), pix);
   }
 
   public String toString() {

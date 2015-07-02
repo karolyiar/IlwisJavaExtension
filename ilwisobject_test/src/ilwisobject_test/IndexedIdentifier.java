@@ -35,4 +35,36 @@ public class IndexedIdentifier extends DomainItem {
     super.delete();
   }
 
+  public IndexedIdentifier() {
+    this(ilwisobjectsJNI.new_IndexedIdentifier__SWIG_0(), true);
+  }
+
+  public IndexedIdentifier(String label, long ind, int cnt) {
+    this(ilwisobjectsJNI.new_IndexedIdentifier__SWIG_1(label, ind, cnt), true);
+  }
+
+  public IndexedIdentifier(String label, long ind) {
+    this(ilwisobjectsJNI.new_IndexedIdentifier__SWIG_2(label, ind), true);
+  }
+
+  public IndexedIdentifier(String label) {
+    this(ilwisobjectsJNI.new_IndexedIdentifier__SWIG_3(label), true);
+  }
+
+  public IndexedIdentifier(SWIGTYPE_p_Ilwis__DomainItem ilwItem) {
+    this(ilwisobjectsJNI.new_IndexedIdentifier__SWIG_4(SWIGTYPE_p_Ilwis__DomainItem.getCPtr(ilwItem)), true);
+  }
+
+  public String prefix() {
+    return ilwisobjectsJNI.IndexedIdentifier_prefix(swigCPtr, this);
+  }
+
+  public void setPrefix(String name) {
+    ilwisobjectsJNI.IndexedIdentifier_setPrefix(swigCPtr, this, name);
+  }
+
+  public boolean equals(IndexedIdentifier item) {
+    return ilwisobjectsJNI.IndexedIdentifier_equals(swigCPtr, this, IndexedIdentifier.getCPtr(item), item);
+  }
+
 }

@@ -35,4 +35,28 @@ public class NamedIdentifier extends DomainItem {
     super.delete();
   }
 
+  public NamedIdentifier() {
+    this(ilwisobjectsJNI.new_NamedIdentifier__SWIG_0(), true);
+  }
+
+  public NamedIdentifier(String name, long rawvalue) {
+    this(ilwisobjectsJNI.new_NamedIdentifier__SWIG_1(name, rawvalue), true);
+  }
+
+  public NamedIdentifier(String name) {
+    this(ilwisobjectsJNI.new_NamedIdentifier__SWIG_2(name), true);
+  }
+
+  public NamedIdentifier(SWIGTYPE_p_Ilwis__DomainItem ilwItem) {
+    this(ilwisobjectsJNI.new_NamedIdentifier__SWIG_3(SWIGTYPE_p_Ilwis__DomainItem.getCPtr(ilwItem)), true);
+  }
+
+  public void setName(String name) {
+    ilwisobjectsJNI.NamedIdentifier_setName(swigCPtr, this, name);
+  }
+
+  public boolean equals(NamedIdentifier item) {
+    return ilwisobjectsJNI.NamedIdentifier_equals(swigCPtr, this, NamedIdentifier.getCPtr(item), item);
+  }
+
 }

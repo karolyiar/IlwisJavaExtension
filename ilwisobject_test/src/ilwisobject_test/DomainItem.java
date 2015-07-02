@@ -35,4 +35,37 @@ public class DomainItem extends IObject {
     super.delete();
   }
 
+  public DomainItem() {
+    this(ilwisobjectsJNI.new_DomainItem__SWIG_0(), true);
+  }
+
+  public DomainItem(SWIGTYPE_p_Ilwis__DomainItem ilwItem) {
+    this(ilwisobjectsJNI.new_DomainItem__SWIG_1(SWIGTYPE_p_Ilwis__DomainItem.getCPtr(ilwItem)), true);
+  }
+
+  public boolean isValid() {
+    return ilwisobjectsJNI.DomainItem_isValid(swigCPtr, this);
+  }
+
+  public String toString() {
+    return ilwisobjectsJNI.DomainItem_toString(swigCPtr, this);
+  }
+
+  public java.math.BigInteger ilwisType() {
+    return ilwisobjectsJNI.DomainItem_ilwisType(swigCPtr, this);
+  }
+
+  public DomainItem clone() {
+    long cPtr = ilwisobjectsJNI.DomainItem_clone(swigCPtr, this);
+    return (cPtr == 0) ? null : new DomainItem(cPtr, false);
+  }
+
+  public void raw(long rw) {
+    ilwisobjectsJNI.DomainItem_raw__SWIG_0(swigCPtr, this, rw);
+  }
+
+  public long raw() {
+    return ilwisobjectsJNI.DomainItem_raw__SWIG_1(swigCPtr, this);
+  }
+
 }

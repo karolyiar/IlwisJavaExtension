@@ -8,15 +8,15 @@
 
 package ilwisobject_test;
 
-public class ItemRange extends Range {
+public class NumericDomain extends Domain {
   private long swigCPtr;
 
-  protected ItemRange(long cPtr, boolean cMemoryOwn) {
-    super(ilwisobjectsJNI.ItemRange_SWIGUpcast(cPtr), cMemoryOwn);
+  protected NumericDomain(long cPtr, boolean cMemoryOwn) {
+    super(ilwisobjectsJNI.NumericDomain_SWIGUpcast(cPtr), cMemoryOwn);
     swigCPtr = cPtr;
   }
 
-  protected static long getCPtr(ItemRange obj) {
+  protected static long getCPtr(NumericDomain obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
@@ -28,27 +28,24 @@ public class ItemRange extends Range {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        ilwisobjectsJNI.delete_ItemRange(swigCPtr);
+        ilwisobjectsJNI.delete_NumericDomain(swigCPtr);
       }
       swigCPtr = 0;
     }
     super.delete();
   }
 
-  public long count() {
-    return ilwisobjectsJNI.ItemRange_count(swigCPtr, this);
+  public NumericDomain() {
+    this(ilwisobjectsJNI.new_NumericDomain__SWIG_0(), true);
   }
 
-  public void remove(String name) {
-    ilwisobjectsJNI.ItemRange_remove(swigCPtr, this, name);
+  public NumericDomain(String resource) {
+    this(ilwisobjectsJNI.new_NumericDomain__SWIG_1(resource), true);
   }
 
-  public void clear() {
-    ilwisobjectsJNI.ItemRange_clear(swigCPtr, this);
-  }
-
-  public ItemRange() {
-    this(ilwisobjectsJNI.new_ItemRange(), true);
+  public static NumericDomain toNumericDomain(IObject obj) {
+    long cPtr = ilwisobjectsJNI.NumericDomain_toNumericDomain(IObject.getCPtr(obj), obj);
+    return (cPtr == 0) ? null : new NumericDomain(cPtr, false);
   }
 
 }

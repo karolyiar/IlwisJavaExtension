@@ -67,16 +67,16 @@ public class Envelope {
     return ilwisobjectsJNI.Envelope_is3D(swigCPtr, this);
   }
 
-  public boolean __contains__(Coordinate point) {
-    return ilwisobjectsJNI.Envelope___contains____SWIG_0(swigCPtr, this, Coordinate.getCPtr(point), point);
+  public boolean contains(Coordinate point) {
+    return ilwisobjectsJNI.Envelope_contains__SWIG_0(swigCPtr, this, Coordinate.getCPtr(point), point);
   }
 
-  public boolean __contains__(Envelope box) {
-    return ilwisobjectsJNI.Envelope___contains____SWIG_1(swigCPtr, this, Envelope.getCPtr(box), box);
+  public boolean contains(Envelope box) {
+    return ilwisobjectsJNI.Envelope_contains__SWIG_1(swigCPtr, this, Envelope.getCPtr(box), box);
   }
 
-  public boolean equal(Envelope other) {
-    return ilwisobjectsJNI.Envelope_equal(swigCPtr, this, Envelope.getCPtr(other), other);
+  public boolean equals(Envelope other) {
+    return ilwisobjectsJNI.Envelope_equals(swigCPtr, this, Envelope.getCPtr(other), other);
   }
 
   public boolean notequal(Envelope other) {

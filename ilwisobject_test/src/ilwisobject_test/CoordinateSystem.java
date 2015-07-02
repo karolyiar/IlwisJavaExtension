@@ -47,8 +47,8 @@ public class CoordinateSystem extends IlwisObject {
     ilwisobjectsJNI.CoordinateSystem_setEnvelope(swigCPtr, this, Envelope.getCPtr(env), env);
   }
 
-  public boolean equal(CoordinateSystem csy) {
-    return ilwisobjectsJNI.CoordinateSystem_equal(swigCPtr, this, CoordinateSystem.getCPtr(csy), csy);
+  public boolean equals(CoordinateSystem csy) {
+    return ilwisobjectsJNI.CoordinateSystem_equals(swigCPtr, this, CoordinateSystem.getCPtr(csy), csy);
   }
 
   public boolean notequal(CoordinateSystem csy) {

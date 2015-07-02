@@ -34,7 +34,11 @@ public class vectord {
       swigCPtr = 0;
     }
   }
-
+  public vectord(double[] array) {
+	this();
+    for ( double i : array )
+      add( i );
+  }
   public vectord() {
     this(ilwisobjectsJNI.new_vectord__SWIG_0(), true);
   }

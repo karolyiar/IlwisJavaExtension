@@ -25,6 +25,10 @@ public class ilwisobjects {
     ilwisobjectsJNI.connectIssueLogger();
   }
 
+  public static int getCOVERAGEATRIB() {
+    return ilwisobjectsJNI.COVERAGEATRIB_get();
+  }
+
   public static double getRUNDEF() {
     return ilwisobjectsJNI.rUNDEF_get();
   }
@@ -38,12 +42,8 @@ public class ilwisobjects {
   }
 
 
-  public final static vectord array(double[] array) {
-    vectord result = new vectord();
-    for ( double i : array ) {
-      result.add( i );
-    }
-    return result;
-  }
+  public static String getsUNDEF() { return "?"; }
+  public static int getshUNDEF() { return 32767; }
+  public static float getFlUNDEF() { return (float)1e38; }
 
 }
