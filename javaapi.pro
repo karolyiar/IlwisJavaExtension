@@ -7,7 +7,8 @@ TARGET = _ilwisobjects
 TEMPLATE = lib
 
 win32{
-    DLLDESTDIR = $$PWD/../output/$$PLATFORM$$CONF/bin/extensions/$$TARGET
+    #DLLDESTDIR = $$PWD/../output/$$PLATFORM$$CONF/bin/extensions/$$TARGET
+    DLLDESTDIR = $$PWD
 }
 
 DESTDIR = $$PWD/../libraries/$$PLATFORM$$CONF/extensions/$$TARGET
@@ -42,7 +43,8 @@ HEADERS += \
     javaapi/javaapi_catalog.h \
     javaapi/javaapi_rastercoverage.h \
     javaapi/javaapi_pixeliterator.h \
-    javaapi/javaapi_engine.h
+    javaapi/javaapi_engine.h \
+    javaapi/javaapi_ilwisoperation.h
 
 
 SOURCES += \
@@ -70,7 +72,8 @@ SOURCES += \
     javaapi/javaapi_catalog.cpp \
     javaapi/javaapi_rastercoverage.cpp \
     javaapi/javaapi_pixeliterator.cpp \
-    javaapi/javaapi_engine.cpp
+    javaapi/javaapi_engine.cpp \
+    javaapi/javaapi_ilwisoperation.cpp
 
 
 OTHER_FILES += \

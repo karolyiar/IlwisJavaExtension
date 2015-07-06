@@ -27,6 +27,7 @@
 #include "javaapi_error.h"
 #include "javaapi_extension.h"
 #include "javaapi_object.h"
+#include "javaapi_ilwisoperation.h"
 #include "javaapi_engine.h"
 #include "javaapi_ilwisobject.h"
 #include "javaapi_coordinatesystem.h"
@@ -102,6 +103,10 @@
 %include "javaapi_extension.h"
 
 %include "javaapi_object.h"
+
+%ignore operator=;
+
+%include "javaapi_ilwisoperation.h"
 
 %include "javaapi_engine.h"
 
@@ -268,6 +273,7 @@ namespace std {
    %template (mapsd) map<std::string, double>;
    %template (vectorvs) vector<std::vector<std::string> >;
    %template (vectors) vector<std::string>;
+   %template (vectorOperation) vector<javaapi::IlwisOperation>;
 };
 
 %pragma(java) modulecode=%{

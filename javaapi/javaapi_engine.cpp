@@ -183,6 +183,34 @@ std::string Engine::operationMetaData(const std::string &name){
     }
     return ret.toStdString();
 }
+
+std::vector<IlwisOperation> Engine::operationVector(const std::string& name) {
+    Ilwis::CatalogView opCat(QUrl(QString("ilwis://operations")));
+    opCat.filter("type='OperationMetaData'");
+    opCat.prepare();
+    std::vector<Ilwis::Resource> ops = opCat.items();
+    std::vector<IlwisOperation> result;
+    for(auto it = ops.begin();it != ops.end(); it++){
+        if (QString::fromStdString(name).compare(it->name(),Qt::CaseInsensitive) == 0){
+            result.push_back( IlwisOperation(*it) );
+        }
+    }
+    return result;
+}
+
+IlwisOperation Engine::getOperationById(qint64 id) {
+    Ilwis::CatalogView opCat(QUrl(QString("ilwis://operations")));
+    opCat.filter("type='OperationMetaData'");
+    opCat.prepare();
+    std::vector<Ilwis::Resource> ops = opCat.items();
+    for(auto it = ops.begin();it != ops.end(); it++){
+        if (it->id() == id){
+           return IlwisOperation(*it);
+        }
+    }
+
+}
+
 /*
 PyObject* Engine::_catalogItems(){
     Ilwis::ICatalog cat = Ilwis::context()->workingCatalog();
