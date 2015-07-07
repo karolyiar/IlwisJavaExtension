@@ -14,32 +14,10 @@ public class TestUtil {
 	public final static String workingDir = "file:///F:/documents/ilwis/ilwisObjects/pytest/";
 	public final static String ilwisLocation = "F:/documents/ilwis/ilwisObjects/output/win32debug/bin/";
 	public final static double precision = 1e-10;
-	private static boolean libLoaded = false;
 
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
-		if (!libLoaded) {
-			try {
-				System.loadLibrary("lib/_ilwisobjects");
-				ilwisobjects._initIlwisObjects(ilwisLocation);
-
-				Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-					public void run() {
-						ilwisobjects._exitIlwisObjects();
-					}
-				}));
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println("Native code library failed to load.\n");
-				e.printStackTrace();
-				System.exit(1);
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} finally {
-				libLoaded = true;
-			}
-		}
+		ilwisobjects.initIlwisObjects(ilwisLocation);
 	}
 
 	@Before

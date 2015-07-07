@@ -280,6 +280,26 @@ namespace std {
   public static String getsUNDEF() { return "?"; }
   public static int getshUNDEF() { return 32767; }
   public static float getFlUNDEF() { return (float)1e38; }
+  private static boolean libLoaded = false;
+  
+  public static void initIlwisObjects(String ilwisLocation) throws UnsatisfiedLinkError, SecurityException, IllegalArgumentException {
+		if (!libLoaded) {
+			try {
+				System.loadLibrary("lib/_ilwisobjects");
+				ilwisobjects._initIlwisObjects(ilwisLocation);
+
+				Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+					public void run() {
+						ilwisobjects._exitIlwisObjects();
+					}
+				}));
+			} finally {
+				libLoaded = true;
+			}
+		}
+	}
+  
+  
 %}
 
 
