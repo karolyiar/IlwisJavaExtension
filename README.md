@@ -17,7 +17,7 @@ Qt can run SWIG in the building process.<br>
 <h2>IlwisJava</h2>
 Maven project. (SWIG is not used here.)
 <h3>Building the library</h3>
-<li>Edit <i>ilwisjava/src/main/resources/ilwislocation.config</i> to the folder with ilwis.exe.<li>
+<li>Edit <i>ilwisjava/src/main/resources/ilwislocation.config</i> to the folder with ilwis.exe.</li>
 Default: <code>ilwisDir=F:/documents/ilwis/ilwisObjects/output/win32debug/bin/</code>
 <li>Use <code>mvn clean install</code> in the <i>ilwisjava</i> folder to export to jar and run the tests.<br></li>
 <b>Output:</b> The jar file is in <i>ilwisjava/target</i>.
