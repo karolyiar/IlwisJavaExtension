@@ -23,6 +23,7 @@ Maven project.
 <h3>Building the library</h3>
 <li>Edit <i>ilwisjava/src/main/resources/ilwislocation.config</i> to the folder with ilwis.exe.</li>
 Default: <code>ilwisDir=F:/documents/ilwis/ilwisObjects/output/win32debug/bin/</code>
+<li>Download the testfiles from <a href="https://docs.google.com/uc?id=0B0bWmJJYoWIpR2VuWmRYdUlFSkk&export=download">Here</a> to <i>ilwisjava/src/test/resources</i>.
 <li>Use <code>mvn clean install</code> in the <i>ilwisjava</i> folder to export to jar and run the tests.<br></li>
 <b>Output:</b>
 <li>The jar file is in <i>ilwisjava/target</i>.</li>
