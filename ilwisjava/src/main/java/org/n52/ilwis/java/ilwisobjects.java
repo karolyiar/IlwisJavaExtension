@@ -115,8 +115,8 @@ public class ilwisobjects {
 				if (lineSplit[0].equals("ilwisDir")) {
 					return ( lineSplit[1] );
 				}
+				throw new FileNotFoundException("ilwislocation.config not well-formed");
 			}
-			throw new FileNotFoundException("ilwislocation.config invalid");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -128,7 +128,6 @@ public class ilwisobjects {
 		}
 		return null;
 	}
-
   
   
 

@@ -323,6 +323,7 @@ import java.net.URL;
 				if (lineSplit[0].equals("ilwisDir")) {
 					return ( lineSplit[1] );
 				}
+				throw new FileNotFoundException("ilwislocation.config not well-formed");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -333,7 +334,7 @@ import java.net.URL;
 				ex.printStackTrace();
 			}
 		}
-	}
+		return null;
 	}
   
   
