@@ -6,6 +6,8 @@ TARGET = _ilwisobjects
 
 TEMPLATE = lib
 
+VERSION = 0.0.0.1
+
 win32{
     #DLLDESTDIR = $$PWD/../output/$$PLATFORM$$CONF/bin/extensions/$$TARGET
     DLLDESTDIR = $$PWD

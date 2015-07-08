@@ -276,16 +276,24 @@ namespace std {
    %template (vectorOperation) vector<javaapi::IlwisOperation>;
 };
 
+%pragma(java) moduleimports=%{
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+%} 
 %pragma(java) modulecode=%{
   public static String getsUNDEF() { return "?"; }
   public static int getshUNDEF() { return 32767; }
   public static float getFlUNDEF() { return (float)1e38; }
   private static boolean libLoaded = false;
+  public final static String ilwisLocation = getIlwisLocation();
   
   public static void initIlwisObjects(String ilwisLocation) throws UnsatisfiedLinkError, SecurityException, IllegalArgumentException {
 		if (!libLoaded) {
 			try {
-				System.loadLibrary("lib/_ilwisobjects");
+				System.loadLibrary("lib/_ilwisobjects0");
 				ilwisobjects._initIlwisObjects(ilwisLocation);
 
 				Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -297,6 +305,35 @@ namespace std {
 				libLoaded = true;
 			}
 		}
+	}
+	
+	private static String getIlwisLocation() {
+		BufferedReader br = null;
+		URL input = ClassLoader.getSystemResource("ilwislocation.config");
+		try {
+			String line;
+			 
+			br = new BufferedReader(new InputStreamReader( input.openStream() ));
+ 
+			while ((line = br.readLine()) != null) {
+				if (line.indexOf("=") == -1) {
+					continue;
+				}
+				String[] lineSplit = line.split("=");
+				if (lineSplit[0].equals("ilwisDir")) {
+					return ( lineSplit[1] );
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 	}
   
   
