@@ -4,7 +4,7 @@ Introductory blogpost: http://blog.52north.org/2015/05/27/wps-ilwis-bridge/ <br>
 Midterm blogpost: http://blog.52north.org/2015/07/03/wps-ilwis-bridge-midterm-post/ <br>
 
 <h2>JavaAPI</h2>
-<b>Will be moved to IlwisConnectors.</b>
+<b>Will be moved to IlwisConnectors.</b><br>
 Qt project, generates a Java API for <a href="https://github.com/52North/IlwisCore">Ilwis-Objects</a> with <a href="http://www.swig.org/">SWIG</a>.
 <h3>Requirements</h3>
 <li>Qt 5.4.1 with MinGW 4.8.2 32bit</li>
@@ -13,7 +13,7 @@ Qt project, generates a Java API for <a href="https://github.com/52North/IlwisCo
 <li>Set <b>JAVADIR</b> in javaapi.pro to JDK location.
 <li>Set <b>Projects / Build / Build Steps</b> to run SWIG:
 <a href="https://drive.google.com/open?id=0B0bWmJJYoWIpNXo2TGhMZWdzcDQ">image</a>.</li>
-SWIG build parameters: -verbose -java -c++ -package org.n52.ilwis.java -outdir ../ilwisjava/src/main/java/org/n52/ilwis/java ilwisobjects.i
+SWIG build parameters: <code>-verbose -java -c++ -package org.n52.ilwis.java -outdir ../ilwisjava/src/main/java/org/n52/ilwis/java ilwisobjects.i</code>
 <b>Output:</b>
 <li>Java files in the swig outdir <i>(ilwisjava/src/main/java/org/n52/ilwis/java)</i>.
 <li>_ilwisobjects.dll in the project root folder.
