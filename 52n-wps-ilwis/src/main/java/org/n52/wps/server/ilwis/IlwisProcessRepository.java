@@ -29,7 +29,9 @@
 package org.n52.wps.server.ilwis;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,6 +43,7 @@ import net.opengis.wps.x100.ProcessDescriptionType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.xmlbeans.XmlException;
 import org.n52.ilwis.java.Engine;
 import org.n52.ilwis.java.IlwisOperation;
@@ -55,7 +58,7 @@ import org.n52.wps.server.IAlgorithmRepository;
  * A container, which allows the 52n WPS to recognize the Ilwis library.
  * Basic initialization is performed here.
  * 
- * Whenever a getcapabilities request comes in, the process names are extraced based on the available process description documents for sextante processes.
+ * Whenever a getcapabilities request comes in, the process names are extraced based on the available process description documents for Ilwis processes.
  * This should be changed in the future, when process descriptions should be generated automatically. When a execute process request comes in, a generic GenericIlwisProcessDelegator is created. 
  */
 
@@ -131,13 +134,12 @@ public class IlwisProcessRepository implements IAlgorithmRepository {
 		}
 
 		// Ilwis initialize
-		LOGGER.info("before loading ilwis");
 		try {
-			ilwisobjects.initIlwisObjects(ilwisobjects.ilwisLocation);
-		} catch (Exception e) {
+			ilwisobjects.initIlwisObjects();
+		} catch (FileNotFoundException e) {
 			LOGGER.info(e.getMessage());
 		}
-		LOGGER.info("after loading ilwis");
+
 		// HashMap<String, HashMap<String, GeoAlgorithm>> sextanteMap =
 		// Sextante.getAlgorithms();
 		// HashMap<String, GeoAlgorithm> algorithmMap =
@@ -145,33 +147,40 @@ public class IlwisProcessRepository implements IAlgorithmRepository {
 		// Set<String> keys = algorithmMap.keySet();
 		// SextanteProcessDescriptionCreator descriptionCreator = new
 		// SextanteProcessDescriptionCreator();
-		// vectorOperation ilwisOperations = Engine.getAllOperations();
-		// IlwisProcessDescriptionCreator descriptionCreator = new
-		// IlwisProcessDescriptionCreator();
-		//
-		// for (int i = 0; i < ilwisOperations.size(); i++) {
-		// // String key = Long.toString( ilwisOperations.get(i).getId() );
-		// long id = ilwisOperations.get(i).getId();
-		// // if(!processList.contains(key)){
-		// if (!processList.contains(Long.toString(id))) {
-		// LOGGER.info("Did not add Ilwis Process : " + id
-		// + ". Not in Repository properties or not active.");
-		// continue;
-		// }
-		// IlwisOperation ilwisProcess = Engine.getOperationById(id);
-		// ProcessDescriptionType processDescription;
-		// try {
-		// processDescription = descriptionCreator
-		// .createDescribeProcessType(ilwisProcess);
-		// } catch (Exception e) {
-		// LOGGER.warn("Could not add Ilwis Process : " + id
-		// + ". Errors while creating describe Process");
-		// continue;
-		// }
-		//
-		// registeredProcesses.put(Long.toString(id), processDescription);
-		// LOGGER.info("Ilwis Process " + Long.toString(id) + " added.");
-		// }
+		vectorOperation ilwisOperations = Engine.getAllOperations();
+		IlwisProcessDescriptionCreator descriptionCreator = new IlwisProcessDescriptionCreator();
+		
+		String[] ilwisOperationNames = new String[ (int)ilwisOperations.size() ];
+		for(int i=0; i<ilwisOperations.size(); i++) {
+			String operationName = ilwisOperations.get(i).getName();
+			int index = 0;
+			while(ArrayUtils.contains(ilwisOperationNames, operationName )) {
+				operationName = ilwisOperations.get(i).getName() + "_" + ++index;
+			}
+			ilwisOperationNames[i] = operationName;
+		}
+
+		for (int i = 0; i < ilwisOperations.size(); i++) {
+			String key = ilwisOperationNames[i];
+			if (!processList.contains(key) ) {
+				LOGGER.info("Did not add Ilwis Process : " + key
+						+ ". Not in Repository properties or not active.");
+				continue;
+			}
+			IlwisOperation ilwisProcess = ilwisOperations.get(i);
+			ProcessDescriptionType processDescription;
+			try {
+				processDescription = descriptionCreator
+						.createDescribeProcessType(ilwisProcess);
+			} catch (Exception e) {
+				LOGGER.warn("Could not add Ilwis Process : " + key
+						+ ". Errors while creating describe Process");
+				continue;
+			}
+
+			registeredProcesses.put(key, processDescription);
+			LOGGER.info("Ilwis Process " + key + " added.");
+		}
 
 		LOGGER.info("Initialization of Ilwis Repository successful");
 	}
