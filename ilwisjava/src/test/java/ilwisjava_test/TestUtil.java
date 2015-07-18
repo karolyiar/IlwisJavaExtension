@@ -2,6 +2,7 @@ package ilwisjava_test;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.math.BigInteger;
 
 import org.junit.Before;
@@ -12,12 +13,17 @@ import org.n52.ilwis.java.*;
 public class TestUtil {
 
 	public final static String workingDir = ClassLoader.getSystemResource("").getPath().toString() + "testfiles/";
-	public final static String ilwisLocation = ilwisobjects.ilwisLocation;
+	public static String ilwisLocation;
 	public final static double precision = 1e-10;
 
 	@BeforeClass
 	public static void onceExecutedBeforeAll() {
-		ilwisobjects.initIlwisObjects(ilwisLocation);
+		try {
+			ilwisobjects.initIlwisObjects();
+		} catch (FileNotFoundException e) {
+			fail(e.getMessage() );
+		} 
+		ilwisLocation = ilwisobjects.getIlwisLocation();
 	}
 
 	@Before

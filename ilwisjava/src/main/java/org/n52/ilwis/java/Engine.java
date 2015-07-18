@@ -127,6 +127,10 @@ public class Engine {
     return new vectorOperation(ilwisobjectsJNI.Engine_operationVector(name), true);
   }
 
+  public static vectorOperation getAllOperations() {
+    return new vectorOperation(ilwisobjectsJNI.Engine_getAllOperations(), true);
+  }
+
   public static IlwisOperation getOperationById(long id) {
     return new IlwisOperation(ilwisobjectsJNI.Engine_getOperationById(id), true);
   }

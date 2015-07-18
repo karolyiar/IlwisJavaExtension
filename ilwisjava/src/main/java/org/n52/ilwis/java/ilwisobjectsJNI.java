@@ -95,6 +95,7 @@ public class ilwisobjectsJNI {
   public final static native long Engine_operations__SWIG_1();
   public final static native String Engine_operationMetaData(String jarg1);
   public final static native long Engine_operationVector(String jarg1);
+  public final static native long Engine_getAllOperations();
   public final static native long Engine_getOperationById(long jarg1);
   public final static native void delete_Engine(long jarg1);
   public final static native int IlwisObject_cmINPUT_get();
