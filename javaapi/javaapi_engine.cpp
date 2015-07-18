@@ -36,6 +36,7 @@
 #include "javaapi_rastercoverage.h"
 #include "javaapi_featurecoverage.h"
 #include "javaapi_catalog.h"
+#include "error.h"
 
 using namespace javaapi;
 
@@ -198,6 +199,18 @@ std::vector<IlwisOperation> Engine::operationVector(const std::string& name) {
     return result;
 }
 
+std::vector<IlwisOperation> Engine::getAllOperations() {
+    Ilwis::CatalogView opCat(QUrl(QString("ilwis://operations")));
+    opCat.filter("type='OperationMetaData'");
+    opCat.prepare();
+    std::vector<Ilwis::Resource> ops = opCat.items();
+    std::vector<IlwisOperation> result;
+    for(auto it = ops.begin();it != ops.end(); it++){
+        result.push_back( IlwisOperation(*it) );
+    }
+    return result;
+}
+
 IlwisOperation Engine::getOperationById(qint64 id) {
     Ilwis::CatalogView opCat(QUrl(QString("ilwis://operations")));
     opCat.filter("type='OperationMetaData'");
@@ -208,7 +221,7 @@ IlwisOperation Engine::getOperationById(qint64 id) {
            return IlwisOperation(*it);
         }
     }
-
+    throw std::invalid_argument("Operation not found with id: " + std::to_string(id));
 }
 
 /*

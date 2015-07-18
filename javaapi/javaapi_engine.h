@@ -15,6 +15,7 @@ namespace javaapi {
         static std::string operationMetaData(const std::string& name);
         //static PyObject* _catalogItems();
         static std::vector<IlwisOperation> operationVector(const std::string& name);
+        static std::vector<IlwisOperation> getAllOperations();
         static IlwisOperation getOperationById(qint64 id);
     private:
         Engine();
