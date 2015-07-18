@@ -293,7 +293,8 @@ import java.net.URL;
   public static void initIlwisObjects(String ilwisLocation) throws UnsatisfiedLinkError, SecurityException, IllegalArgumentException {
 		if (!libLoaded) {
 			try {
-				System.loadLibrary("lib/_ilwisobjects0");
+//				System.loadLibrary("lib/_ilwisobjects0");
+				System.load(ilwisLocation + "extensions/_ilwisobjects/_ilwisobjects0.dll"); //TODO: linux
 				ilwisobjects._initIlwisObjects(ilwisLocation);
 
 				Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
