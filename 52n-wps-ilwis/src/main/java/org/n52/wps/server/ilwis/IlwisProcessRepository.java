@@ -28,23 +28,14 @@
  */
 package org.n52.wps.server.ilwis;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import net.opengis.wps.x100.ProcessDescriptionType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.xmlbeans.XmlException;
 import org.n52.ilwis.java.Engine;
 import org.n52.ilwis.java.IlwisOperation;
 import org.n52.ilwis.java.ilwisobjects;
@@ -53,6 +44,8 @@ import org.n52.wps.PropertyDocument.Property;
 import org.n52.wps.commons.WPSConfig;
 import org.n52.wps.server.IAlgorithm;
 import org.n52.wps.server.IAlgorithmRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * A container, which allows the 52n WPS to recognize the Ilwis library.
@@ -66,6 +59,7 @@ public class IlwisProcessRepository implements IAlgorithmRepository {
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(IlwisProcessRepository.class);
 	private Map<String, ProcessDescriptionType> registeredProcesses;
+	private Map<String, Long> IDToIlwisID = new HashMap<String, Long>();
 
 	@Override
 	public Collection<String> getAlgorithmNames() {
@@ -75,10 +69,14 @@ public class IlwisProcessRepository implements IAlgorithmRepository {
 	@Override
 	public IAlgorithm getAlgorithm(String processID) {
 		if (!containsAlgorithm(processID)) {
-			throw new RuntimeException("Could not allocate Process");
+			throw new RuntimeException("Could not allocate Process: " + processID);
+		}
+		processID = processID.replace("org.n52.wps.server.ilwis.", "");
+		if(!IDToIlwisID.containsKey(processID)) {
+			throw new RuntimeException("Could not find Process ID");
 		}
 		return new GenericIlwisProcessDelegator(processID,
-				registeredProcesses.get(processID));
+				registeredProcesses.get(processID), IDToIlwisID.get(processID));
 	}
 
 	@Override
@@ -100,8 +98,8 @@ public class IlwisProcessRepository implements IAlgorithmRepository {
 
 	@Override
 	public void shutdown() {
-		// TODO Auto-generated method stub
-
+		// Not used
+		// Ilwis shutdown is included in the ilwisobjects.initIlwisObjects()
 	}
 
 	public IlwisProcessRepository() {
@@ -140,34 +138,27 @@ public class IlwisProcessRepository implements IAlgorithmRepository {
 			LOGGER.info(e.getMessage());
 		}
 
-		// HashMap<String, HashMap<String, GeoAlgorithm>> sextanteMap =
-		// Sextante.getAlgorithms();
-		// HashMap<String, GeoAlgorithm> algorithmMap =
-		// sextanteMap.get("SEXTANTE");
-		// Set<String> keys = algorithmMap.keySet();
-		// SextanteProcessDescriptionCreator descriptionCreator = new
-		// SextanteProcessDescriptionCreator();
 		vectorOperation ilwisOperations = Engine.getAllOperations();
 		IlwisProcessDescriptionCreator descriptionCreator = new IlwisProcessDescriptionCreator();
 		
-		String[] ilwisOperationNames = new String[ (int)ilwisOperations.size() ];
+		// Indexing the identic named operations
 		for(int i=0; i<ilwisOperations.size(); i++) {
 			String operationName = ilwisOperations.get(i).getName();
 			int index = 0;
-			while(ArrayUtils.contains(ilwisOperationNames, operationName )) {
+			while(IDToIlwisID.containsKey( operationName )) {
 				operationName = ilwisOperations.get(i).getName() + "_" + ++index;
 			}
-			ilwisOperationNames[i] = operationName;
+			IDToIlwisID.put(operationName, ilwisOperations.get(i).getId());
 		}
 
-		for (int i = 0; i < ilwisOperations.size(); i++) {
-			String key = ilwisOperationNames[i];
+		for(String s : IDToIlwisID.keySet()) {
+			String key = "org.n52.wps.server.ilwis." + s;
 			if (!processList.contains(key) ) {
 				LOGGER.info("Did not add Ilwis Process : " + key
 						+ ". Not in Repository properties or not active.");
 				continue;
 			}
-			IlwisOperation ilwisProcess = ilwisOperations.get(i);
+			IlwisOperation ilwisProcess = Engine.getOperationById( IDToIlwisID.get(s) );
 			ProcessDescriptionType processDescription;
 			try {
 				processDescription = descriptionCreator
@@ -184,45 +175,5 @@ public class IlwisProcessRepository implements IAlgorithmRepository {
 
 		LOGGER.info("Initialization of Ilwis Repository successful");
 	}
-	//
-	//
-	// /*public boolean addAlgorithm(Object describeProcess) {
-	// String processName = "";
-	// ProcessDescriptionType document = null;
-	// try {
-	// if(describeProcess instanceof File){
-	//
-	// document = ProcessDescriptionType.Factory.parse((File)describeProcess);
-	// }
-	// if(describeProcess instanceof ProcessDescriptionType){
-	// document = (ProcessDescriptionType) describeProcess;
-	// }
-	//
-	//
-	// } catch (IOException e) {
-	// LOGGER.warn("Could not add Sextante Extension Process. Identifier: Unknown",
-	// e);
-	// e.printStackTrace();
-	// } catch (XmlException e) {
-	// e.printStackTrace();
-	// }
-	// if(describeProcess == null){
-	// throw new RuntimeException("Could not add process");
-	// }
-	//
-	//
-	// registeredProcesses.put(document.getIdentifier().getStringValue(),
-	// document);
-	//
-	// LOGGER.info("Sextante Extension Process "+ processName +
-	// " added successfully");
-	// return true;
-	//
-	// }*/
-	//
-	// public boolean removeAlgorithm(Object className) {
-	// //not implemented
-	// return false;
-	// }
 
 }

@@ -41,6 +41,7 @@ import net.opengis.wps.x100.ProcessDescriptionType;
 import net.opengis.wps.x100.ProcessDescriptionType.DataInputs;
 import net.opengis.wps.x100.ProcessDescriptionType.ProcessOutputs;
 import net.opengis.wps.x100.SupportedComplexDataInputType;
+import net.opengis.wps.x100.SupportedComplexDataType;
 
 import org.n52.ilwis.java.IlwisOperation;
 import org.n52.wps.io.IOHandler;
@@ -55,111 +56,46 @@ public class IlwisProcessDescriptionCreator {
 			
 			pdt.addNewAbstract().setStringValue(algorithm.getName());
 			pdt.addNewTitle().setStringValue(algorithm.getLongname());
-			pdt.addNewIdentifier().setStringValue(algorithm.getName());
+			pdt.addNewIdentifier().setStringValue("org.n52.wps.server.ilwis." + algorithm.getName());
 			pdt.setProcessVersion("1.0.0");
 			
-			//inputs
+			// Inputs
 			DataInputs inputs = pdt.addNewDataInputs();
-			//ParametersSet params = algorithm.getParameters();
 			for (int i = 1; algorithm.getPinType(i) != 0; i++) {
-				//Parameter param = params.getParameter(i);
 				addParameter(inputs, algorithm, i);
 			}
 
-			//outputs
+			// Outputs
 			ProcessOutputs outputs = pdt.addNewProcessOutputs();
-			for (int i = 0; algorithm.getPoutType(i) != 0; i++) {
+			for (int i = 1; algorithm.getPoutType(i) != 0; i++) {
 				addOutput(outputs, algorithm, i);
 			}
 
 			return pdt;
 	}
 
-//	private void addGridExtent(DataInputs inputs, boolean bOptional){
-//
-//		addDoubleValue(inputs, GRID_EXTENT_X_MIN, "xMin", bOptional);
-//		addDoubleValue(inputs, GRID_EXTENT_X_MAX, "xMax", bOptional);
-//		addDoubleValue(inputs, GRID_EXTENT_Y_MIN, "yMin", bOptional);
-//		addDoubleValue(inputs, GRID_EXTENT_Y_MAX, "yMax", bOptional);
-//		addDoubleValue(inputs, GRID_EXTENT_CELLSIZE, "cellsize", bOptional);
-//
-//	}
-
-//	private void addDoubleValue(DataInputs inputs, String name, String description, boolean bOptional){
-//
-//		int iMinOccurs = 1;
-//
-//		if (bOptional){
-//			iMinOccurs = 0;
-//		}
-//
-//		InputDescriptionType input = inputs.addNewInput();
-//		input.addNewAbstract().setStringValue(description);
-//		input.addNewTitle().setStringValue(description);
-//		input.addNewIdentifier().setStringValue(name);
-//
-//		LiteralInputType literal = input.addNewLiteralData();
-//		DomainMetadataType dataType = literal.addNewDataType();
-//		dataType.setReference("xs:double");
-//		literal.setDataType(dataType);
-//		input.setMinOccurs(BigInteger.valueOf(iMinOccurs));
-//		input.setMaxOccurs(BigInteger.valueOf(1));
-//		literal.setDefaultValue("0");
-//	}
-
 	private void addOutput(ProcessOutputs outputs, IlwisOperation out, int index) {
-
 		OutputDescriptionType output = outputs.addNewOutput();
-		output.addNewAbstract().setStringValue(out.getLongname());
-		output.addNewIdentifier().setStringValue(out.getName());
-		output.addNewTitle().setStringValue(out.getLongname());
-//		if (out instanceof OutputRasterLayer){
-//			SupportedComplexDataType complexOutput = output.addNewComplexOutput();
-//			complexOutput.addNewDefault().addNewFormat().setMimeType("image/tiff");
-//			ComplexDataDescriptionType supportedFormat = complexOutput.addNewSupported().addNewFormat();
-//			supportedFormat.setMimeType("image/tiff");
-//			supportedFormat.setEncoding("base64");
-//			
-//			
-//		}
-//		else if (out instanceof OutputVectorLayer){
-//			SupportedComplexDataType complexOutput = output.addNewComplexOutput();
-//			addVectorOutputFormats(complexOutput);
-//			/*ComplexDataDescriptionType deafult = complexOutput.addNewDefault().addNewFormat();
-//			deafult.setMimeType(IOHandler.DEFAULT_MIMETYPE);
-//			deafult.setSchema("http://geoserver.itc.nl:8080/wps/schemas/gml/2.1.2/gmlpacket.xsd");
-//			ComplexDataCombinationsType supported = complexOutput.addNewSupported();
-//			ComplexDataDescriptionType supportedFormat = supported.addNewFormat();
-//			supportedFormat.setMimeType(IOHandler.DEFAULT_MIMETYPE);
-//			supportedFormat.setSchema("http://schemas.opengis.net/gml/2.1.2/feature.xsd");
-//			supportedFormat = supported.addNewFormat();
-//			supportedFormat.setMimeType(IOHandler.MIME_TYPE_ZIPPED_SHP);
-//			supportedFormat.setEncoding(IOHandler.ENCODING_BASE64);*/
-//		}
-//		else if (out instanceof OutputTable){
-//			//TODO:
-//		}
-//		else if (out instanceof OutputText){
-//			output.addNewComplexOutput().addNewDefault().addNewFormat().setMimeType("text/html");
-//		}
-//		else if (out instanceof OutputChart){
-//			//TODO:
-//		}
-
-
+		output.addNewAbstract().setStringValue(out.getPoutDesc(index));
+		output.addNewIdentifier().setStringValue(out.getPoutName(index));
+		output.addNewTitle().setStringValue(out.getPoutName(index));
+		if (true){ // File
+			SupportedComplexDataType complexOutput = output.addNewComplexOutput();
+			ComplexDataDescriptionType format = complexOutput.addNewSupported().addNewFormat();
+			format.setMimeType("image/tiff");
+			format.setEncoding(IOHandler.ENCODING_BASE64);
+			
+			ComplexDataDescriptionType defaultFormat = complexOutput.addNewDefault().addNewFormat();
+			defaultFormat.setMimeType("image/tiff");
+			defaultFormat.setEncoding(IOHandler.ENCODING_BASE64);
+			
+		}
 	}
 
 	private void addParameter(DataInputs inputs, IlwisOperation ilwisOperaton, int index) throws UnsupportedGeoAlgorithmException {
-		//MIME: application/octet-stream
 		InputDescriptionType input = inputs.addNewInput();
-		
-		//input.addNewAbstract().setStringValue(param.getParameterDescription());
 		input.addNewAbstract().setStringValue(ilwisOperaton.getPinDesc(index));
-		
-		//input.addNewTitle().setStringValue(param.getParameterDescription());
 		input.addNewTitle().setStringValue(ilwisOperaton.getPinName(index));
-		
-		//input.addNewIdentifier().setStringValue(param.getParameterName());
 		input.addNewIdentifier().setStringValue(ilwisOperaton.getPinName(index));
 		
 		long type = ilwisOperaton.getPinType(index);
@@ -189,11 +125,14 @@ public class IlwisProcessDescriptionCreator {
 			SupportedComplexDataInputType complex = input.addNewComplexData();
 			ComplexDataCombinationsType supported = complex.addNewSupported();
 			ComplexDataDescriptionType format = supported.addNewFormat();
-			format.setMimeType("application/octet-stream");
+			format.setMimeType("image/tiff");
 			format.setEncoding(IOHandler.ENCODING_BASE64);
-//			ComplexDataDescriptionType defaultFormat = complex.addNewDefault().addNewFormat();
+			ComplexDataDescriptionType defaultFormat = complex.addNewDefault().addNewFormat();
 			input.setMinOccurs(BigInteger.valueOf(1));
 			input.setMaxOccurs(BigInteger.valueOf(1));
+			
+			defaultFormat.setMimeType("image/tiff");
+			defaultFormat.setEncoding(IOHandler.ENCODING_BASE64);
 		}
 
 	}
