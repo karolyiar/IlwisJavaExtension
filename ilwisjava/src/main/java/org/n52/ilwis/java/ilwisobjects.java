@@ -43,7 +43,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Paths;
 
 public class ilwisobjects {
   public static boolean _initIlwisObjects(String ilwisDir) {
@@ -83,7 +82,7 @@ public class ilwisobjects {
   public static int getshUNDEF() { return 32767; }
   public static float getFlUNDEF() { return (float)1e38; }
   private static boolean libLoaded = false;
-  private static String ilwisLocation = null;
+  private static String ilwisLocation = getIlwisLocation();
   
   public static void initIlwisObjects() throws FileNotFoundException {
 	  	ilwisLocation = readIlwisLocation();
@@ -160,5 +159,7 @@ public class ilwisobjects {
   public static String getIlwisLocation() {
 	  return ilwisLocation;
   }
+  
+  
 
 }

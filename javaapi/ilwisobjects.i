@@ -281,6 +281,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 %} 
 %pragma(java) modulecode=%{
@@ -288,9 +290,22 @@ import java.net.URL;
   public static int getshUNDEF() { return 32767; }
   public static float getFlUNDEF() { return (float)1e38; }
   private static boolean libLoaded = false;
-  public final static String ilwisLocation = getIlwisLocation();
+  private static String ilwisLocation = getIlwisLocation();
   
-  public static void initIlwisObjects(String ilwisLocation) throws UnsatisfiedLinkError, SecurityException, IllegalArgumentException {
+  public static void initIlwisObjects() throws FileNotFoundException {
+	  	ilwisLocation = readIlwisLocation();
+	  	if (ilwisLocation==null) {
+			URL input = null;
+			try {
+				input = new URL( ilwisobjects.class.getProtectionDomain().getCodeSource().getLocation().toURI().toURL(),
+						"./../../config/ilwislocation.config" );
+			} catch (URISyntaxException e) {
+				throw new FileNotFoundException("ilwislocation.config not found or not well-formed: " + input);
+			} catch (MalformedURLException e) {
+				throw new FileNotFoundException("ilwislocation.config not found or not well-formed: " + input);
+			}
+	  	}
+	  		
 		if (!libLoaded) {
 			try {
 //				System.loadLibrary("lib/_ilwisobjects0");
@@ -308,12 +323,26 @@ import java.net.URL;
 		}
 	}
 	
-	private static String getIlwisLocation() {
+	private static String readIlwisLocation() {
 		BufferedReader br = null;
-		URL input = ClassLoader.getSystemResource("ilwislocation.config");
+		// default location
+		URL input = ClassLoader.getSystemResource( "ilwislocation.config" );
+		if (input == null) {
+			try {
+				// WPS location, at config directory
+				input = new URL( ilwisobjects.class.getProtectionDomain().getCodeSource().getLocation().toURI().toURL(),
+						"./../../config/ilwislocation.config" );
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		try {
 			String line;
-			 
+
 			br = new BufferedReader(new InputStreamReader( input.openStream() ));
  
 			while ((line = br.readLine()) != null) {
@@ -324,19 +353,20 @@ import java.net.URL;
 				if (lineSplit[0].equals("ilwisDir")) {
 					return ( lineSplit[1] );
 				}
-				throw new FileNotFoundException("ilwislocation.config not well-formed");
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
 		} finally {
 			try {
 				if (br != null)br.close();
 			} catch (IOException ex) {
-				ex.printStackTrace();
 			}
 		}
 		return null;
 	}
+  
+  public static String getIlwisLocation() {
+	  return ilwisLocation;
+  }
   
   
 %}
