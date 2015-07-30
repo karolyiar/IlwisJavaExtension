@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.ilwis.java.*;
 
@@ -64,10 +65,50 @@ public class TestEngine {
 	    assertEquals("wrong number of polygons in gridding result!", polygongrid.featureCount(), 144);
 	}
 	
+	@Ignore
 	@Test
-	public void resample() {
+	public void resample() { //                                    8, raster;   131072, Georef;  68719476736, String                              
 		IObject resampled = Engine._do("resample_1", "resample", "subkenya.mpr", "alm011nd.grf", "bicubic");
 	    RasterCoverage resampledR = RasterCoverage.toRasterCoverage( resampled );
 		assertTrue(resampledR.isValid());
+		resampledR.store(workingDir + "raster/aa_resample_subkenya", "GTiff", "gdal");
+		resampledR.store(workingDir + "raster/aa_resample_subkenya", "map", "ilwis3");
+		
+		//resampledR.store(workingDir + "raster/aa_resample_subkenya2", "ESRI Shapefile", "gdal"); // Not working
+	}
+	
+	@Ignore
+	@Test
+	public void resample_tif() {
+		RasterCoverage rc = new RasterCoverage("n000302.tif");
+		GeoReference grf = new GeoReference("alm011nd.grf");
+		assertTrue(rc.isValid());
+		assertTrue(grf.isValid());
+		assertEquals("n000302.tif", rc.name());
+		assertEquals("alm011nd.grf", grf.name());
+		assertTrue(rc.isValid());
+		
+		IObject resampled = Engine._do("resample_1", "resample", rc.name(), grf.name(), "bicubic");
+	    RasterCoverage resampledR = RasterCoverage.toRasterCoverage( resampled );
+		assertTrue(resampledR.isValid());
+		resampledR.store(workingDir + "raster/aa_n000302", "GTiff", "gdal");
+		resampledR.store(workingDir + "raster/aa_n000302", "map", "ilwis3");
+	}
+	
+	@Test
+	public void linearstretch() {
+		RasterCoverage rc = new RasterCoverage("n000302.tif");
+		IObject resampled = Engine._do("lin_1", "linearstretch", rc.name(), "100", "100");
+		RasterCoverage resampledR = RasterCoverage.toRasterCoverage( resampled );
+		resampledR.store(workingDir + "raster/aa_linearstretch", "GTiff", "gdal");
+	}
+	
+	@Test
+	public void mirrorrotateraster() {
+		RasterCoverage rc = new RasterCoverage("n000302.tif");
+		//IObject resampled = Engine._do("mirror_1", "mirrorrotateraster", rc.name(), "mirrvert");
+		IObject resampled = Engine._do("mirror_1", "mirrorrotateraster","n000302.tif", "mirrvert");
+		RasterCoverage resampledR = RasterCoverage.toRasterCoverage( resampled );
+		resampledR.store("aa_mirrorrotateraster", "GTiff", "gdal");
 	}
 }

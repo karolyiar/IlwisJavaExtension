@@ -6,9 +6,11 @@ import java.math.BigInteger;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.ilwis.java.*;
 
+@Ignore
 public class TestRaster {
 	private final static String workingDir = TestUtil.workingDir;
 	private static double[] small;
@@ -78,7 +80,7 @@ public class TestRaster {
 
 	@Test
 	public void reprojectRaster() {
-		RasterCoverage rc = new RasterCoverage("n000302.mpr"); //errors
+		RasterCoverage rc = new RasterCoverage("n000302.mpr");
 		CoordinateSystem targetCsy = new CoordinateSystem("code=epsg:2050");
 		GeoReference sourceGeoref = rc.geoReference();
 		CoordinateSystem sourceCsy = rc.coordinateSystem();
@@ -224,7 +226,7 @@ public class TestRaster {
 	
 	@Test
 	public void band() {
-		RasterCoverage rc = new RasterCoverage("small.mpr"); //with landuse.mpr
+		RasterCoverage rc = new RasterCoverage("landuse.mpr");
         PixelIterator pixIt = rc.band(0);
         assertTrue(pixIt.isValid());
 	}

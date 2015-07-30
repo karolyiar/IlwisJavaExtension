@@ -32,7 +32,7 @@ public class TestGeometry {
 		CoordinateSystem pm = new CoordinateSystem("code=epsg:3857");
 		assertEquals("WGS 84 / Pseudo-Mercator", pm.name());
 		CoordinateSystem wgs = new CoordinateSystem("code=epsg:4326");
-		assertEquals("LatLon WGS 84", wgs.name());
+		assertTrue(wgs.name().contains("WGS 84"));
 		CoordinateSystem gk2 = new CoordinateSystem("code=epsg:31466");
 		assertEquals("DHDN / 3-degree Gauss-Kruger zone 2", gk2.name());
 		CoordinateSystem gk5 = new CoordinateSystem("code=epsg:3329");

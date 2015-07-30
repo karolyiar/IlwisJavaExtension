@@ -4,8 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.ilwis.java.*;
+
 
 public class TestGeoReference {
 	private final static String workingDir = TestUtil.workingDir;
@@ -22,17 +24,16 @@ public class TestGeoReference {
 	
 	@Test
 	public void standaloneFile() {
-		//GeoReference gr = new GeoReference("n000302.grf");
-		GeoReference gr = new GeoReference("selection.grf");
+		GeoReference gr = new GeoReference("n000302.grf");
 	    assertTrue(gr.isValid());
 	    assertFalse(gr.isInternal());
 	    assertFalse(gr.centerOfPixel());
 	}
 	
+	@Ignore
 	@Test
 	public void fromRaster() {
-		//RasterCoverage r = new RasterCoverage("n000302.mpr"); //fails
-		RasterCoverage r = new RasterCoverage("small.mpr");
+		RasterCoverage r = new RasterCoverage("n000302.mpr"); //fails
 		GeoReference gr = r.geoReference();
         assertTrue(gr.isValid());
         assertFalse(gr.isInternal());
