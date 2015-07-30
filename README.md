@@ -21,7 +21,7 @@ SWIG build parameters: <code>-verbose -java -c++ -package org.n52.ilwis.java -ou
 <h2>IlwisJava</h2>
 Maven project.
 <h3>Building the library</h3>
-<li>Edit <i>ilwisjava/src/main/resources/ilwislocation.config</i> to the folder with ilwis.exe.</li>
+<li>Edit <i>ilwisjava/src/main/resources/ilwislocation.config</i> to the ilwisobjects folder.</li>
 Default: <code>ilwisDir=F:/documents/ilwis/ilwisObjects/output/win32debug/bin/</code>
 <li>Download the testfiles from <a href="https://docs.google.com/uc?id=0B0bWmJJYoWIpR2VuWmRYdUlFSkk&export=download">Here</a> to <i>ilwisjava/src/test/resources</i>.
 <li>Use <code>mvn clean install</code> in the <i>ilwisjava</i> folder to export to jar and run the tests.<br></li>
@@ -30,10 +30,39 @@ Default: <code>ilwisDir=F:/documents/ilwis/ilwisObjects/output/win32debug/bin/</
 <h3>Using the library</h3>
 <li>Ilwis location have to be in the <b>PATH variable</b>.<br>(Folder with ilwis.exe, development location: <i>D:\ilwisObjects\output\win32debug\bin;</i>).<br></li>
 <li>Copy <b>ilwislocation.config</b> to the <i>projectfolder</i>.
-<li>Copy the dependencies (_ilwisobjects.dll, 52n-ilwis-java-version-SNAPSHOT.jar) to <i>projectfolder/lib</i></li>
+<li>Copy 52n-ilwis-java-version-SNAPSHOT.jar to <i>projectfolder/lib</i></li>
 <li>Add the jar to build path.</li>
 <li>Import: <code>import org.n52.ilwis.java.*;</code></li>
-<li>Before use, load Ilwis-Objects with <code>ilwisobjects.initIlwisObjects(ilwisobjects.ilwisLocation);</code><br>
+<li>Before use, load Ilwis-Objects with <code>ilwisobjects.initIlwisObjects();</code><br>
+
+<h2>Ilwis Process Repository</h2>
+<b>Ilwis backend for 52°North WPS.</b>
+<h3>Set up Ilwis-Objects with Java</h3>
+<li>Download from <a href="https://drive.google.com/open?id=0B0bWmJJYoWIpT0x2akVtckRfdHc">Here</a>.</li>
+<li>Extract it to eg. <i>C:\ilwisobjects</i>.</li>
+<li>Add the ilwisobjects folder to the PATH variable. <a href="http://www.computerhope.com/issues/ch000549.htm">HOWTO</a></li>
+<h3>Building the library</h3>
+<li>Use <code>mvn clean install</code> in the <i>52n-wps-ilwis</i> folder to export to jar.<br></li>
+<h3>Add at WPS build time</h3>
+Extend the 52n-wps-webapp <b>pom.xml</b> dependencies:<br>
+<code>&lt;!-- Ilwis dependency --><br>
+		&lt;dependency><br>
+			&lt;groupId>org.n52.wps&lt;/groupId><br>
+			&lt;artifactId>52n-wps-ilwis&lt;/artifactId><br>
+		&lt;/dependency><br>
+		&lt;dependency><br>
+			&lt;groupId>org.n52.ilwis.java&lt;/groupId><br>
+			&lt;artifactId>52n-ilwis-java&lt;/artifactId><br>
+		&lt;/dependency></code><br>
+Edit and copy the <b>ilwislocation.config</b> to <i>WPS\52n-wps-webapp\src\main\webapp\config</i>.
+<h3>Add at WPS runtime</h3>
+Copy <b>52n-ilwis-java-0.0.1-SNAPSHOT.jar</b> and <b>52n-wps-ilwis-3.3.2-SNAPSHOT.jar</b> to <i>52n-wps-webapp-3.3.2-SNAPSHOT\WEB-INF\lib</i>
+Edit <i>wps/config/</i><b>ilwislocation.config</b>.
+<h3>Activate in WPS</h3>
+<a href="https://drive.google.com/open?id=0B0bWmJJYoWIpckVoMHNWR3dSUjA">Image</a>
+IlwisRepository
+org.n52.wps.server.ilwis.IlwisProcessRepository
+Algorithm	org.n52.wps.server.ilwis.mirrorrotateraster
 
 <h1>Contact</h1>
 Ilwis mailing list: ilwis@52north.org
