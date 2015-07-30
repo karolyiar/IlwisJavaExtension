@@ -46,14 +46,14 @@ Default: <code>ilwisDir=F:/documents/ilwis/ilwisObjects/output/win32debug/bin/</
 <h3>Add at WPS build time</h3>
 Extend the 52n-wps-webapp <b>pom.xml</b> dependencies:<br>
 ```xml
-<!-- Ilwis dependency --> <br>
-		<dependency> <br>
-			<groupId>org.n52.wps</groupId><br>
-			<artifactId>52n-wps-ilwis</artifactId><br>
-		</dependency><br>
-		<dependency><br>
-			<groupId>org.n52.ilwis.java</groupId><br>
-			<artifactId>52n-ilwis-java</artifactId><br>
+<!-- Ilwis dependency -->
+		<dependency> 
+			<groupId>org.n52.wps</groupId>
+			<artifactId>52n-wps-ilwis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.ilwis.java</groupId>
+			<artifactId>52n-ilwis-java</artifactId>
 		</dependency>
 ```
 Edit and copy the <b>ilwislocation.config</b> to <i>WPS\52n-wps-webapp\src\main\webapp\config</i>.
