@@ -61,7 +61,7 @@ Edit and copy the <b>ilwislocation.config</b> to <i>WPS\52n-wps-webapp\src\main\
 <li>Copy <b>52n-ilwis-java-0.0.1-SNAPSHOT.jar</b> and <b>52n-wps-ilwis-3.3.2-SNAPSHOT.jar</b> to <i>52n-wps-webapp-3.3.2-SNAPSHOT\WEB-INF\lib</i></li>
 <li>Edit <i>wps/config/</i><b>ilwislocation.config</b>.</li>
 <h3>Activate in WPS</h3>
-<a href="https://drive.google.com/open?id=0B0bWmJJYoWIpckVoMHNWR3dSUjA">Image</a><br>
+<a href="https://drive.google.com/open?id=0B0bWmJJYoWIpZkVhTWpaMnRFVjg">Image</a><br>
 IlwisRepository<br>
 org.n52.wps.server.ilwis.IlwisProcessRepository<br>
 Algorithm	org.n52.wps.server.ilwis.mirrorrotateraster<br>
