@@ -158,7 +158,7 @@ public class TestFeature {
         world = new FeatureCoverage("rainfall.shp");
         assertTrue(world.isValid());
         assertFalse(world.isInternal());
-        world.setCoordinateSystem(new CoordinateSystem(workingDir + "feature/countries.csy"));
+//        world.setCoordinateSystem(new CoordinateSystem(workingDir + "feature/countries.csy"));
         world.store(workingDir + "temp/rainfall_fromshp", "vectormap", "ilwis3");
 	}
 }
