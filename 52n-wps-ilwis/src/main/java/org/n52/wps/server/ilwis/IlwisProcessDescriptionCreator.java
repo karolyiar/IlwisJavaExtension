@@ -81,14 +81,18 @@ public class IlwisProcessDescriptionCreator {
 		output.addNewTitle().setStringValue(out.getPoutName(index));
 		if (true){ // File
 			SupportedComplexDataType complexOutput = output.addNewComplexOutput();
-			ComplexDataDescriptionType format = complexOutput.addNewSupported().addNewFormat();
+			ComplexDataCombinationsType supported = complexOutput.addNewSupported();
+			ComplexDataDescriptionType format = supported.addNewFormat();
 			format.setMimeType("image/tiff");
-			format.setEncoding(IOHandler.ENCODING_BASE64);
+			
+//			ComplexDataDescriptionType format2 = supported.addNewFormat();
+//			format2.setMimeType("image/jpeg");
+//			
+//			ComplexDataDescriptionType format3 = supported.addNewFormat();
+//			format3.setMimeType("image/png");
 			
 			ComplexDataDescriptionType defaultFormat = complexOutput.addNewDefault().addNewFormat();
 			defaultFormat.setMimeType("image/tiff");
-			defaultFormat.setEncoding(IOHandler.ENCODING_BASE64);
-			
 		}
 	}
 
@@ -100,7 +104,7 @@ public class IlwisProcessDescriptionCreator {
 		
 		long type = ilwisOperaton.getPinType(index);
 		
-		if (type == 17179869184L){ // Double
+		if ((type & 17179869184L) != 0){ // Double
 			LiteralInputType literal = input.addNewLiteralData();
 			DomainMetadataType dataType = literal.addNewDataType();
 			dataType.setReference("xs:double");
