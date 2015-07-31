@@ -38,7 +38,7 @@ Default: <code>ilwisDir=F:/documents/ilwis/ilwisObjects/output/win32debug/bin/</
 <h2>Ilwis Process Repository</h2>
 <b>Ilwis backend for 52°North WPS.</b>
 <h3>Set up Ilwis-Objects with Java</h3>
-<li>Download from <a href="https://drive.google.com/open?id=0B0bWmJJYoWIpT0x2akVtckRfdHc">Here</a>.</li>
+<li>Download from <a href="https://drive.google.com/open?id=0B0bWmJJYoWIpYS1rdWVkbUJnS3c">Here</a>.</li>
 <li>Extract it to eg. <i>C:\ilwisobjects</i>.</li>
 <li>Add the ilwisobjects folder to the PATH variable. <a href="http://www.computerhope.com/issues/ch000549.htm">HOWTO</a></li>
 <h3>Building the library</h3>
