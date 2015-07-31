@@ -56,16 +56,20 @@ public class TestEngine {
 		CoordinateSystem cs = new CoordinateSystem(
                 "code=proj4:+proj=utm +zone=35 +ellps=intl +towgs84=-87,-98,-121,0,0,0,0 +units=m +no_defs");
 		assertTrue(cs.isValid());
+		
+		IObject result = Engine._do("gridding_1", "gridding", cs.toString(), new Coordinate(225358.6605, 3849480.5700).toString(),
+				Double.toString(1000.0), Double.toString(1000.0), Integer.toString(12), Integer.toString(12));
 
-		FeatureCoverage polygongrid = FeatureCoverage.toFeatureCoverage( Engine._do("gridding_1", "gridding", cs.toString(), new Coordinate(225358.6605, 3849480.5700).toString(),
-				Double.toString(1000.0), Double.toString(1000.0), Integer.toString(12), Integer.toString(12)) );
+		FeatureCoverage polygongrid = FeatureCoverage.toFeatureCoverage( result );
 	    assertTrue(polygongrid.isValid());
 	    assertEquals("wrong IlwisObject type", polygongrid.type(), "FeatureCoverage");
 	    assertTrue( polygongrid.name().matches("gridding_[0-9]*") );
 	    assertEquals("wrong number of polygons in gridding result!", polygongrid.featureCount(), 144);
+	    
+	    polygongrid.store(workingDir + "temp/aa_gridding", "vectormap", "ilwis3");
+	    polygongrid.store(workingDir + "temp/aa_gridding.shp", "ESRI Shapefile", "gdal");
 	}
 	
-	@Ignore
 	@Test
 	public void resample() { //                                    8, raster;   131072, Georef;  68719476736, String                              
 		IObject resampled = Engine._do("resample_1", "resample", "subkenya.mpr", "alm011nd.grf", "bicubic");
@@ -73,11 +77,8 @@ public class TestEngine {
 		assertTrue(resampledR.isValid());
 		resampledR.store(workingDir + "raster/aa_resample_subkenya", "GTiff", "gdal");
 		resampledR.store(workingDir + "raster/aa_resample_subkenya", "map", "ilwis3");
-		
-		//resampledR.store(workingDir + "raster/aa_resample_subkenya2", "ESRI Shapefile", "gdal"); // Not working
 	}
 	
-	@Ignore
 	@Test
 	public void resample_tif() {
 		RasterCoverage rc = new RasterCoverage("n000302.tif");
@@ -88,27 +89,108 @@ public class TestEngine {
 		assertEquals("alm011nd.grf", grf.name());
 		assertTrue(rc.isValid());
 		
-		IObject resampled = Engine._do("resample_1", "resample", rc.name(), grf.name(), "bicubic");
-	    RasterCoverage resampledR = RasterCoverage.toRasterCoverage( resampled );
-		assertTrue(resampledR.isValid());
-		resampledR.store(workingDir + "raster/aa_n000302", "GTiff", "gdal");
-		resampledR.store(workingDir + "raster/aa_n000302", "map", "ilwis3");
+		IObject result = Engine._do("resample_1", "resample", rc.name(), grf.name(), "bicubic");
+	    RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store(workingDir + "raster/aa_n000302", "GTiff", "gdal");
+		resultR.store(workingDir + "raster/aa_n000302", "map", "ilwis3");
 	}
 	
-	@Test
+	@Test // Almost fully black output
 	public void linearstretch() {
 		RasterCoverage rc = new RasterCoverage("n000302.tif");
-		IObject resampled = Engine._do("lin_1", "linearstretch", rc.name(), "100", "100");
-		RasterCoverage resampledR = RasterCoverage.toRasterCoverage( resampled );
-		resampledR.store(workingDir + "raster/aa_linearstretch", "GTiff", "gdal");
+		IObject result = Engine._do("lin_1", "linearstretch", rc.name(), "100", "100");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		resultR.store(workingDir + "raster/aa_linearstretch", "GTiff", "gdal");
 	}
 	
-	@Test
+	@Test // Working
+		  // !! mirrhor, mirrdiag, transpose, rotate90, rotate180, rotate270 not working
 	public void mirrorrotateraster() {
-		RasterCoverage rc = new RasterCoverage("n000302.tif");
-		//IObject resampled = Engine._do("mirror_1", "mirrorrotateraster", rc.name(), "mirrvert");
-		IObject resampled = Engine._do("mirror_1", "mirrorrotateraster","n000302.tif", "mirrvert");
-		RasterCoverage resampledR = RasterCoverage.toRasterCoverage( resampled );
-		resampledR.store("aa_mirrorrotateraster", "GTiff", "gdal");
+		IObject result = Engine._do("mirror_1", "mirrorrotateraster","n000302.tif", "mirrvert");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		resultR.store("aa_mirrorrotateraster", "GTiff", "gdal");
 	}
+	
+	@Ignore // No usable output
+	@Test
+	public void areanumbering() {
+		IObject result = Engine._do("area_1", "areanumbering","n000302.tif", "8");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_areanumbering", "GTiff", "gdal");
+		resultR.store("aa_areanumbering", "map", "ilwis3");
+	}
+	
+	@Test // Working
+	public void abs() {
+		IObject result = Engine._do("abs_1", "abs","n000302.tif");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_abs", "GTiff", "gdal");
+	}
+	
+	@Ignore // No usable output
+	@Test
+	public void binarylogicalraster() {
+		IObject result = Engine._do("binarylogicalraster_1", "binarylogicalraster","n000302.tif", "8", "and");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_binarylogicalraster", "GTiff", "gdal");
+	}
+	
+	@Ignore // EXCEPTION_ACCESS_VIOLATION in ilwiscore.dll
+	@Test
+	public void binarymathfeatures() {
+		ilwisobjects.disconnectIssueLogger();
+        Engine.setWorkingCatalog(workingDir+"feature/");
+        ilwisobjects.connectIssueLogger();
+        
+		FeatureCoverage fc = new FeatureCoverage("rainfall.shp");
+		assertTrue(fc.isValid());
+		//fc.store(workingDir + "temp/rainfall_fromshp", "vectormap", "ilwis3");
+		
+		FeatureCoverage fc2 = new FeatureCoverage("Natuurkalender_ETRS1989.shp");
+		assertTrue(fc2.isValid());
+		//fc2.store(workingDir + "temp/Natuurkalender_ETRS1989_fromshp", "vectormap", "ilwis3");
+		
+		IObject result = Engine._do("bin_1", "binarymathfeatures", "rainfall.shp", "Natuurkalender_ETRS1989.shp", "add");
+//		
+//		FeatureCoverage resultF = FeatureCoverage.toFeatureCoverage(result);
+//		assertTrue(resultF.isValid());
+//		resultF.store(workingDir + "temp/aa_binarymathfeatures", "vectormap", "ilwis3");
+	}
+	
+	@Test // Working
+	public void binarymathraster() {
+		IObject result = Engine._do("binarymathraster_1", "binarymathraster", "n000302.tif", "200", "divide");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage(result);
+		assertTrue(resultR.isValid());
+		resultR.store("aa_binarymathraster", "GTiff", "gdal");
+		
+	}
+	
+	@Test // Working
+	public void cos() {
+		IObject result = Engine._do("cos_1", "cos","n000302.tif");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_cos", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void ln() {
+		IObject result = Engine._do("ln_1", "ln","n000302.tif");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_ln", "GTiff", "gdal");
+	}
+	
+	@Ignore // couldn't handle return type (IlwisType=49152) of do(cross_1=cross(n000302.tif,n000302.tif,dontcare))
+	@Test
+	public void cross() {
+		Engine._do("cross_1", "cross", "n000302.tif", "n000302.tif", "dontcare");
+	}
+	
+	
 }
