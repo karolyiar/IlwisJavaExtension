@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.ilwis.java.*;
 
@@ -24,7 +23,6 @@ public class TestCoordinateSystem {
         ilwisobjects.connectIssueLogger();
 	}
 	
-	@Ignore
 	@Test
 	public void fromFile() {
 		CoordinateSystem csy = new CoordinateSystem(workingDir + "feature/cochabamba.csy");
@@ -65,7 +63,6 @@ public class TestCoordinateSystem {
 	    assertFalse( cs1.notequal(cs2) );
 	}
 	
-	@Ignore
 	@Test
 	public void envelope() {
 		ilwisobjects.disconnectIssueLogger();

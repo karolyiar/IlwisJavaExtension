@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.ilwis.java.*;
 
@@ -30,7 +29,6 @@ public class TestGeoReference {
 	    assertFalse(gr.centerOfPixel());
 	}
 	
-	@Ignore
 	@Test
 	public void fromRaster() {
 		RasterCoverage r = new RasterCoverage("n000302.mpr"); //fails
