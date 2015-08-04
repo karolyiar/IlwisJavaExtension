@@ -230,13 +230,13 @@ public class GenericIlwisProcessDelegator implements IAlgorithm {
 	}
 
 	private Class<?> getDataType(long type) {
-		if (type == 8)
+		if ((type & 8) != 0)
 			return GenericFileDataWithGTBinding.class; // Raster
 
-		if (type == 131072)
+		if ((type & 131072) != 0)
 			return GenericFileDataWithGTBinding.class; // Georef
 
-		if (type == 68719476736L)
+		if ((type & 68719476736L) != 0)
 			return LiteralStringBinding.class; // String
 		// TODO
 

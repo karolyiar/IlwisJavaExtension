@@ -116,7 +116,7 @@ public class IlwisProcessDescriptionCreator {
 			range.addNewMinimumValue().setStringValue("" + Double.NEGATIVE_INFINITY);
 //			literal.setDefaultValue(Double.toString(ai.getDefaultValue()));
 		}
-		else if (type == 68719476736L){ // String
+		if ((type & 68719476736L) != 0){ // String
 			LiteralInputType literal = input.addNewLiteralData();
 			input.setMinOccurs(BigInteger.valueOf(1));
 			input.setMaxOccurs(BigInteger.valueOf(1));
@@ -125,7 +125,7 @@ public class IlwisProcessDescriptionCreator {
 			dataType.setReference("xs:string");
 			literal.setDataType(dataType);
 		}
-		else if (true) { // File
+		if ((type & 8) != 0) { // Raster from tif
 			SupportedComplexDataInputType complex = input.addNewComplexData();
 			ComplexDataCombinationsType supported = complex.addNewSupported();
 			ComplexDataDescriptionType format = supported.addNewFormat();
