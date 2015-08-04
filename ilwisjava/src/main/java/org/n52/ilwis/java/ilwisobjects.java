@@ -44,6 +44,10 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+/**
+ * @author Aron
+ *
+ */
 public class ilwisobjects {
   public static boolean _initIlwisObjects(String ilwisDir) {
     return ilwisobjectsJNI._initIlwisObjects(ilwisDir);
@@ -84,23 +88,20 @@ public class ilwisobjects {
   private static boolean libLoaded = false;
   private static String ilwisLocation = getIlwisLocation();
   
-  public static void initIlwisObjects() throws FileNotFoundException {
-	  	ilwisLocation = readIlwisLocation();
-	  	if (ilwisLocation==null) {
-			URL input = null;
+  
+  /** Use before any Ilwis fuction.
+   * Set the Ilwis folder with setIlwisLocation, if no ilwislocation.config is in the resources.
+ * @throws FileNotFoundException Can't find Ilwis-Objects.
+ */
+public static void initIlwisObjects() throws FileNotFoundException {
+	if (!libLoaded) {
+		  	if (ilwisLocation == null) {
+		  		ilwisLocation = readIlwisLocation();
+		  	}
+		  	if (ilwisLocation==null) {
+				throw new FileNotFoundException("Ilwis location not set and ilwislocation.config not found or not well-formed.");
+		  	}
 			try {
-				input = new URL( ilwisobjects.class.getProtectionDomain().getCodeSource().getLocation().toURI().toURL(),
-						"./../../config/ilwislocation.config" );
-			} catch (URISyntaxException e) {
-				throw new FileNotFoundException("ilwislocation.config not found or not well-formed: " + input);
-			} catch (MalformedURLException e) {
-				throw new FileNotFoundException("ilwislocation.config not found or not well-formed: " + input);
-			}
-	  	}
-	  		
-		if (!libLoaded) {
-			try {
-//				System.loadLibrary("lib/_ilwisobjects0");
 				System.load(ilwisLocation + "extensions/_ilwisobjects/_ilwisobjects0.dll"); //TODO: linux
 				ilwisobjects._initIlwisObjects(ilwisLocation);
 
@@ -158,6 +159,13 @@ public class ilwisobjects {
   
   public static String getIlwisLocation() {
 	  return ilwisLocation;
+  }
+  
+  /** Set before initIlwisObjects!
+ * @param location Ilwis-Objects location eg. G:/IlwisObjects/output/win32release/bin/
+ */
+public static void setIlwisLocation(String location) {
+	  ilwisLocation = location;
   }
   
   
