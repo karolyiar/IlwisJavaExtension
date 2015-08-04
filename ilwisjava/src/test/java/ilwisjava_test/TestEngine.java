@@ -192,5 +192,12 @@ public class TestEngine {
 		Engine._do("cross_1", "cross", "n000302.tif", "n000302.tif", "dontcare");
 	}
 	
+	@Test // Working
+	public void adaptivebilateralfilter() {
+		IObject result = Engine._do("adaptivebilateralfilter_1", "adaptivebilateralfilter", "n000302.tif", "21", "21", "3", "200");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_adaptivebilateralfilter", "GTiff", "gdal");
+	}
 	
 }
