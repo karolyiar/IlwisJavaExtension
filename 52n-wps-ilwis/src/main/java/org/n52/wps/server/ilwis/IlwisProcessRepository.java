@@ -122,12 +122,17 @@ public class IlwisProcessRepository implements IAlgorithmRepository {
 				propertyProcesses.length);
 
 		for (Property prop : propertyProcesses) {
-
-			if (prop.getActive()) {
-				processList.add(prop.getStringValue());
-			} else {
-				LOGGER.info("Ilwis Process : " + prop.getStringValue()
-						+ " not active.");
+			if(prop.getName().equals("IlwisLocation")) {
+				ilwisobjects.setIlwisLocation(prop.getStringValue());
+				LOGGER.info("Ilwis location set to: " + prop.getStringValue());
+			}
+			if(prop.getName().equals("Algorithm")){
+				if (prop.getActive()) {
+					processList.add(prop.getStringValue());
+				} else {
+					LOGGER.info("Ilwis Process : " + prop.getStringValue()
+							+ " not active.");
+				}
 			}
 		}
 
