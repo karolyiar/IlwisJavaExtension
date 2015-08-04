@@ -6,11 +6,9 @@ import java.math.BigInteger;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.ilwis.java.*;
 
-@Ignore
 public class TestRaster {
 	private final static String workingDir = TestUtil.workingDir;
 	private static double[] small;
@@ -38,8 +36,8 @@ public class TestRaster {
                 1.0, 120.0, 120.0, 120.0, 1.0,
 
                 34.0, 34.0, 123.0, 123.0, 45.0,
-                34.0, 174.0, 174.0, -1.0, 45.0, // -1e+308 -> -1.0, test.py also failed on it
-                78.0, 78.0, 174.0, -1.0, 29.0,
+                34.0, 174.0, 174.0, -1e+308, 45.0,
+                78.0, 78.0, 174.0, -1e+308, 29.0,
                 78.0, 78.0, 1.0, 156.0, 29.0,
                 78.0, 78.0, 7.0, 7.0, 29.0,
 

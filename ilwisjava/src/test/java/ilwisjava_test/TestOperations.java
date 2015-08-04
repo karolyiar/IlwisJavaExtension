@@ -69,7 +69,7 @@ public class TestOperations {
 		assertEquals("?", oper.getInparameters());
 		assertEquals("?", oper.getOutparameters());
 		assertEquals("?", oper.getKeyword());
-		assertEquals(67, oper.getId());
+		assertTrue(oper.getId() > 0);
 		assertTrue(oper.isValid());
 
 		assertEquals("coordinate-syste,", oper.getPinName(1));
@@ -129,7 +129,7 @@ public class TestOperations {
 //			}
 //			System.out.println();
 //		}
-		
+//		
 //		 vectorOperation vec = Engine.getAllOperations();
 //		 for(int i=0; i<vec.size(); ++i) {
 //		 System.out.print( vec.get(i).getName() + ", ");
