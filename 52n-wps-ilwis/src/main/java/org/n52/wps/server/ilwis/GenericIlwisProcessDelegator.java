@@ -36,16 +36,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.opengis.wps.x100.ComplexDataCombinationsType;
 import net.opengis.wps.x100.ProcessDescriptionType;
 
+import org.n52.ilwis.java.Coordinate;
+import org.n52.ilwis.java.CoordinateSystem;
 import org.n52.ilwis.java.Engine;
+import org.n52.ilwis.java.FeatureCoverage;
 import org.n52.ilwis.java.IObject;
 import org.n52.ilwis.java.IlwisOperation;
 import org.n52.ilwis.java.RasterCoverage;
 import org.n52.ilwis.java.ilwisobjects;
-import org.n52.wps.io.data.GenericFileDataWithGT;
+import org.n52.wps.io.data.GenericFileData;
 import org.n52.wps.io.data.IData;
-import org.n52.wps.io.data.binding.complex.GenericFileDataWithGTBinding;
+import org.n52.wps.io.data.binding.complex.GenericFileDataBinding;
+import org.n52.wps.io.data.binding.literal.LiteralDoubleBinding;
+import org.n52.wps.io.data.binding.literal.LiteralIntBinding;
+import org.n52.wps.io.data.binding.literal.LiteralLongBinding;
+import org.n52.wps.io.data.binding.literal.LiteralShortBinding;
 import org.n52.wps.io.data.binding.literal.LiteralStringBinding;
 import org.n52.wps.server.IAlgorithm;
 import org.slf4j.Logger;
@@ -67,17 +75,26 @@ public class GenericIlwisProcessDelegator implements IAlgorithm {
 	public Map<String, IData> run(Map<String, List<IData>> inputData) {
 		Map<String, IData> result = new HashMap<String, IData>();
 		String[] ilwisInputList = new String[ inputData.size() ];
-		String ilwisWorkingDir = null;
+		String ilwisWorkingDir = System.getProperty("java.io.tmpdir");
 
 		// Convert the inputs to string
 		for(String inID : inputData.keySet()) {
 			int i = inputId.get(inID) - 1;
-			if (inputData.get(inID).get(0) instanceof GenericFileDataWithGTBinding) {
-				GenericFileDataWithGTBinding fileDataBinding = (GenericFileDataWithGTBinding) inputData.get(inID).get(0);
+			long ilwisType = ilwisProcess.getPinType(i+1);
+			
+//			if (inputData.get(inID).get(0) instanceof GenericFileDataWithGTBinding) {
+//				GenericFileDataWithGTBinding fileDataBinding = (GenericFileDataWithGTBinding) inputData.get(inID).get(0);
+			if (inputData.get(inID).get(0) instanceof GenericFileDataBinding) { // File
+				GenericFileDataBinding fileDataBinding = (GenericFileDataBinding) inputData.get(inID).get(0);
 				File file = fileDataBinding.getPayload().getBaseFile(true);
-
 				ilwisInputList[i] = file.getName();
 				ilwisWorkingDir = file.getParent();
+			} else if( inputData.get(inID).size()==2 &&  inputData.get(inID).get(0) instanceof LiteralDoubleBinding) { // Coordinate
+				ilwisInputList[i] = new org.n52.ilwis.java.Coordinate(
+						(Double)inputData.get(inID).get(0).getPayload(), (Double)inputData.get(inID).get(1).getPayload()
+						).toString();
+			} else if ((ilwisType & 512L) != 0 && inputData.get(inID).get(0) instanceof LiteralStringBinding) { // Coordinatesystem from String
+				ilwisInputList[i] = new CoordinateSystem( inputData.get(inID).get(0).getPayload().toString() ).toString();
 			} else if (true) {
 				ilwisInputList[i] = inputData.get(inID).get(0).getPayload().toString();
 			}
@@ -174,21 +191,39 @@ public class GenericIlwisProcessDelegator implements IAlgorithm {
 		LOGGER.info("Successful engine._do");
 
 		// Store output
-		BigInteger outtype = ilwisResult.ilwisType();
-		if (outtype.compareTo(BigInteger.valueOf(8)) == 0) { // Raster
+		long outtype = ilwisProcess.getPoutType(1);
+		LOGGER.info("Output type: " + outtype);
+		
+		if ((outtype & 8) != 0) { // Raster
 			RasterCoverage rasterResult = RasterCoverage
 					.toRasterCoverage(ilwisResult);
 			rasterResult.store("raster", "GTiff", "gdal");
 			LOGGER.info("Storing file: " + ilwisWorkingDir + File.separator + "raster.tif");
 			File file = new File(ilwisWorkingDir + File.separator + "raster.tif");
 			try {
-				GenericFileDataWithGTBinding result1 = new GenericFileDataWithGTBinding(new GenericFileDataWithGT(file, "image/tiff"));
+//				GenericFileDataWithGTBinding result1 = new GenericFileDataWithGTBinding(new GenericFileDataWithGT(file, "image/tiff"));
+				GenericFileDataBinding result1 = new GenericFileDataBinding(new GenericFileData(file, "image/tiff"));
 				LOGGER.info("Storing " + ilwisProcess.getPoutName(1) + " " + result1.toString());
 				result.put(ilwisProcess.getPoutName(1), result1);
 			} catch (IOException e) {
 				LOGGER.error("File storing error");
 			}
 
+		} else if ((outtype & 4) != 0) { // Polygon, Shp
+			FeatureCoverage featureResult = FeatureCoverage.toFeatureCoverage(ilwisResult);
+			featureResult.store("polygon.shp", "ESRI Shapefile", "gdal");
+			LOGGER.info("Storing file: " + ilwisWorkingDir + File.separator + "polygon.shp");
+			File file = new File(ilwisWorkingDir + File.separator + "polygon.shp");
+			try {
+//				GenericFileDataWithGTBinding result1 = new GenericFileDataWithGTBinding(new GenericFileDataWithGT(file, "image/tiff"));
+				GenericFileDataBinding result1 = new GenericFileDataBinding(new GenericFileData(file, "application/x-zipped-shp"));
+				
+				LOGGER.info("Storing " + ilwisProcess.getPoutName(1) + " " + result1.toString());
+				result.put(ilwisProcess.getPoutName(1), result1);
+			} catch (IOException e) {
+				LOGGER.error("File storing error");
+			}
+			LOGGER.info("run done"); //DEBUG
 		}
 		// TODO
 
@@ -230,14 +265,38 @@ public class GenericIlwisProcessDelegator implements IAlgorithm {
 	}
 
 	private Class<?> getDataType(long type) {
+		if ((type & 4) != 0)
+//			return GenericFileDataWithGTBinding.class; // Polygon, shp
+			return GenericFileDataBinding.class; // Polygon, shp
+		
 		if ((type & 8) != 0)
-			return GenericFileDataWithGTBinding.class; // Raster
+//			return GenericFileDataWithGTBinding.class; // Raster
+			return GenericFileDataBinding.class; // Raster
 
-		if ((type & 131072) != 0)
-			return GenericFileDataWithGTBinding.class; // Georef
+		if ((type & 131072L) != 0)
+//			return GenericFileDataWithGTBinding.class; // Georef
+			return GenericFileDataBinding.class; // Georef
 
 		if ((type & 68719476736L) != 0)
 			return LiteralStringBinding.class; // String
+		
+		if ((type & 17179869184L) != 0)
+			return LiteralDoubleBinding.class; // Double
+		
+		if ((type & 4294967296L) != 0)
+			return LiteralLongBinding.class; // Int64
+		
+		if ((type & 1073741824L) != 0)
+			return LiteralIntBinding.class; // Int32
+		
+		if ((type & 268435456L) != 0)
+			return LiteralShortBinding.class; // Int16
+		
+		if ((type & 549755813888L) != 0)
+			return LiteralDoubleBinding.class; // Coordinate
+		
+		if ((type & 512L) != 0)
+			return LiteralStringBinding.class; // (conventional)Coordinatesystem
 		// TODO
 
 		LOGGER.warn("Invalid Ilwis Datatype: " + type);
@@ -253,12 +312,12 @@ public class GenericIlwisProcessDelegator implements IAlgorithm {
 		
 		// Mapping inputs
 		for (int i = 1; ilwisProcess.getPinType(i) != 0; i++) {
-			inputId.put(ilwisProcess.getPinName(i), i);
+			inputId.put(ilwisProcess.getPinName(i).replace(",", ""), i);
 		}
 		
 		// Mapping outputs
 		for (int i = 1; ilwisProcess.getPoutType(i) != 0; i++) {
-			outputId.put(ilwisProcess.getPoutName(i), i);
+			outputId.put(ilwisProcess.getPoutName(i).replace(",", ""), i);
 		}
 
 	}
