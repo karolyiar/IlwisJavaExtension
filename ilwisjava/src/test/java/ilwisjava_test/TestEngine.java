@@ -72,7 +72,8 @@ public class TestEngine {
 	
 	@Test
 	public void resample() { //                                    8, raster;   131072, Georef;  68719476736, String                              
-		IObject resampled = Engine._do("resample_1", "resample", "subkenya.mpr", "alm011nd.grf", "bicubic");
+		//IObject resampled = Engine._do("resample_1", "resample", "subkenya.mpr", "alm011nd.grf", "bicubic");
+		IObject resampled = Engine._do("resample_1", "resample", "n000302.tif", "alm011nd.grf", "bicubic");
 	    RasterCoverage resampledR = RasterCoverage.toRasterCoverage( resampled );
 		assertTrue(resampledR.isValid());
 		resampledR.store(workingDir + "raster/aa_resample_subkenya", "GTiff", "gdal");
@@ -192,12 +193,82 @@ public class TestEngine {
 		Engine._do("cross_1", "cross", "n000302.tif", "n000302.tif", "dontcare");
 	}
 	
+	@Ignore // Long calculation
 	@Test // Working
 	public void adaptivebilateralfilter() {
-		IObject result = Engine._do("adaptivebilateralfilter_1", "adaptivebilateralfilter", "n000302.tif", "21", "21", "3", "200");
+		IObject result = Engine._do("adaptivebilateralfilter_1", "adaptivebilateralfilter", "n000302.tif", "31", "31", "100.0", "60.0");
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
 		assertTrue(resultR.isValid());
 		resultR.store("aa_adaptivebilateralfilter", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void gaussianblurfilter() {
+		IObject result = Engine._do("gaussianblurfilter_1", "gaussianblurfilter", "n000302.tif", "31", "31", "100.0", "60.0");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_gaussianblurfilter", "GTiff", "gdal");
+	}
+	
+	@Ignore // wrong parameters?
+	@Test
+	public void iff_raster() {
+		IObject result = Engine._do("iff_1", "iff", "n000302.tif", "1", "200");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_iff", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void laplacefilter() {
+		IObject result = Engine._do("laplacefilter_1", "laplacefilter", "n000302.tif", "5");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_laplacefilter", "GTiff", "gdal");
+	}
+	
+	@Ignore // llegal Illegal quantile number value : must be between 0 and 100, found : 0
+	// couldn't do(quantile_1=quantile(n000302.tif,45))
+	@Test
+	public void quantile() {
+		IObject result = Engine._do("quantile_1", "quantile", "n000302.tif", "45");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_quantile", "GTiff", "gdal");
+	}
+	
+	@Ignore // metadata of rankorderrasterfilter not properly initialized
+	// couldn't do(rankorderrasterfilter_1=rankorderrasterfilter(n000302.tif,filter_1,120,120,60))
+	@Test
+	public void rankorderrasterfilter() {
+		IObject result = Engine._do("rankorderrasterfilter_1", "rankorderrasterfilter", "n000302.tif", "filter_1", "120", "120", "60");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_rankorderrasterfilter", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void scharrfilter() {
+		IObject result = Engine._do("scharrfilter_1", "scharrfilter", "n000302.tif", "1", "0");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_scharrfilter", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void sobelfilter() {
+		IObject result = Engine._do("sobelfilter_1", "sobelfilter", "n000302.tif", "1", "0", "5");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_sobelfilter", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void timesat() {
+		IObject result = Engine._do("timesat_1", "timesat", "n000302.tif", "2", "true", "false", "true");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_timesat", "GTiff", "gdal");
 	}
 	
 }
