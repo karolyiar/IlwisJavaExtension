@@ -66,8 +66,8 @@ public class TestEngine {
 	    assertTrue( polygongrid.name().matches("gridding_[0-9]*") );
 	    assertEquals("wrong number of polygons in gridding result!", polygongrid.featureCount(), 144);
 	    
-	    polygongrid.store(workingDir + "temp/aa_gridding", "vectormap", "ilwis3");
-	    polygongrid.store(workingDir + "temp/aa_gridding.shp", "ESRI Shapefile", "gdal");
+	    //polygongrid.store(workingDir + "temp/aa_gridding", "vectormap", "ilwis3");
+	    polygongrid.store(workingDir + "feature/aa_gridding.shp", "ESRI Shapefile", "gdal");
 	}
 	
 	@Test
@@ -105,18 +105,29 @@ public class TestEngine {
 		resultR.store(workingDir + "raster/aa_linearstretch", "GTiff", "gdal");
 	}
 	
-	@Test // Working
+	@Test // Working mirrvert
 		  // !! mirrhor, mirrdiag, transpose, rotate90, rotate180, rotate270 not working
 	public void mirrorrotateraster() {
 		IObject result = Engine._do("mirror_1", "mirrorrotateraster","n000302.tif", "mirrvert");
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		assertEquals(resultR.ilwisType().intValue(), 8);
+		
 		resultR.store("aa_mirrorrotateraster", "GTiff", "gdal");
+		resultR.store("aa_mirrorrotateraster", "BMP", "gdal");
+		
+		result = Engine._do("mirror_1", "mirrorrotateraster","aa_mirrorrotateraster.tif", "mirrvert");
+		resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		assertEquals(resultR.ilwisType().intValue(), 8);
+		
+		resultR.store("aa_mirrorrotateraster2", "GTiff", "gdal");
+		resultR.store("aa_mirrorrotateraster2", "BMP", "gdal");
 	}
 	
-	@Ignore // No usable output
-	@Test
+	@Test // Working
 	public void areanumbering() {
-		IObject result = Engine._do("area_1", "areanumbering","n000302.tif", "8");
+		IObject result = Engine._do("area_1", "areanumbering","small2.tif", "4");
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
 		assertTrue(resultR.isValid());
 		resultR.store("aa_areanumbering", "GTiff", "gdal");
@@ -131,10 +142,10 @@ public class TestEngine {
 		resultR.store("aa_abs", "GTiff", "gdal");
 	}
 	
-	@Ignore // No usable output
+	@Ignore // Fully black output
 	@Test
 	public void binarylogicalraster() {
-		IObject result = Engine._do("binarylogicalraster_1", "binarylogicalraster","n000302.tif", "8", "and");
+		IObject result = Engine._do("binarylogicalraster_1", "binarylogicalraster","small2.tif", "small3.tif", "less");
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
 		assertTrue(resultR.isValid());
 		resultR.store("aa_binarylogicalraster", "GTiff", "gdal");
@@ -147,15 +158,13 @@ public class TestEngine {
         Engine.setWorkingCatalog(workingDir+"feature/");
         ilwisobjects.connectIssueLogger();
         
-		FeatureCoverage fc = new FeatureCoverage("rainfall.shp");
+		FeatureCoverage fc = new FeatureCoverage("rainfall_mod.shp");
 		assertTrue(fc.isValid());
-		//fc.store(workingDir + "temp/rainfall_fromshp", "vectormap", "ilwis3");
 		
-		FeatureCoverage fc2 = new FeatureCoverage("Natuurkalender_ETRS1989.shp");
+		FeatureCoverage fc2 = new FeatureCoverage("rainfall.shp");
 		assertTrue(fc2.isValid());
-		//fc2.store(workingDir + "temp/Natuurkalender_ETRS1989_fromshp", "vectormap", "ilwis3");
 		
-		IObject result = Engine._do("bin_1", "binarymathfeatures", "rainfall.shp", "Natuurkalender_ETRS1989.shp", "add");
+		IObject result = Engine._do("bin_1", "binarymathfeatures", "rainfall.shp", "rainfall_mod.shp", "substract");
 //		
 //		FeatureCoverage resultF = FeatureCoverage.toFeatureCoverage(result);
 //		assertTrue(resultF.isValid());
@@ -168,7 +177,14 @@ public class TestEngine {
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage(result);
 		assertTrue(resultR.isValid());
 		resultR.store("aa_binarymathraster", "GTiff", "gdal");
-		
+	}
+	
+	@Test // Working
+	public void binarymathraster2() {
+		IObject result = Engine._do("binarymathraster_1", "binarymathraster", "small2.tif", "small3.tif", "add");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage(result);
+		assertTrue(resultR.isValid());
+		resultR.store("aa_binarymathraster_add", "GTiff", "gdal");
 	}
 	
 	@Test // Working
@@ -213,7 +229,11 @@ public class TestEngine {
 	@Ignore // wrong parameters?
 	@Test
 	public void iff_raster() {
-		IObject result = Engine._do("iff_1", "iff", "n000302.tif", "1", "200");
+		RasterCoverage rc = new RasterCoverage("small2.tif");
+		assertTrue(rc.isValid());
+		
+		IObject result = Engine._do("iff_1", "iff", "small2.tif", "1", "200");
+		// ^ java.lang.Exception: ILWIS ErrorObject: Using unitialized ilwis object
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
 		assertTrue(resultR.isValid());
 		resultR.store("aa_iff", "GTiff", "gdal");
@@ -227,11 +247,11 @@ public class TestEngine {
 		resultR.store("aa_laplacefilter", "GTiff", "gdal");
 	}
 	
-	@Ignore // llegal Illegal quantile number value : must be between 0 and 100, found : 0
-	// couldn't do(quantile_1=quantile(n000302.tif,45))
+	@Ignore // Illegal quantile number value : must be between 0 and 100, found : 0
+	// couldn't do(quantile_1=quantile(n000302.tif,1))
 	@Test
 	public void quantile() {
-		IObject result = Engine._do("quantile_1", "quantile", "n000302.tif", "45");
+		IObject result = Engine._do("quantile_1", "quantile", "n000302.tif", "1");
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
 		assertTrue(resultR.isValid());
 		resultR.store("aa_quantile", "GTiff", "gdal");
@@ -263,12 +283,112 @@ public class TestEngine {
 		resultR.store("aa_sobelfilter", "GTiff", "gdal");
 	}
 	
+	@Ignore // Long calculation
 	@Test // Working
 	public void timesat() {
 		IObject result = Engine._do("timesat_1", "timesat", "n000302.tif", "2", "true", "false", "true");
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
 		assertTrue(resultR.isValid());
 		resultR.store("aa_timesat", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void boxfilter() {
+		IObject result = Engine._do("boxfilter_1", "boxfilter", "n000302.tif", "20", "20", "true");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_boxfilter", "GTiff", "gdal");
+	}
+	
+	@Test // Fully white output
+	public void correlation() {
+		IObject result = Engine._do("correlation_1", "correlation", "small2.tif", "small3.tif");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_correlation", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void dilatefilter() {
+		IObject result = Engine._do("dilatefilter_1", "dilatefilter", "n000302.tif", "5", "rectangle", "20", "20", "0", "0");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_dilatefilter", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void erodefilter() {
+		IObject result = Engine._do("erodefilter_1", "erodefilter", "n000302.tif", "5", "rectangle", "20", "20", "0", "0");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_erodefilter", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void histogramhqualization() {
+		IObject result = Engine._do("histogramhqualization_1", "histogramhqualization", "n000302.tif");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_histogramhqualization", "GTiff", "gdal");
+	}
+	
+	@Ignore // filter required
+	@Test
+	public void linearrasterfilter() {
+		IObject result = Engine._do("linearrasterfilter_1", "linearrasterfilter", "n000302.tif", "abc.fil");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_linearrasterfilter", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void medianblurfilter() {
+		IObject result = Engine._do("medianblurfilter_1", "medianblurfilter", "n000302.tif", "21");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_medianblurfilter", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void aggregateraster() {
+		IObject result = Engine._do("aggregateraster_1", "aggregateraster", "n000302.tif", "Avg", "20", "true");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_aggregateraster", "GTiff", "gdal");
+	}
+	
+	@Test // Working with mpl and multiband geotif
+	public void aggregaterasterstatistics() {
+		IObject result = Engine._do("aggregaterasterstatistics_1", "aggregaterasterstatistics", "small.tif", "max");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_aggregaterasterstatistics", "GTiff", "gdal");
+		
+		result = Engine._do("aggregaterasterstatistics_1", "aggregaterasterstatistics", "small.mpl", "max");
+		resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_aggregaterasterstatistics2", "GTiff", "gdal");
+	}
+	
+	@Test // Working
+	public void relativeaggregaterasterStatistics() {
+		IObject result = Engine._do("relativeaggregaterasterStatistics_1", "relativeaggregaterasterStatistics", "small.mpl", "variance", "small.mpr");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		assertTrue(resultR.isValid());
+		resultR.store("aa_relativeaggregaterasterStatistics", "GTiff", "gdal");
+	}
+	
+	@Ignore // metadata of g:/ilwisobjects/output/win32release/bin/scripts/ndvi not properly initialized
+	// couldn't do(script ndvi_1=G:/IlwisObjects/output/win32release/bin/scripts/NDVI(F:/documents/ilwis/ilwisObjects/IlwisJavaExtension/ilwisjava/target/test-classes/testfiles/raster/small2.mpr,F:/documents/ilwis/ilwisObjects/IlwisJavaExtension/ilwisjava/target/test-classes/testfiles/raster/small3.mpr,NDVI))
+	@Test 
+	public void ndvi() {
+		IObject result = Engine._do("script ndvi_1",
+				"G:/IlwisObjects/output/win32release/bin/scripts/NDVI",
+				"F:/documents/ilwis/ilwisObjects/IlwisJavaExtension/ilwisjava/target/test-classes/testfiles/raster/small2.mpr", 
+				"F:/documents/ilwis/ilwisObjects/IlwisJavaExtension/ilwisjava/target/test-classes/testfiles/raster/small3.mpr", "NDVI");
+		//RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
+		//assertTrue(resultR.isValid());
+		//resultR.store("aa_ndvi", "GTiff", "gdal");
 	}
 	
 }
