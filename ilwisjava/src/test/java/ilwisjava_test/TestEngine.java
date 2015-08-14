@@ -188,6 +188,14 @@ public class TestEngine {
 	}
 	
 	@Test // Working
+	public void binarymathraster3() {
+		IObject result = Engine._do("binarymathraster_1", "binarymathraster", "small2.tif", "small3.tif", "substract");
+		RasterCoverage resultR = RasterCoverage.toRasterCoverage(result);
+		assertTrue(resultR.isValid());
+		resultR.store("aa_binarymathraster_sub", "GTiff", "gdal");
+	}
+	
+	@Test // Working
 	public void cos() {
 		IObject result = Engine._do("cos_1", "cos","n000302.tif");
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
