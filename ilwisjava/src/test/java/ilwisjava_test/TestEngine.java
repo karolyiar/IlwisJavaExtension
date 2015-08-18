@@ -19,6 +19,16 @@ public class TestEngine {
 		ilwisobjects.disconnectIssueLogger();
         Engine.setWorkingCatalog(workingDir+"raster/");
         ilwisobjects.connectIssueLogger();
+        
+        // Set up tif rasters
+        RasterCoverage rc = new RasterCoverage("small.mpl");
+        rc.store("small", "GTiff", "gdal");
+        rc = new RasterCoverage("small2.mpr");
+        assertTrue(rc.geoReference().isValid());
+        rc.store("small2", "GTiff", "gdal");
+        rc = new RasterCoverage("small3.mpr");
+        assertTrue(rc.geoReference().isValid());
+        rc.store("small3", "GTiff", "gdal");
 	}
 
 	@Test
@@ -318,7 +328,7 @@ public class TestEngine {
 	
 	@Test // Working
 	public void dilatefilter() {
-		IObject result = Engine._do("dilatefilter_1", "dilatefilter", "n000302.tif", "5", "rectangle", "20", "20", "0", "0");
+		IObject result = Engine._do("dilatefilter_1", "dilatefilter", "n000302.tif", "5", "ellipse", "20", "20", "0", "0");
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
 		assertTrue(resultR.isValid());
 		resultR.store("aa_dilatefilter", "GTiff", "gdal");
@@ -326,7 +336,7 @@ public class TestEngine {
 	
 	@Test // Working
 	public void erodefilter() {
-		IObject result = Engine._do("erodefilter_1", "erodefilter", "n000302.tif", "5", "rectangle", "20", "20", "0", "0");
+		IObject result = Engine._do("erodefilter_1", "erodefilter", "n000302.tif", "5", "ellipse", "20", "20", "0", "0");
 		RasterCoverage resultR = RasterCoverage.toRasterCoverage( result );
 		assertTrue(resultR.isValid());
 		resultR.store("aa_erodefilter", "GTiff", "gdal");
