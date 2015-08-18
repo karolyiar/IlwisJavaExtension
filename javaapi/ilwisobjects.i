@@ -16,7 +16,7 @@
 %include "std_map.i"
 
 %begin %{
-   //#include <cmath>
+
 %}
 
 %{
@@ -286,88 +286,87 @@ import java.net.URISyntaxException;
 import java.net.URL;
 %} 
 %pragma(java) modulecode=%{
-  public static String getsUNDEF() { return "?"; }
-  public static int getshUNDEF() { return 32767; }
-  public static float getFlUNDEF() { return (float)1e38; }
-  private static boolean libLoaded = false;
-  private static String ilwisLocation = getIlwisLocation();
+	public static String getsUNDEF() { return "?"; }
+	public static int getshUNDEF() { return 32767; }
+	public static float getFlUNDEF() { return (float)1e38; }
+	private static boolean libLoaded = false;
+	private static String ilwisLocation = getIlwisLocation();
   
-  public static void initIlwisObjects() throws FileNotFoundException {
-	  	ilwisLocation = readIlwisLocation();
-	  	if (ilwisLocation==null) {
-			URL input = null;
-			try {
-				input = new URL( ilwisobjects.class.getProtectionDomain().getCodeSource().getLocation().toURI().toURL(),
-						"./../../config/ilwislocation.config" );
-			} catch (URISyntaxException e) {
-				throw new FileNotFoundException("ilwislocation.config not found or not well-formed: " + input);
-			} catch (MalformedURLException e) {
-				throw new FileNotFoundException("ilwislocation.config not found or not well-formed: " + input);
-			}
-	  	}
-	  		
+	public static void initIlwisObjects() throws FileNotFoundException {
 		if (!libLoaded) {
-			try {
-//				System.loadLibrary("lib/_ilwisobjects0");
-				System.load(ilwisLocation + "extensions/_ilwisobjects/_ilwisobjects0.dll"); //TODO: linux
-				ilwisobjects._initIlwisObjects(ilwisLocation);
-
-				Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-					public void run() {
-						ilwisobjects._exitIlwisObjects();
-					}
-				}));
-			} finally {
-				libLoaded = true;
+			if (ilwisLocation == null) {
+				ilwisLocation = readIlwisLocation();
 			}
+			if (ilwisLocation == null) {
+				throw new FileNotFoundException(
+						"Ilwis location not set and ilwislocation.config not found or not well-formed.");
+			}
+			if (System.getProperty("os.name").toLowerCase().contains("win")) { // Windows
+				System.load(ilwisLocation + "extensions" + File.pathSeparator
+						+ "_ilwisobjects" + File.pathSeparator
+						+ "_ilwisobjects0.dll");
+			} else { // Linux
+				System.load(ilwisLocation + "extensions" + File.pathSeparator
+						+ "_ilwisobjects" + File.pathSeparator
+						+ "_ilwisobjects0.so");
+			}
+
+			ilwisobjects._initIlwisObjects(ilwisLocation);
+
+			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+				public void run() {
+					ilwisobjects._exitIlwisObjects();
+				}
+			}));
+			libLoaded = true;
 		}
 	}
 	
 	private static String readIlwisLocation() {
 		BufferedReader br = null;
 		// default location
-		URL input = ClassLoader.getSystemResource( "ilwislocation.config" );
-		if (input == null) {
-			try {
-				// WPS location, at config directory
-				input = new URL( ilwisobjects.class.getProtectionDomain().getCodeSource().getLocation().toURI().toURL(),
-						"./../../config/ilwislocation.config" );
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		URL input = ClassLoader.getSystemResource("ilwislocation.config");
+		if (input == null)
+			return null;
 		try {
 			String line;
 
-			br = new BufferedReader(new InputStreamReader( input.openStream() ));
- 
+			br = new BufferedReader(new InputStreamReader(input.openStream()));
+
 			while ((line = br.readLine()) != null) {
 				if (line.indexOf("=") == -1) {
 					continue;
 				}
 				String[] lineSplit = line.split("=");
 				if (lineSplit[0].equals("ilwisDir")) {
-					return ( lineSplit[1] );
+					return (lineSplit[1]);
 				}
 			}
 		} catch (IOException e) {
 		} finally {
 			try {
-				if (br != null)br.close();
+				if (br != null)
+					br.close();
 			} catch (IOException ex) {
 			}
 		}
 		return null;
 	}
   
-  public static String getIlwisLocation() {
-	  return ilwisLocation;
-  }
+	public static String getIlwisLocation() {
+		return ilwisLocation;
+	}
   
+  	/**
+	 * Set before initIlwisObjects!
+	 * 
+	 * @param location
+	 *            Ilwis-Objects location eg.
+	 *            G:/IlwisObjects/output/win32release/bin/
+	 */
+	public static void setIlwisLocation(String location) {
+		ilwisLocation = location;
+	}
   
 %}
 
