@@ -1,6 +1,4 @@
-include(global.pri)
-
-QT += core
+QT += core sql network
 
 TARGET = _ilwisobjects
 
@@ -8,16 +6,54 @@ TEMPLATE = lib
 
 VERSION = 0.0.0.1
 
-win32{
-    #DLLDESTDIR = $$PWD/../output/$$PLATFORM$$CONF/bin/extensions/$$TARGET
-    DLLDESTDIR = $$PWD
+OUTDIR = $$PWD/output/$$PLATFORM$$CONF
+PLATFORM = generic
+CONFIG(debug, debug|release) {
+CONF=debug
 }
+
+CONFIG(release, debug|release) {
+CONF=release
+}
+linux{
+    BOOST=/usr/include
+    GEOSINCL=/usr/include
+    GEOSLIB=/usr/lib
+    SHAREDEXT=so
+    PREFIXSHARED=lib
+    INCLUDEPATH += $$GEOSINCL
+    DEPENDPATH += $$GEOSINCL
+    LIBS += -L$$GEOSLIB/ -lgeos-3.4.2
+
+    JAVADIR = /usr/lib/jvm/java-gcj-4.6
+}
+win32{
+    PLATFORM = win32
+    BOOST=../external
+    SHAREDEXT=dll
+    PREFIXSHARED=
+    LIBS += -L$$PWD/../libraries/$$PLATFORM$$CONF/ -llibgeos
+    INCLUDEPATH += $$PWD/../external/geos
+    DEPENDPATH += $$PWD/../external/geos
+
+    DLLDESTDIR = $$PWD/../output/$$PLATFORM$$CONF/bin/extensions/$$TARGET
+    JAVADIR = "E:\Program Files (x86)\Java\jdk1.8.0_31"
+    QMAKE_LFLAGS += -Wl,--add-stdcall-alias
+}
+
+INCLUDEPATH += $$PWD/../IlwisCore/core \
+               $$PWD/../external/geos \
+               $$JAVADIR/include \
+               $$JAVADIR/include/win32 \
+               $$JAVADIR/include/linux
+DEPENDPATH += $$PWD/../IlwisCore/core \
+               $$PWD/../external/geos \
 
 DESTDIR = $$PWD/../libraries/$$PLATFORM$$CONF/extensions/$$TARGET
 
-JAVADIR = "E:\Program Files (x86)\Java\jdk1.8.0_31"
+LIBS += -L$$PWD/../libraries/$$PLATFORM$$CONF/ -lilwiscore \
+        -L$$JAVADIR/lib/ -ljvm
 
-QMAKE_LFLAGS += -Wl,--add-stdcall-alias
 
 HEADERS += \
     javaapi/javaapi_util.h \
@@ -50,7 +86,6 @@ HEADERS += \
 
 
 SOURCES += \
-    javaapi/ilwisobjects_wrap.cxx \
     javaapi/javaapi_util.cpp \
     javaapi/javaapi_ilwisobject.cpp \
     javaapi/javaapi_extension.cpp \
@@ -75,8 +110,8 @@ SOURCES += \
     javaapi/javaapi_rastercoverage.cpp \
     javaapi/javaapi_pixeliterator.cpp \
     javaapi/javaapi_engine.cpp \
-    javaapi/javaapi_ilwisoperation.cpp
-
+    javaapi/javaapi_ilwisoperation.cpp \
+    javaapi/ilwisobjects_wrap.cxx
 
 OTHER_FILES += \
     javaapi/ilwisobjects.i \
@@ -87,17 +122,28 @@ OTHER_FILES += \
     javaapi/UPDATE \
     javaapi/CHANGELOG
 
-LIBS += -L$$PWD/../libraries/$$PLATFORM$$CONF/ -lilwiscore \
-        -L$$PWD/../libraries/$$PLATFORM$$CONF/ -llibgeos \
-        -L$$JAVADIR/lib -ljvm
+QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -Wno-unused-parameter
+QMAKE_CXXFLAGS += -Wno-sign-compare
+QMAKE_CXXFLAGS += -Wno-unused-local-typedefs
+QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 
 win32:CONFIG(release, debug|release): {
     QMAKE_CXXFLAGS_RELEASE += -O2
 }
 
-INCLUDEPATH += $$PWD/../IlwisCore/core \
-               $$PWD/../external/geos \
-               $$JAVADIR/include \
-               $$JAVADIR/include/win32 \
-DEPENDPATH += $$PWD/../IlwisCore/core \
-              $$PWD/../external/geos \
+INCLUDEPATH += ../IlwisCore/core \
+                ../IlwisCore/core/ilwisobjects \
+                ../IlwisCore/core/ilwisobjects/geometry \
+                ../IlwisCore/core/util \
+                ../IlwisCore/core/ilwisobjects/geometry/geodeticdatum \
+                ../IlwisCore/core/ilwisobjects/geometry/projection \
+                ../IlwisCore/core/ilwisobjects/geometry/coordinatesystem \
+                ../IlwisCore/core/ilwisobjects/geometry/georeference \
+                ../IlwisCore/core/ilwisobjects/coverage \
+                ../IlwisCore/core/ilwisobjects/table \
+                ../IlwisCore/core/ilwisobjects/operation \
+                ../IlwisCore/core/ilwisobjects/representation \
+                ../IlwisCore/core/catalog \
+                ../IlwisCore/core/ilwisobjects/domain \
+                $$BOOST
