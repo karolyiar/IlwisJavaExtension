@@ -95,9 +95,9 @@ win32:CONFIG(release, debug|release): {
     QMAKE_CXXFLAGS_RELEASE += -O2
 }
 
-INCLUDEPATH += $$PWD/../ilwiscore/core \
+INCLUDEPATH += $$PWD/../IlwisCore/core \
                $$PWD/../external/geos \
                $$JAVADIR/include \
                $$JAVADIR/include/win32 \
-DEPENDPATH += $$PWD/../ilwiscore/core \
+DEPENDPATH += $$PWD/../IlwisCore/core \
               $$PWD/../external/geos \
