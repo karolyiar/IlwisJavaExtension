@@ -286,12 +286,28 @@ import java.net.URISyntaxException;
 import java.net.URL;
 %} 
 %pragma(java) modulecode=%{
-	public static String getsUNDEF() { return "?"; }
-	public static int getshUNDEF() { return 32767; }
-	public static float getFlUNDEF() { return (float)1e38; }
+	public static String getsUNDEF() {
+		return "?";
+	}
+
+	public static int getshUNDEF() {
+		return 32767;
+	}
+
+	public static float getFlUNDEF() {
+		return (float) 1e38;
+	}
+
 	private static boolean libLoaded = false;
 	private static String ilwisLocation = getIlwisLocation();
-  
+
+	/**
+	 * Use before any Ilwis fuction. Set the Ilwis folder with setIlwisLocation,
+	 * if no ilwislocation.config is in the resources.
+	 * 
+	 * @throws FileNotFoundException
+	 *             Can't find Ilwis-Objects.
+	 */
 	public static void initIlwisObjects() throws FileNotFoundException {
 		if (!libLoaded) {
 			if (ilwisLocation == null) {
@@ -302,13 +318,11 @@ import java.net.URL;
 						"Ilwis location not set and ilwislocation.config not found or not well-formed.");
 			}
 			if (System.getProperty("os.name").toLowerCase().contains("win")) { // Windows
-				System.load(ilwisLocation + "extensions" + File.pathSeparator
-						+ "_ilwisobjects" + File.pathSeparator
+				System.load(ilwisLocation + "extensions" + File.separator
+						+ "_ilwisobjects" + File.separator
 						+ "_ilwisobjects0.dll");
 			} else { // Linux
-				System.load(ilwisLocation + "extensions" + File.pathSeparator
-						+ "_ilwisobjects" + File.pathSeparator
-						+ "_ilwisobjects0.so");
+				System.load(ilwisLocation + "lib_ilwisobjects.so");
 			}
 
 			ilwisobjects._initIlwisObjects(ilwisLocation);
@@ -321,7 +335,7 @@ import java.net.URL;
 			libLoaded = true;
 		}
 	}
-	
+
 	private static String readIlwisLocation() {
 		BufferedReader br = null;
 		// default location
@@ -352,12 +366,12 @@ import java.net.URL;
 		}
 		return null;
 	}
-  
+
 	public static String getIlwisLocation() {
 		return ilwisLocation;
 	}
-  
-  	/**
+
+	/**
 	 * Set before initIlwisObjects!
 	 * 
 	 * @param location
