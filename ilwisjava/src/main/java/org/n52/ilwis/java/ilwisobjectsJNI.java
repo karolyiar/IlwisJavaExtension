@@ -47,7 +47,7 @@ public class ilwisobjectsJNI {
   public final static native int it_TABLE_get();
   public final static native int it_GEOREF_get();
   public final static native int it_COORDSYSTEM_get();
-  public final static native int it_DOMAIN_get();
+  public final static native int it_DOMAIN__get();
   public final static native int it_NUMERICDOMAIN_get();
   public final static native int it_ITEMDOMAIN_get();
   public final static native int it_OPERATIONMETADATA_get();

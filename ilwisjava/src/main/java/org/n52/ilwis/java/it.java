@@ -74,7 +74,7 @@ public class it {
     public final static it.ilwisType TABLE = new it.ilwisType("TABLE", ilwisobjectsJNI.it_TABLE_get());
     public final static it.ilwisType GEOREF = new it.ilwisType("GEOREF", ilwisobjectsJNI.it_GEOREF_get());
     public final static it.ilwisType COORDSYSTEM = new it.ilwisType("COORDSYSTEM", ilwisobjectsJNI.it_COORDSYSTEM_get());
-    public final static it.ilwisType DOMAIN = new it.ilwisType("DOMAIN", ilwisobjectsJNI.it_DOMAIN_get());
+    public final static it.ilwisType DOMAIN_ = new it.ilwisType("DOMAIN_", ilwisobjectsJNI.it_DOMAIN__get());
     public final static it.ilwisType NUMERICDOMAIN = new it.ilwisType("NUMERICDOMAIN", ilwisobjectsJNI.it_NUMERICDOMAIN_get());
     public final static it.ilwisType ITEMDOMAIN = new it.ilwisType("ITEMDOMAIN", ilwisobjectsJNI.it_ITEMDOMAIN_get());
     public final static it.ilwisType OPERATIONMETADATA = new it.ilwisType("OPERATIONMETADATA", ilwisobjectsJNI.it_OPERATIONMETADATA_get());
@@ -119,7 +119,7 @@ public class it {
       swigNext = this.swigValue+1;
     }
 
-    private static ilwisType[] swigValues = { FEATURE, RASTER, COVERAGE, TABLE, GEOREF, COORDSYSTEM, DOMAIN, NUMERICDOMAIN, ITEMDOMAIN, OPERATIONMETADATA, PROJECTION, ELLIPSOID, CATALOG, CONTINUOUSCOLOR, PALETTECOLOR, VALUERANGE };
+    private static ilwisType[] swigValues = { FEATURE, RASTER, COVERAGE, TABLE, GEOREF, COORDSYSTEM, DOMAIN_, NUMERICDOMAIN, ITEMDOMAIN, OPERATIONMETADATA, PROJECTION, ELLIPSOID, CATALOG, CONTINUOUSCOLOR, PALETTECOLOR, VALUERANGE };
     private static int swigNext = 0;
     private final int swigValue;
     private final String swigName;

@@ -21,7 +21,7 @@ namespace javaapi{
             TABLE = itTABLE,
             GEOREF = itGEOREF,
             COORDSYSTEM = itCOORDSYSTEM,
-            _DOMAIN = itDOMAIN,
+            DOMAIN_ = itDOMAIN,
             NUMERICDOMAIN = itNUMERICDOMAIN,
             ITEMDOMAIN = itITEMDOMAIN,
             OPERATIONMETADATA = itOPERATIONMETADATA,
