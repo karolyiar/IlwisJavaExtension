@@ -3,6 +3,9 @@
 %module(docstring="The Java API for ILWIS Objects") ilwisobjects
 %feature("autodoc","1");
 
+// Hides the multiple inheritance warning
+%warnfilter(813) javaapi::ColorPalette;
+
 %typemap(javacode) std::vector<double> "  public vectord(double[] array) {
 	this();
     for ( double i : array )
