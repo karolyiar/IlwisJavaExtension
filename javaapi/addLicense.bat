@@ -1,7 +1,7 @@
 :: Adds license to every java file
 :: Param1: license file
 :: Param2: java folder
-::licenseAdder.bat ..\LICENSE ..\ilwisobject_test\src\org\n52\ilwis\java\
+::addLicense.bat ..\LICENSE ..\ilwisjava\src\main\java\org\n52\ilwis\java\
 
 @echo off
 set "header=%1"
