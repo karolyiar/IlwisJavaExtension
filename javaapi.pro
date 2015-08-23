@@ -25,7 +25,7 @@ linux{
     DEPENDPATH += $$GEOSINCL
     LIBS += -L$$GEOSLIB/ -lgeos-3.4.2
 
-    JAVADIR = /usr/lib/jvm/java-gcj-4.6
+    JAVADIR = /usr/jdk1.7.0_79
 }
 win32{
     PLATFORM = win32
@@ -52,7 +52,7 @@ DEPENDPATH += $$PWD/../IlwisCore/core \
 DESTDIR = $$PWD/../libraries/$$PLATFORM$$CONF/extensions/$$TARGET
 
 LIBS += -L$$PWD/../libraries/$$PLATFORM$$CONF/ -lilwiscore \
-        -L$$JAVADIR/lib/ -ljvm
+        -L$$JAVADIR/jre/lib/amd64/server/ -ljvm
 
 HEADERS += \
     javaapi/javaapi_util.h \
