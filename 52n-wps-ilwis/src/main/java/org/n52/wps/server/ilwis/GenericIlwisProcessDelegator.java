@@ -30,16 +30,13 @@ package org.n52.wps.server.ilwis;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.opengis.wps.x100.ComplexDataCombinationsType;
 import net.opengis.wps.x100.ProcessDescriptionType;
 
-import org.n52.ilwis.java.Coordinate;
 import org.n52.ilwis.java.CoordinateSystem;
 import org.n52.ilwis.java.Engine;
 import org.n52.ilwis.java.FeatureCoverage;
@@ -74,158 +71,192 @@ public class GenericIlwisProcessDelegator implements IAlgorithm {
 	@Override
 	public Map<String, IData> run(Map<String, List<IData>> inputData) {
 		Map<String, IData> result = new HashMap<String, IData>();
-		String[] ilwisInputList = new String[ inputData.size() ];
+		String[] ilwisInputList = new String[inputData.size()];
 		String ilwisWorkingDir = System.getProperty("java.io.tmpdir");
 
-		// Convert the inputs to string
-		for(String inID : inputData.keySet()) {
-			int i = inputId.get(inID) - 1;
-			long ilwisType = ilwisProcess.getPinType(i+1);
+		try {
+
+			// Convert the inputs to string
+			for (String inID : inputData.keySet()) {
+				int i = inputId.get(inID) - 1;
+				long ilwisType = ilwisProcess.getPinType(i + 1);
+
+				// Checks if this input is required
+				if (inputData.get(inID) == null) {
+					throw new RuntimeException(inID + " is not required by "
+							+ processID);
+				}
+
+				if (inputData.get(inID).get(0) instanceof GenericFileDataBinding) { // File
+					GenericFileDataBinding fileDataBinding = (GenericFileDataBinding) inputData
+							.get(inID).get(0);
+					File file = fileDataBinding.getPayload().getBaseFile(true);
+					ilwisInputList[i] = file.getName();
+					ilwisWorkingDir = file.getParent();
+				} else if (inputData.get(inID).size() == 2
+						&& inputData.get(inID).get(0) instanceof LiteralDoubleBinding) { // Coordinate
+					ilwisInputList[i] = new org.n52.ilwis.java.Coordinate(
+							(Double) inputData.get(inID).get(0).getPayload(),
+							(Double) inputData.get(inID).get(1).getPayload())
+							.toString();
+				} else if ((ilwisType & 512L) != 0
+						&& inputData.get(inID).get(0) instanceof LiteralStringBinding) { // Coordinatesystem
+																							// from
+																							// String
+					ilwisInputList[i] = new CoordinateSystem(inputData
+							.get(inID).get(0).getPayload().toString())
+							.toString();
+				} else if (true) { // Literals
+					ilwisInputList[i] = inputData.get(inID).get(0).getPayload()
+							.toString();
+				}
+			}
 			
-//			if (inputData.get(inID).get(0) instanceof GenericFileDataWithGTBinding) {
-//				GenericFileDataWithGTBinding fileDataBinding = (GenericFileDataWithGTBinding) inputData.get(inID).get(0);
-			if (inputData.get(inID).get(0) instanceof GenericFileDataBinding) { // File
-				GenericFileDataBinding fileDataBinding = (GenericFileDataBinding) inputData.get(inID).get(0);
-				File file = fileDataBinding.getPayload().getBaseFile(true);
-				ilwisInputList[i] = file.getName();
-				ilwisWorkingDir = file.getParent();
-			} else if( inputData.get(inID).size()==2 &&  inputData.get(inID).get(0) instanceof LiteralDoubleBinding) { // Coordinate
-				ilwisInputList[i] = new org.n52.ilwis.java.Coordinate(
-						(Double)inputData.get(inID).get(0).getPayload(), (Double)inputData.get(inID).get(1).getPayload()
-						).toString();
-			} else if ((ilwisType & 512L) != 0 && inputData.get(inID).get(0) instanceof LiteralStringBinding) { // Coordinatesystem from String
-				ilwisInputList[i] = new CoordinateSystem( inputData.get(inID).get(0).getPayload().toString() ).toString();
-			} else if (true) {
-				ilwisInputList[i] = inputData.get(inID).get(0).getPayload().toString();
+			// Checks missing parameters
+			for (String s : ilwisInputList) {
+				if (s == null) {
+					throw new RuntimeException("Missing parameter.");
+				}
 			}
-		}
 
-		// Set the Ilwis working directory
-		if (ilwisWorkingDir != null) {
-			ilwisobjects.disconnectIssueLogger();
-			Engine.setWorkingCatalog(ilwisWorkingDir);
-			ilwisobjects.connectIssueLogger();
-			LOGGER.info("Ilwis working dir: " + ilwisWorkingDir);
-		} else {
-			LOGGER.info("Ilwis working dir: none");
-		}
+			// Set the Ilwis working directory
+			if (ilwisWorkingDir != null) {
+				ilwisobjects.disconnectIssueLogger();
+				Engine.setWorkingCatalog(ilwisWorkingDir);
+				ilwisobjects.connectIssueLogger();
+				LOGGER.info("Ilwis working dir: " + ilwisWorkingDir);
+			} else {
+				LOGGER.info("Ilwis working dir: none");
+			}
 
-		// Ilwis do function
-		IObject ilwisResult = null;
-		LOGGER.info("Engine do " + ilwisInputList.length);
-		switch (ilwisInputList.length) {
-		case 0:
-			LOGGER.info("Ilwis do(" + "outputname" + ","
-					+ ilwisProcess.getName() + ")");
-			ilwisResult = Engine._do("outputname", ilwisProcess.getName());
-			break;
-		case 1:
-			LOGGER.info("Ilwis do(" + "outputname" + ","
-					+ ilwisProcess.getName() + "," + ilwisInputList[0]
-					+ ")");
-			ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
-					ilwisInputList[0]);
-			break;
-		case 2:
-			LOGGER.info("Ilwis do(" + "outputname" + ","
-					+ ilwisProcess.getName() + "," + ilwisInputList[0]
-					+ "," + ilwisInputList[1] + ")");
-			ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
-					ilwisInputList[0], ilwisInputList[1]);
-			break;
-		case 3:
-			LOGGER.info("Ilwis do(" + "outputname" + ","
-					+ ilwisProcess.getName() + "," + ilwisInputList[0]
-					+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
-					+ ")");
-			ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
-					ilwisInputList[0], ilwisInputList[1],
-					ilwisInputList[2]);
-			break;
+			// Ilwis do function
+			IObject ilwisResult = null;
+			LOGGER.info("Engine do " + ilwisInputList.length);
+			switch (ilwisInputList.length) {
+			case 0:
+				LOGGER.info("Ilwis do(" + "outputname" + ","
+						+ ilwisProcess.getName() + ")");
+				ilwisResult = Engine._do("outputname", ilwisProcess.getName());
+				break;
+			case 1:
+				LOGGER.info("Ilwis do(" + "outputname" + ","
+						+ ilwisProcess.getName() + "," + ilwisInputList[0]
+						+ ")");
+				ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
+						ilwisInputList[0]);
+				break;
+			case 2:
+				LOGGER.info("Ilwis do(" + "outputname" + ","
+						+ ilwisProcess.getName() + "," + ilwisInputList[0]
+						+ "," + ilwisInputList[1] + ")");
+				ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
+						ilwisInputList[0], ilwisInputList[1]);
+				break;
+			case 3:
+				LOGGER.info("Ilwis do(" + "outputname" + ","
+						+ ilwisProcess.getName() + "," + ilwisInputList[0]
+						+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
+						+ ")");
+				ilwisResult = Engine
+						._do("outputname", ilwisProcess.getName(),
+								ilwisInputList[0], ilwisInputList[1],
+								ilwisInputList[2]);
+				break;
 
-		case 4:
-			LOGGER.info("Ilwis do(" + "outputname" + ","
-					+ ilwisProcess.getName() + "," + ilwisInputList[0]
-					+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
-					+ "," + ilwisInputList[3] + ")");
-			ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
-					ilwisInputList[0], ilwisInputList[1],
-					ilwisInputList[2], ilwisInputList[3]);
-			break;
-		case 5:
-			LOGGER.info("Ilwis do(" + "outputname" + ","
-					+ ilwisProcess.getName() + "," + ilwisInputList[0]
-					+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
-					+ "," + ilwisInputList[3] + "," + ilwisInputList[4]
-					+ ")");
-			ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
-					ilwisInputList[0], ilwisInputList[1],
-					ilwisInputList[2], ilwisInputList[3],
-					ilwisInputList[4]);
-			break;
-		case 6:
-			LOGGER.info("Ilwis do(" + "outputname" + ","
-					+ ilwisProcess.getName() + "," + ilwisInputList[0]
-					+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
-					+ "," + ilwisInputList[3] + "," + ilwisInputList[4]
-					+ "," + ilwisInputList[5] + ")");
-			ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
-					ilwisInputList[0], ilwisInputList[1],
-					ilwisInputList[2], ilwisInputList[3],
-					ilwisInputList[4], ilwisInputList[5]);
-			break;
-		case 7:
-			LOGGER.info("Ilwis do(" + "outputname" + ","
-					+ ilwisProcess.getName() + "," + ilwisInputList[0]
-					+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
-					+ "," + ilwisInputList[3] + "," + ilwisInputList[4]
-					+ "," + ilwisInputList[5] + "," + ilwisInputList[6]
-					+ ")");
-			ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
-					ilwisInputList[0], ilwisInputList[1],
-					ilwisInputList[2], ilwisInputList[3],
-					ilwisInputList[4], ilwisInputList[5],
-					ilwisInputList[6]);
-			break;
-		}
-		LOGGER.info("Successful engine._do");
+			case 4:
+				LOGGER.info("Ilwis do(" + "outputname" + ","
+						+ ilwisProcess.getName() + "," + ilwisInputList[0]
+						+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
+						+ "," + ilwisInputList[3] + ")");
+				ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
+						ilwisInputList[0], ilwisInputList[1],
+						ilwisInputList[2], ilwisInputList[3]);
+				break;
+			case 5:
+				LOGGER.info("Ilwis do(" + "outputname" + ","
+						+ ilwisProcess.getName() + "," + ilwisInputList[0]
+						+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
+						+ "," + ilwisInputList[3] + "," + ilwisInputList[4]
+						+ ")");
+				ilwisResult = Engine
+						._do("outputname", ilwisProcess.getName(),
+								ilwisInputList[0], ilwisInputList[1],
+								ilwisInputList[2], ilwisInputList[3],
+								ilwisInputList[4]);
+				break;
+			case 6:
+				LOGGER.info("Ilwis do(" + "outputname" + ","
+						+ ilwisProcess.getName() + "," + ilwisInputList[0]
+						+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
+						+ "," + ilwisInputList[3] + "," + ilwisInputList[4]
+						+ "," + ilwisInputList[5] + ")");
+				ilwisResult = Engine._do("outputname", ilwisProcess.getName(),
+						ilwisInputList[0], ilwisInputList[1],
+						ilwisInputList[2], ilwisInputList[3],
+						ilwisInputList[4], ilwisInputList[5]);
+				break;
+			case 7:
+				LOGGER.info("Ilwis do(" + "outputname" + ","
+						+ ilwisProcess.getName() + "," + ilwisInputList[0]
+						+ "," + ilwisInputList[1] + "," + ilwisInputList[2]
+						+ "," + ilwisInputList[3] + "," + ilwisInputList[4]
+						+ "," + ilwisInputList[5] + "," + ilwisInputList[6]
+						+ ")");
+				ilwisResult = Engine
+						._do("outputname", ilwisProcess.getName(),
+								ilwisInputList[0], ilwisInputList[1],
+								ilwisInputList[2], ilwisInputList[3],
+								ilwisInputList[4], ilwisInputList[5],
+								ilwisInputList[6]);
+				break;
+			}
+			LOGGER.info("Successful engine._do");
 
-		// Store output
-		long outtype = ilwisProcess.getPoutType(1);
-		LOGGER.info("Output type: " + outtype);
-		
-		if ((outtype & 8) != 0) { // Raster
-			RasterCoverage rasterResult = RasterCoverage
-					.toRasterCoverage(ilwisResult);
-			rasterResult.store("raster", "GTiff", "gdal");
-			LOGGER.info("Storing file: " + ilwisWorkingDir + File.separator + "raster.tif");
-			File file = new File(ilwisWorkingDir + File.separator + "raster.tif");
-			try {
-//				GenericFileDataWithGTBinding result1 = new GenericFileDataWithGTBinding(new GenericFileDataWithGT(file, "image/tiff"));
-				GenericFileDataBinding result1 = new GenericFileDataBinding(new GenericFileData(file, "image/tiff"));
-				LOGGER.info("Storing " + ilwisProcess.getPoutName(1) + " " + result1.toString());
+			// Store output
+			long outtype = ilwisProcess.getPoutType(1);
+			LOGGER.info("Output type: " + outtype);
+
+			if ((outtype & 8) != 0) { // Raster
+				RasterCoverage rasterResult = RasterCoverage
+						.toRasterCoverage(ilwisResult);
+				rasterResult.store("raster", "GTiff", "gdal");
+				LOGGER.info("Storing file: " + ilwisWorkingDir + File.separator
+						+ "raster.tif");
+				File file = new File(ilwisWorkingDir + File.separator
+						+ "raster.tif");
+
+				GenericFileDataBinding result1 = new GenericFileDataBinding(
+						new GenericFileData(file, "image/tiff"));
+				LOGGER.info("Storing " + ilwisProcess.getPoutName(1) + " "
+						+ result1.toString());
 				result.put(ilwisProcess.getPoutName(1), result1);
-			} catch (IOException e) {
+
 				LOGGER.error("File storing error");
+
+			} else if ((outtype & 4) != 0) { // Polygon, Shp
+				FeatureCoverage featureResult = FeatureCoverage
+						.toFeatureCoverage(ilwisResult);
+				featureResult.store("polygon.shp", "ESRI Shapefile", "gdal");
+				LOGGER.info("Storing file: " + ilwisWorkingDir + File.separator
+						+ "polygon.shp");
+				File file = new File(ilwisWorkingDir + File.separator
+						+ "polygon.shp");
+
+				GenericFileDataBinding result1 = new GenericFileDataBinding(
+						new GenericFileData(file, "application/x-zipped-shp"));
+
+				LOGGER.info("Storing " + ilwisProcess.getPoutName(1) + " "
+						+ result1.toString());
+				result.put(ilwisProcess.getPoutName(1), result1);
 			}
 
-		} else if ((outtype & 4) != 0) { // Polygon, Shp
-			FeatureCoverage featureResult = FeatureCoverage.toFeatureCoverage(ilwisResult);
-			featureResult.store("polygon.shp", "ESRI Shapefile", "gdal");
-			LOGGER.info("Storing file: " + ilwisWorkingDir + File.separator + "polygon.shp");
-			File file = new File(ilwisWorkingDir + File.separator + "polygon.shp");
-			try {
-//				GenericFileDataWithGTBinding result1 = new GenericFileDataWithGTBinding(new GenericFileDataWithGT(file, "image/tiff"));
-				GenericFileDataBinding result1 = new GenericFileDataBinding(new GenericFileData(file, "application/x-zipped-shp"));
-				
-				LOGGER.info("Storing " + ilwisProcess.getPoutName(1) + " " + result1.toString());
-				result.put(ilwisProcess.getPoutName(1), result1);
-			} catch (IOException e) {
-				LOGGER.error("File storing error");
-			}
-			LOGGER.info("run done"); //DEBUG
+		} catch (RuntimeException e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new RuntimeException("Error while executing process " + processID + " : " + e.getMessage() );
+		} catch (IOException e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new RuntimeException("Error while executing process " + processID + " : " + e.getMessage() );
 		}
-		// TODO
 
 		return result;
 	}
@@ -266,38 +297,34 @@ public class GenericIlwisProcessDelegator implements IAlgorithm {
 
 	private Class<?> getDataType(long type) {
 		if ((type & 4) != 0)
-//			return GenericFileDataWithGTBinding.class; // Polygon, shp
 			return GenericFileDataBinding.class; // Polygon, shp
-		
+
 		if ((type & 8) != 0)
-//			return GenericFileDataWithGTBinding.class; // Raster
 			return GenericFileDataBinding.class; // Raster
 
 		if ((type & 131072L) != 0)
-//			return GenericFileDataWithGTBinding.class; // Georef
 			return GenericFileDataBinding.class; // Georef
 
 		if ((type & 68719476736L) != 0)
 			return LiteralStringBinding.class; // String
-		
+
 		if ((type & 17179869184L) != 0)
 			return LiteralDoubleBinding.class; // Double
-		
+
 		if ((type & 4294967296L) != 0)
 			return LiteralLongBinding.class; // Int64
-		
+
 		if ((type & 1073741824L) != 0)
 			return LiteralIntBinding.class; // Int32
-		
+
 		if ((type & 268435456L) != 0)
 			return LiteralShortBinding.class; // Int16
-		
+
 		if ((type & 549755813888L) != 0)
 			return LiteralDoubleBinding.class; // Coordinate
-		
+
 		if ((type & 512L) != 0)
 			return LiteralStringBinding.class; // (conventional)Coordinatesystem
-		// TODO
 
 		LOGGER.warn("Invalid Ilwis Datatype: " + type);
 		return null; // Default
@@ -306,15 +333,15 @@ public class GenericIlwisProcessDelegator implements IAlgorithm {
 	public GenericIlwisProcessDelegator(String processID,
 			ProcessDescriptionType processDescriptionType, long ilwisID) {
 		this.processID = processID.replace("org.n52.wps.server.ilwis.", "");
-		
+
 		this.processDescription = processDescriptionType;
 		ilwisProcess = Engine.getOperationById(ilwisID);
-		
+
 		// Mapping inputs
 		for (int i = 1; ilwisProcess.getPinType(i) != 0; i++) {
 			inputId.put(ilwisProcess.getPinName(i).replace(",", ""), i);
 		}
-		
+
 		// Mapping outputs
 		for (int i = 1; ilwisProcess.getPoutType(i) != 0; i++) {
 			outputId.put(ilwisProcess.getPoutName(i).replace(",", ""), i);
