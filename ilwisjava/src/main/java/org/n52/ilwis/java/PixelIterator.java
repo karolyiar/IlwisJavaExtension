@@ -63,6 +63,8 @@ public class PixelIterator implements Iterator<Double> {
     }
   }
   public Double next() { return _next(); }
+  public void remove() { } // Filler function
+
   public PixelIterator(PixelIterator pi) {
     this(ilwisobjectsJNI.new_PixelIterator__SWIG_0(PixelIterator.getCPtr(pi), pi), true);
   }

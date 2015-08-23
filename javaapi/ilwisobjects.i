@@ -93,15 +93,19 @@
 %typemap(javainterfaces) javaapi::FeatureCoverage "Iterable<Feature>";
 %typemap(javainterfaces) javaapi::FeatureIterator "Iterator<Feature>";
 %typemap(javaimports) javaapi::FeatureIterator "import java.util.Iterator;";
+%typemap(javacode) javaapi::FeatureIterator "    public void remove() { } // Filler function"
 
 %typemap(javainterfaces) javaapi::Geometry "Iterable<Coordinate>";
 %typemap(javainterfaces) javaapi::VertexIterator "Iterator<Coordinate>";
 %typemap(javaimports) javaapi::VertexIterator "import java.util.Iterator;";
+%typemap(javacode) javaapi::VertexIterator "    public void remove() { } // Filler function"
 
 %typemap(javainterfaces) javaapi::RasterCoverage "Iterable<Double>";
 %typemap(javainterfaces) javaapi::PixelIterator "Iterator<Double>";
 %typemap(javaimports) javaapi::PixelIterator "import java.util.Iterator;";
-%typemap(javacode) javaapi::PixelIterator "  public Double next() { return _next(); }";
+%typemap(javacode) javaapi::PixelIterator %{  public Double next() { return _next(); }
+  public void remove() { } // Filler function
+%}
 
 %include "javaapi_extension.h"
 
@@ -131,9 +135,7 @@
 
 %include "javaapi_coverage.h"
 
-
 %include "javaapi_object.h"
-
 
 %include "javaapi_geometry.h"
 
@@ -154,7 +156,6 @@
 %include "javaapi_domain.h"
 %typemap(javainterfaces) javaapi::NumericRange "Iterable<Double>";
 %include "javaapi_range.h"
-
 
 %include "javaapi_rangeiterator.h"
 

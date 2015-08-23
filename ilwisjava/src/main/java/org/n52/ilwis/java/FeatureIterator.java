@@ -62,7 +62,7 @@ public class FeatureIterator implements Iterator<Feature> {
       swigCPtr = 0;
     }
   }
-
+    public void remove() { } // Filler function
   public FeatureIterator(FeatureCoverage fc) {
     this(ilwisobjectsJNI.new_FeatureIterator__SWIG_0(FeatureCoverage.getCPtr(fc), fc), true);
   }

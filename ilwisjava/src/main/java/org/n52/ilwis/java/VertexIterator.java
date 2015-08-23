@@ -62,7 +62,7 @@ public class VertexIterator implements Iterator<Coordinate> {
       swigCPtr = 0;
     }
   }
-
+    public void remove() { } // Filler function
   public VertexIterator() {
     this(ilwisobjectsJNI.new_VertexIterator__SWIG_0(), true);
   }

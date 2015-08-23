@@ -712,6 +712,7 @@ public class ilwisobjectsJNI {
   public final static native long NumericRangeIterator_decrease(long jarg1, NumericRangeIterator jarg1_, int jarg2);
   public final static native int NumericRangeIterator_compareTo(long jarg1, NumericRangeIterator jarg1_, long jarg2, NumericRangeIterator jarg2_);
   public final static native void NumericRangeIterator_setRange(long jarg1, NumericRangeIterator jarg1_, long jarg2, Range jarg2_);
+  public final static native void NumericRangeIterator_remove(long jarg1, NumericRangeIterator jarg1_);
   public final static native long new_DataDefinition__SWIG_0();
   public final static native void delete_DataDefinition(long jarg1);
   public final static native long new_DataDefinition__SWIG_1(long jarg1, Domain jarg1_, long jarg2, Range jarg2_);

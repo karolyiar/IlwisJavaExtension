@@ -54,6 +54,8 @@ public:
 
     void setRange(Range* rng);
 
+    void remove() { } // Filler function
+
 protected:
     Ilwis::RangeIterator<IlwOutput, IlwRange>& ptr() const;
     std::shared_ptr<Ilwis::RangeIterator<IlwOutput, IlwRange>> _ilwisRangeIterator;

@@ -132,4 +132,8 @@ public class NumericRangeIterator implements Iterator<Double> {
     ilwisobjectsJNI.NumericRangeIterator_setRange(swigCPtr, this, Range.getCPtr(rng), rng);
   }
 
+  public void remove() {
+    ilwisobjectsJNI.NumericRangeIterator_remove(swigCPtr, this);
+  }
+
 }
