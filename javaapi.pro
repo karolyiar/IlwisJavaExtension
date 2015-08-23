@@ -23,22 +23,25 @@ linux{
     PREFIXSHARED=lib
     INCLUDEPATH += $$GEOSINCL
     DEPENDPATH += $$GEOSINCL
-    LIBS += -L$$GEOSLIB/ -lgeos-3.4.2
-
     JAVADIR = /usr/jdk1.7.0_79
+
+    LIBS += -L$$GEOSLIB/ -lgeos-3.4.2 \
+            -L$$JAVADIR/jre/lib/amd64/server/ -ljvm
 }
 win32{
     PLATFORM = win32
     BOOST=../external
     SHAREDEXT=dll
     PREFIXSHARED=
-    LIBS += -L$$PWD/../libraries/$$PLATFORM$$CONF/ -llibgeos
     INCLUDEPATH += $$PWD/../external/geos
     DEPENDPATH += $$PWD/../external/geos
 
     DLLDESTDIR = $$PWD/../output/$$PLATFORM$$CONF/bin/extensions/$$TARGET
     JAVADIR = "E:\Program Files (x86)\Java\jdk1.8.0_31"
     QMAKE_LFLAGS += -Wl,--add-stdcall-alias
+
+    LIBS += -L$$PWD/../libraries/$$PLATFORM$$CONF/ -llibgeos \
+            -L$$JAVADIR/lib/ -ljvm
 }
 
 INCLUDEPATH += $$PWD/../IlwisCore/core \
@@ -51,8 +54,7 @@ DEPENDPATH += $$PWD/../IlwisCore/core \
 
 DESTDIR = $$PWD/../libraries/$$PLATFORM$$CONF/extensions/$$TARGET
 
-LIBS += -L$$PWD/../libraries/$$PLATFORM$$CONF/ -lilwiscore \
-        -L$$JAVADIR/jre/lib/amd64/server/ -ljvm
+LIBS += -L$$PWD/../libraries/$$PLATFORM$$CONF/ -lilwiscore
 
 HEADERS += \
     javaapi/javaapi_util.h \
