@@ -23,7 +23,7 @@ linux{
     PREFIXSHARED=lib
     INCLUDEPATH += $$GEOSINCL
     DEPENDPATH += $$GEOSINCL
-    JAVADIR = /usr/jdk1.7.0_79
+    JAVADIR = /usr/lib/jvm/java-8-oracle
 
     LIBS += -L$$GEOSLIB/ -lgeos-3.4.2 \
             -L$$JAVADIR/jre/lib/amd64/server/ -ljvm
