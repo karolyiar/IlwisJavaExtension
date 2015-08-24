@@ -2,6 +2,7 @@ package ilwisjava_test;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigInteger;
 
@@ -24,6 +25,10 @@ public class TestUtil {
 			fail(e.getMessage() );
 		} 
 		ilwisLocation = ilwisobjects.getIlwisLocation();
+		
+		// Checks if the test resources (raster folder) available
+		File f = new File(workingDir + "raster");
+		assertTrue("Test folder not available!", f.isDirectory());
 	}
 
 	@Before
