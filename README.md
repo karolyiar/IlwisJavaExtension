@@ -7,9 +7,15 @@ Midterm blogpost: http://blog.52north.org/2015/07/03/wps-ilwis-bridge-midterm-po
 <b>Will be moved to IlwisConnectors.</b><br>
 Qt project, generates a Java API for <a href="https://github.com/52North/IlwisCore">Ilwis-Objects</a> with <a href="http://www.swig.org/">SWIG</a>.
 <h3>Requirements</h3>
+<h4>Windows</h4>
 <li>Qt 5.2.1 with MinGW 4.8.2 32bit</li>
 <li>SWIG 3.0.6</li>
-<li>Java 1.8 <a href=http://www.webupd8.org/2014/03/how-to-install-oracle-java-8-in-debian.html>Linux</a></li>
+<li>32 bit Java 1.8</li>
+<h4>Linux</h4>
+<li>Qt 5.2.1 with MinGW 4.8.2 64bit</li>
+<li>SWIG 3.0.6</li>
+<li>Java 1.8 64 bit, tested with <a href=http://www.webupd8.org/2014/03/how-to-install-oracle-java-8-in-debian.html>this</a></li>
+<li>libgdal (1.18.0)</li>
 <h3>Build</h3>
 <li>Set <b>JAVADIR</b> in javaapi.pro to JDK location.
 <li>Set Qt <b>Projects / Build / Build Steps</b> to run SWIG:
